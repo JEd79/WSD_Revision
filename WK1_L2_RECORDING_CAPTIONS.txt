@@ -1,0 +1,1081 @@
+	
+Powered by Panopto
+
+Lectures
+chevron_right
+Week 1 Lecture 2
+volume_up
+
+Search this recording
+search
+Details
+AI Summary
+Contents
+Captions
+Discussion
+Notes
+Bookmarks
+Hide
+Auto-generated captions may contain errors.
+Your lecture notes are going to be the same. So you already have the printouts for those. And we continue where we left off.
+0:00
+We talked about the UDP protocol, the User Datagram Protocol, if I remember that right.
+0:06
+Yes. Um, which is a stateless communication protocol.
+0:13
+You just send packets and throw them at another machine and hope that most of them arrive.
+0:17
+Something I didn't mention with UDP and TCP is to do with handling of order.
+0:23
+So when you send a packet through the network,
+0:27
+it is not guaranteed that that packet is going to take the same path through the network as another packet in the way you have
+0:30
+intermediate computers which route your packet through the most available lines to get it to its destination fast and reliably.
+0:37
+So if you send the packet from the UK to the US,
+0:44
+it can take a number of different routes which involve passing through different countries before they arrive to the US.
+0:48
+Naturally, all of these things are delays, so it could be the case that you send back at one and two,
+0:53
+but by the time they arrive to the US, they arrive in a different order two and one.
+0:58
+So the UDP protocol will reorder these packets to put them back in the correct sequence, so that the data arrives in the right format.
+1:03
+UDP does not do that or it's not guaranteed to do that. So with UDP packets, if you send five, they may arrive in different orders to the recipient.
+1:12
+And this has to do with the fact there is no connection as such between the machines.
+1:22
+UDP solves the problem for us. Okay, so does that mean there's no handshakes?
+1:27
+No, it's no one is expecting anything. It's just at some point a packet arrives from somewhere and that's different.
+1:32
+You only look at your Wi-Fi signal perhaps, and you've got like two bars instead of four.
+1:39
+That's not really two. That that's more how quickly you or something.
+1:44
+Yeah. So that's signal strength where which does influence UDP.
+1:48
+Because the fact you don't have a connection means on an unreliable connection, which is when you have a weak signal,
+1:52
+it is more likely that you're going to miss packets before they make it into the network to travel and get to the destination, then not.
+1:57
+But if you have a TCP connection, any packets you send will either not arrive because you're not connected or will arrive in the right order,
+2:03
+even if that means they have to be present a number of times. All of that is handled by the respective layout.
+2:11
+And this. So in a general abstraction, when we're talking about the application data that we're exchanging from our applications,
+2:17
+the ones that we will be making, those are only part of the picture. They are nested within a kind of grouping of different packets, so to speak.
+2:25
+So we have the application that we are exchanging between our software encapsulated in some TCP or UDP packet,
+2:34
+depending on which protocol we're using. Could also be some other protocols.
+2:41
+And then that packet is encapsulated in another packet the IP packet which in turn is encapsulated into an Ethernet frame.
+2:44
+Now you might begin to see the hierarchy we talked about earlier.
+2:53
+So application data then we you have the different layers all the way down to the physical layer.
+2:56
+Not necessarily the case that every layer is represented, but nevertheless.
+3:01
+So if we were to map what we're seeing here into the different layers that we see, the application layer is where we have our data.
+3:05
+That is to do with some sort of protocol like HTTP.
+3:13
+So when you're using a browser to access a page from the internet, you're sitting in the application layer.
+3:16
+The messages contain HTML code going over the HTTP protocol.
+3:21
+Now in this packet in turn will have to be transported somehow.
+3:26
+In the case of the network packet, the HTTP file I mentioned, that's going to be via TCP still.
+3:31
+And so there is a transport method that we're using.
+3:37
+Maybe that is TCP inter. This is getting put into segments.
+3:41
+And then the transport protocol is also concerned about the ports which are going to be used for the exchange of information between the machines.
+3:46
+So here is where you specify which pool to go for in the example of the web server, if you're using HTTP, you're going to be looking at both.
+3:53
+80. Then we have the IP layer, the IP packet, which encapsulates the information like the IP address, the destination and the source of this packet.
+4:00
+Then underneath that we have the data link. We're now dropping into very close to the physical,
+4:11
+where we have the means by which we are connected to the network, to the internet, to the Wi-Fi and so on.
+4:15
+Not to worry about this too much.
+4:20
+And then physical layer is the actual partitioning of the data into zeros and ones or waves or whatever they need to be in to be sent.
+4:22
+So this is a hierarchy I was on about earlier. Okay.
+4:29
+There's the bigger picture here. Not going to spend too much time on that,
+4:34
+but it just shows you what data is enclosed at each level and how this data gets combined with other data to form the different layers of packets.
+4:37
+Not worry about too much. Okay, so how does this apply to us?
+4:45
+Reasonable question to answer to the question to ask. I will answer this straight away.
+4:51
+So TCP and IP defines the things that live in the network stack.
+4:55
+We need to be aware of these things like the destination and the source. And especially when we get to cybersecurity and pen testing,
+5:00
+we will kind of begin to see how the structure that we have defined for these packets is itself vulnerable to exploitation.
+5:07
+To give you a quick example, if you're thinking of UDP packets, there is no connection.
+5:15
+What does this mean?
+5:20
+If I can control the network, the addresses that are stored within those packets, I can say that I'm sending it from a different machine.
+5:21
+So for example, I can say who can I use as an example?
+5:29
+Hands up. Yes. Okay.
+5:32
+So you have a computer I have a computer. And then there is a third machine that we're communicating with.
+5:36
+If I send a packet from my machine to that computer and I say that it came from your machine,
+5:41
+that computer won't know that I've tampered with the source address. So it's going to reply to you.
+5:48
+In the world of cyber cybersecurity. This can enable you to do what is called an amplification attack a relay attack.
+5:53
+Apologies. So anything I send, I can make the responses go back to your machine,
+6:00
+which means that I can get the server to send you a lot of data to your machine and effectively take it off the network because it's flooded.
+6:04
+So we're going to see all of that stuff, and that's why it is important to us to kind of have a grasp of these concepts.
+6:11
+Obviously, no one is going to be an expert. Yeah. Is that the same as it does attack?
+6:16
+Was it simple? You essentially achieve a DDoS attack. Yeah.
+6:20
+So you achieve a in that case is DOS a denial of service by getting a third party host to attack another machine?
+6:23
+The good thing there is that you as an attacker are completely invisible. No one can see you involved in the process.
+6:32
+And this is something that used to be quite commonplace with time. Servers, servers that tell you computer what time it is.
+6:38
+They used to work on UDP, that there was no checking of source and destination, of course, because it's UDP.
+6:43
+So you would send a packet saying, give me the list of times across the world.
+6:50
+Quite big packet in different time zones and then send the response to someone else's machine.
+6:53
+An example of this attack. Um, so yeah, this is why we need to kind of have an understanding for these,
+6:59
+because as we're entering the world of web services and web development, we are indirectly controlling this sort of stuff.
+7:05
+And it's good for us to have the foundational understanding. And yeah, we're going to talk about other protocols.
+7:12
+We're talking about TCP and UDP here, but there's other protocols like ICMP and whatnot that also come to play later.
+7:19
+Okay. We're going to do a brief summary. We've seen these things.
+7:27
+I'm not going to summarise too much because we're already moving to the next lecture.
+7:31
+Funnily enough. Part two when I'm moving to the fun part, which is distributed computing,
+7:35
+we're going to stop being so theoretical and we're going to write some code finally.
+7:42
+So before we do that, we need to kind of introduce the notion of distributed computing.
+7:45
+Distributed computing. Hands up if that means something to you. I'm going to do a cold reading of the class.
+7:50
+Has anyone heard of something that starts with a D or a C?
+7:56
+Come on, you've all just heard something good.
+8:02
+Okay, so distributed computing is what we're going to focus on in this sort of world.
+8:06
+We have machines. Example of an instance of distributed computing.
+8:12
+And then we are sending well the machines are sending messages between them in order to coordinate some sort of action or a set of actions.
+8:17
+Now this setup here is focusing on some sort of resource sharing.
+8:25
+And we talked about an example earlier like decentralised information sharing which would be currently um,
+8:29
+there's a few legitimate uses for such things. For example bandwidth reduction.
+8:35
+If everyone in the world has a copy of the information, maybe they can share it between them and not rely on a single host.
+8:40
+But the alternative model to this is, which is also the most popular predominant one.
+8:47
+It's plagued by its own problems. Is the server client architecture? Hands up if that means anything to you.
+8:52
+Server. Client. Cool.
+8:59
+Can you name a server client interaction that you know of? Okay, so what was that email?
+9:03
+Pick up email. Yep. So when you send an email, your computer is sending it.
+9:13
+It's transferring the data to a server which is the email server.
+9:17
+And the email server will hold this email until the person logs in to look at their emails.
+9:21
+So that's an example. Anything else? Pardon.
+9:25
+Facebook message. Yep. So Facebook Facebook is based on the web.
+9:30
+So when you are going to a server to view your Facebook page you're interacting with Facebook's servers.
+9:34
+So you are the client Facebook server is the server.
+9:41
+So this is kind of the very dominant architecture that we are kind of used to for the web essentially, especially.
+9:44
+Okay. Now in this functional separation between systems on a network and distributed systems in general.
+9:52
+So you could have a main system interacting with multiple other systems.
+10:00
+But the notion of a system itself can take different interpretations. A system may not necessarily be a single machine.
+10:04
+It could itself be a distributed network of machines.
+10:10
+So you can see different topologies here that are all treated as individual systems for the purposes of the coordinating system,
+10:13
+the main system, but in turn within them there is a further distribution of data.
+10:19
+An example of such a system is a cluster a processing cluster.
+10:25
+You have a control system where you define the work that needs to be done.
+10:29
+You have nodes in that system, which in turn may be composed of other nodes or nodes containing nodes containing nodes.
+10:34
+You get very distributed them, and then the work gets partitioned and sent to all of these in order to be tackled,
+10:41
+and the results to be returned Back. So there is no no limit to what this could look like.
+10:47
+But we don't need to worry about the corner cases. Well, let's understand the foundations first.
+10:53
+Okay, so distributed programming is about solving a problem.
+10:59
+Collectively we are going to be constructing and exchanging messages to achieve that.
+11:03
+Um,
+11:08
+we can get pretty messy if you don't have a good consensus between the machines and information designed to be communicated easily between machines.
+11:10
+We're going to talk about data representation as well. And in this module we will understand how and why things get messy in those situations,
+11:18
+and also how standardising things and implementing a general enough design can allow you to scale into a distributed system very easily.
+11:26
+So we're going to talk about data representation on that down the line.
+11:34
+Okay, I promise we're nearly done with the theory. We're now going to talk about sockets.
+11:40
+Anyone heard of sockets. And I don't mean the wall outlets. know.
+11:44
+Okay. So circuits are kind of the communication endpoint that we've been relying on for ages.
+11:50
+Or as far as we're concerned, ages since the 70s. Um, to establish a communication between applications.
+11:56
+So circuits are helping the application layer establish a wave communication with another application layer in another machine, potentially.
+12:04
+Now, they're kind of a networking primitive that essentially sits on top of the protocol like TCP and UDP.
+12:12
+We're using sockets to make that protocol do things for us.
+12:21
+Um, and a socket, as far as we are concerned, is designed to bind to a specific port and could also bind to an IP address.
+12:25
+We're gonna see the distinction between these two kinds of sockets in a moment. Okay.
+12:33
+So the ones we're going to look at today are sockets that are designed to speak TCP between them or speak UDP between them.
+12:38
+We're going to see both. Um, and the important thing to remember is connectionless protocols and connection oriented protocols,
+12:46
+which are what these sockets are implementing in those instances. Okay.
+12:56
+So for us, these are just going to be the abstraction of all of the layers that sit below the application layer,
+13:01
+from communication to IP to all of these things. The sockets will take care of it.
+13:07
+As far as we are concerned, as programmers, we just open a socket and magically we have an avenue of communication with another machine.
+13:12
+Okay, pictorially represented this is what a socket interaction may look like.
+13:19
+You have a host running an application or a process. The process opens a socket and binds it to another socket that is somewhere else in the world,
+13:24
+basically running another machine on its application or process. And what sits between these sockets is a network.
+13:35
+That network takes many manifestations, as we mentioned earlier, and could have many intermediaries.
+13:42
+We don't care about that. That's why we have the sockets. They deal with it. Okay.
+13:48
+So in Java then we have set a socket and socket appropriately named, which are designed to interact between each other.
+13:53
+For TCP connections. Important distinction between the two.
+14:01
+These are client server oriented so that if you have a server the server has to have a server socket.
+14:06
+The server socket is listening for connections and that's very important.
+14:12
+So the server socket is sitting there on a machine waiting for someone to join it on the port that has been specified.
+14:15
+The socket, on the other hand, doesn't listen for anything. It's going and connecting to the server's socket.
+14:23
+That's the distinction.
+14:30
+So the server starts a server socket and a waits connections, and the client opens a regular socket and tells it where to connect.
+14:32
+Once this is done, these two will perform the TCP exchange between them, and you can start sending data down to that connection in UDP.
+14:40
+Things are slightly different because UDP is connectionless. So in UDP you have a datagram socket.
+14:49
+Am I saying this correctly datagram or Datagram Datagram Datagram socket which is sitting on both sides.
+14:55
+It doesn't matter. There is no server client architecture here.
+15:03
+And then you have a datagram packet, which is the sort of chunk of information that you send through a datagram socket.
+15:06
+It doesn't matter if you're sitting on the server or on the client. You open the datagram socket on either end.
+15:13
+The workflow for TCP with the sockets I mentioned is the following.
+15:20
+The client application creates a new socket object and gives it a port saying you go connect an IP in a port,
+15:24
+go connect to this IP at that port, and the server application creates a new server socket and says listen on this specific port number.
+15:31
+Now there is an exact method in the server socket which will return an instance of socket.
+15:39
+Once the client connects to it so that both the client and the server have a socket object to use in their communication.
+15:46
+All of that stuff gets easier. Or when you're looking in code, believe it or not.
+15:54
+So I'm going to make an application where we're going to exchange some data between a server and a client using TCP.
+15:58
+To do that, I'm going to make a class which is called TCP server.
+16:05
+And I'm going to make a very poor program. So each of those is going to have mains and so on really really bad.
+16:11
+Don't tell Randall please. Okay. So public static void main whatever.
+16:19
+And as I said before because I'm on the server side, I need to open a server socket, which I'm going to initialise to a new server socket.
+16:24
+And in the parentheses here I need to tell that server socket what port it should expect data to arrive from.
+16:34
+Now what did we say? Can you. Someone pick me a port 80?
+16:42
+What do we say about port below 1024? Can we use.
+16:47
+What was that in the military? Is there restricted?
+16:52
+You can still use them. But I need to be admin. I don't want to give admin to my IntelliJ.
+16:56
+Who knows what it can do. Any other ideas for ports? 3000.
+17:00
+We can pick anything. Okay. Now sockets and stuff through a bunch of exceptions which has a great programmer I'm going to ignore.
+17:06
+Perfect. Okay, so now I've opened a server socket.
+17:15
+It's not ready to accept connections yet, it's just created.
+17:19
+If I want to await for a connection from a client, I want to make a socket object, a client, which is going to be initialised to a server socket.
+17:22
+Accept. Now the call of accept waits until a client connects their socket to this server.
+17:33
+I'm going to park this code for a second.
+17:40
+Believe it or not, that's all we need for connecting, receiving a connection and establishing it on the server side.
+17:42
+I'm now going to work on the client side, so I'm going to make a TCP client.
+17:47
+I need binoculars here. So again public static void mainstream axe throws I o exception it memorised it.
+17:56
+Now um, and now on the client side, I don't need the server socket.
+18:03
+I'm not waiting for anyone to connect to me. I am the one initiating the connection.
+18:08
+So I'm going to make a socket to server, which is a new socket, and I'm going to follow what this says.
+18:11
+But we're going to dissect the information here a bit more.
+18:25
+So the port that we chose was 3000. So I'm going to tell this socket to connect to port 3000 on another machine.
+18:30
+Now the way I identify this other machine various. We mentioned earlier that we could handle a domain like google.com.
+18:37
+I could bind it to google.com. We could also have an IP identifying a host.
+18:46
+If I want to bind it to an IP, I would just type the IP in there.
+18:51
+Which IP should I type in?
+18:55
+If I'm connecting to something on the same computer as this application, both the server and the client are on the same machine.
+18:57
+What IP address am I going to use the IP address of the machine you want to connect to?
+19:04
+I can do that. Can we think of an example where I don't need to know or have an IP address?
+19:10
+What is home? 127201. Hey.
+19:16
+Very good. So 127.0.0.1. Now, had I used the IP of the machine on the network, that would work perfectly fine.
+19:20
+However, if I lost connection to that network, that wouldn't work anymore with 127.4.0.1.
+19:30
+This is internal to my machine. It will always work even if I'm not connected to Wi-Fi, which is quite nice.
+19:36
+And believe it or not, this would now connect to my server when these applications are running and I have established an avenue of communication.
+19:42
+Isn't that great? I don't see you share the excitement.
+19:50
+Yay! That's the spirit. Good. Can I send any data down these sockets and not decide?
+19:55
+I haven't put anything right. Okay, now, these sockets don't have facilities for me to say.
+20:04
+Send a message and put some string or some other data type there.
+20:10
+However, you may remember me saying in the previous term that Java has this very amazing collection of streams.
+20:14
+Do you guys remember what the stream is? Input streams. Output streams.
+20:20
+Does the term scanner remind you of anything? Ah.
+20:27
+Does the term print writer remind you of anything? Yeah.
+20:31
+Cool. Okay. Input output streams. So if I want to now send data down the sockets, what I have to do is open an input and output stream.
+20:34
+It's fairly straightforward, but for the rest of this lecture and the labs, I would like you to use the following.
+20:46
+I would like you to use a print writer, which is to send information down a socket.
+20:52
+So in this example I've initialise the print writer and I told it I want you to write
+20:59
+the data that you're communicating on the output stream of the clients socket.
+21:04
+So when when a client connects to the server, I'm opening the output stream to send bytes to the client.
+21:10
+And then I'm telling the print writer, you're going to be writing your bytes on it.
+21:17
+Now this auto flush at the end means that anytime I put data on the train stream, it's going to automatically transmit them to the client.
+21:22
+So I don't have to do it myself. If you don't put it through there, it's not the end of the world.
+21:29
+You can do it manually. Let's zoom in a bit.
+21:34
+Okay. So that's the outbound information.
+21:39
+Inbound information I'm going to ask you to use Buffet reader.
+21:44
+Again my ID is very helpful here. So a buffered reader is similar to a scanner except it can't read stuff that easily.
+21:48
+It doesn't have facilities for reading a mint reading a double. It only has read line realistically.
+21:56
+So by opening a buffet reader onto the client's input stream, I need an intermediate reader stream, which is created like the input stream reader.
+22:02
+It's a bit of a pain. I would recommend you memorise this part because it's going to come back very, very often in Java from now on.
+22:13
+Um, so open a Buffett reader.
+22:20
+Tell it to read from an input stream reader, and tell the input stream reader to read from the, uh, sockets input stream.
+22:22
+Okay, now I'm going to replicate exactly this setup on my client.
+22:30
+So here, once I've opened my socket, I'm going to create a print writer.
+22:36
+I'm going to rely on my ID this term. Magic. Okay.
+22:41
+So now I've opened the same streams on the socket. Going to the server.
+22:46
+And I've also opened the same streams on the socket that connected to my server.
+22:50
+And now I can start sending information back and forth.
+22:55
+So I could go down here and say, out, out.
+22:59
+Print. Hello, client. Welcome.
+23:05
+Then on the client side I can do. String msg from server E I can't type.
+23:11
+Is that and then not out system out print the LAN message from server.
+23:25
+So what is going to happen if I connect my server and client now.
+23:32
+Great. Yeah. What will it print? Very good.
+23:39
+So as soon as these two connect, they're going. The server is going to tell the client.
+23:45
+Hello client. And welcome. The client is going to read that message that the server sent.
+23:49
+And it's going to print it to the screen. So let's see this in action. I'm going to start my server coach.
+23:55
+Okay. That is now running. There's nothing happening because it's waiting for a connection.
+24:02
+Then I'm going to start my client and voila my client connected to the server.
+24:07
+And then nope, the server didn't do anything.
+24:14
+It just received the connection, send the information and closed itself.
+24:17
+The client received the information from the server and printed it to the screen.
+24:21
+So this is local on your machine, is it? Yeah.
+24:25
+However, if I take the server code and put it on my server somewhere in the world, all I need to change in my client code is the IP address.
+24:28
+Everything else stays the same, and the same interaction can happen over the internet.
+24:35
+So that's the host 127. That means it's your local machine.
+24:40
+Is it? You're using the port on your local machine. That's it.
+24:44
+Now good point with a port. If I had a different port here, would that work?
+24:47
+On both opinions okay. Hands up. It would work.
+24:56
+They both have to be changed. Okay. Hands up. It wouldn't work.
+25:01
+I think you're correct. It wouldn't work. So what do we say? Ports are? A port is a number that a service bound binds into.
+25:05
+So right now my server is only looking for things destined for port 3000.
+25:13
+The client comes along and says, I want to speak to port 3001 on any machine, local machine, remote machine.
+25:19
+It doesn't matter. When I run the client, I get this connection refused.
+25:25
+There's nothing running on port 3001, so it's not going to look any further.
+25:30
+So these boards do need to match between client and server as does the IP.
+25:34
+But that's really only it. Everything else can stay static. What would happen if the the machine already had a service running on 390?
+25:39
+Ah, let's find out. So what I'm going to do to to simulate that I'm going to start two servers.
+25:49
+So I'm going to start an instance of server. Well that's a client.
+25:56
+I'm going to start an instance of server.
+26:03
+And I'm going to start a second instance of server address already in use for 3000 is already being used by another process.
+26:06
+You can't bind two things to it. So one of my servers is still working fine.
+26:14
+The other one I try to open later. Can't get access to that port. Good.
+26:20
+Okay, so this is pretty much TCP interactions in a nutshell.
+26:25
+Now remember look the client here is only joining the server, receiving a message and printing it.
+26:29
+Remember that TCP is duplex, meaning that the client can send information to the server through the same medium.
+26:35
+And that's why we have an output stream here and an input stream on the server.
+26:42
+So let's make use of that. So after the server sends me a message I'm going to write to the server.
+26:47
+That's misspelled hi server.
+26:59
+And I'm going to go back to the server and say once you send your message read a message from the client and print it to the screen.
+27:01
+Nope, that's not the screen. Should have chosen a different name.
+27:11
+So now let's witness this interaction between this server and client.
+27:17
+So now I started my server. It's currently stuck here waiting for someone to connect to it.
+27:22
+But as soon as I start my client. Then the client will connect to it and it's going well.
+27:28
+The client is first going to get this message from the server and print it. It's going to send its own message.
+27:41
+And then the server will receive the client's message and print it.
+27:45
+Now if I had sent 20 messages, the connection would stay open as long as there is stuff to do.
+27:48
+So I can keep this connection open for hours and keep sending with things back and forth, back and forth, back and forth.
+27:53
+And that's how pretty much everything works in the world when you're playing a game.
+27:59
+In fact, Minecraft, you open a deep connection and you're constantly sending packets back and forth, back and forth between you and the server.
+28:04
+That's pretty much TCP connections in a nutshell. Any questions? It is.
+28:12
+It's one of the things that drew me to Java when I first started what I really wanted to make,
+28:19
+which I never got around to and I'm still bitter about that is a card game.
+28:23
+We have a card game in Greece called BTB. I wanted to implement an instance of that that I could play with friends remotely.
+28:27
+Um, I only go to the socket part because that was the most interesting. And then I ditched the UI.
+28:33
+Yeah, I can't say I'm a fan of UI writing, but yeah.
+28:39
+Good. Okay, the other class, but yeah, of course.
+28:45
+Like getting input. I forgot the reader. Yeah.
+28:50
+Of course there's going to be examples uploaded on canvas for you lot as well that I
+28:54
+suggest you take an extend for the labs rather than writing them off your own backs.
+28:59
+Yeah. Could you use this to block something? Block, block and block?
+29:03
+How does that work? Ah, yes. You would have to write a lot of code.
+29:09
+So the way to do it is to use an ad blocker on the network is to make a DNS server so that when an ad domain is being requested from the DNS server,
+29:13
+the server says it doesn't exist. So that when your client is trying to load the ad.
+29:23
+It can't find the domain to load it from, but to do that you would have to use well,
+29:28
+you would have to use UDP for DNS, and then you would have to implement the whole DNS protocol.
+29:33
+It becomes a bit tedious. Is that possible? Yeah, that's exactly what it is.
+29:37
+It's just sitting there on your network acting as a DNS server. Cool.
+29:43
+Okay. So this is TCP done. Shall we move on to UDP then?
+29:47
+No excitement. Shall we move on to UDP then. Yeah. Thank you.
+29:54
+Okay. Let's go on to that. I'm going to leave this in their packet package.
+29:58
+And I'm going to start making a similar setup to have a UDP server and a UDP client.
+30:03
+So you know the drill. Public static void mainstream args.
+30:11
+But remember that with UDP we don't have to initiate a connection.
+30:15
+There is no connection. So what we need is slightly different here.
+30:20
+We need that datagram socket. So I'm going to make a datagram socket which I'm going to affectionately call.
+30:24
+Server socket. And that datagram socket is going to be bound to port 3000.
+30:30
+Again why not. Now again this socket is sitting there waiting and listening to port 3000.
+30:36
+Anything that comes to port 3000, it's going to deal with. Okay.
+30:43
+Since there is no connection, though, I can't really do what I did before. I can't open an input and an output stream because there is no stream.
+30:47
+It's just individual blocks of data that fly back and forth. So what I have to do here is slightly different.
+30:54
+I have to initialise a datagram packet not socket.
+31:00
+And the datagram packet can have a bit usually takes a bit of information.
+31:07
+So the datagram packet encapsulates an array of bytes.
+31:13
+So I also have to give it the array of bytes that is going to be working with.
+31:17
+And I also have to give it the amount of bytes that it is expected to be.
+31:22
+So these messages have to have a fixed size. So now what I'm saying here is I have something which is a packet that can hold up to 1024 bytes of data.
+31:25
+This packet hasn't travelled through the network yet. It's just exists in memory waiting.
+31:39
+Since I am on the server side, I would like to receive that. So I'm going to ask my server socket to receive that packet.
+31:44
+And the call to receive is going to wait there until someone sends a packet that matches these requirements, namely a packet with 1024 bytes.
+31:52
+Okay. And this is my server. Done. Now let's go make the client.
+32:03
+Uh, UDP client I think I spell the right public static void main stream gags.
+32:11
+I hope you guys don't mind me using auto completion here. Excellent.
+32:17
+I could type it out. We're just going to be here a bit longer. Okay. And now again, same drill.
+32:22
+I have to open a datagram socket. In this case I'm in the client.
+32:28
+So my datagram socket doesn't necessarily need uh it doesn't necessarily need the port.
+32:33
+Because remember the client isn't listening for anything. The client who just wants to send stuff.
+32:39
+So unlike the server which disappeared, um, where the datagram socket was waiting to and listening to a specific port on the client,
+32:44
+we're not waiting and listening to anything. We're just sending stuff. So I'm going to create the socket that goes nowhere.
+32:53
+Or at least it seems like it's going nowhere. And I'm going to do the same as I did on my server, which is to create a datagram packet.
+32:59
+Um, that's wrong. I'm going to call it send packet.
+33:07
+And now once again it needs to have the byte array and the length of that byte array.
+33:13
+But it also needs some more information. So this packet will be sent over the network.
+33:19
+So this packet needs to know where to go namely what network address it should go to.
+33:26
+With the constructor I'm looking for. Hmm. What this.
+33:32
+Okay. We're going to go to this one. So what network address is going to go to and what port is going to be destined for.
+33:37
+So after I've created my array of bytes and told it how many bytes are in this array, I'm going to have to create an init address.
+33:44
+And okay, all the completion is nice, but not always.
+33:52
+I'm going to create an inet address and get it by this location,
+33:57
+because it's my on my local machine that gives me an object of of type inet address, which is pointing to 1 to 7 .0.0.1.
+34:02
+And then I'm going to say that the packet is also destined for port 3000.
+34:11
+Now notice I'm going to collapse them so they can be fit in one screen.
+34:16
+Notice what we've done and think what we said about the contents of packets on the UDP front.
+34:21
+A UDP packet is much thinner than the TCB packet,
+34:27
+but it does know in the IP layer what destination it is going to and what port on that machine it is going to be destined for.
+34:31
+And this is the information that we're providing to our packet here. Now what I can do is just outright send this packet.
+34:40
+So socket send the packet. Come on.
+34:48
+You almost had it. Yeah. And then just print the message to ourselves to say program send packet.
+34:53
+Right. So what the server is going to do it's going to receive that packet.
+35:05
+And I'm going to print a message to say server received packet.
+35:10
+Let's see this in action. So I'm going to first start my server Connection.
+35:15
+Refused thinking. Emoji. Um.
+35:22
+I can't remember why that is. Because he was using it on the last one.
+35:28
+If you close them, are you? That should not be running, though.
+35:32
+Oh, sorry. I've tried to run the client. That's why. So if I run the server this time, maybe that will work much better.
+35:36
+So now my server is listening to port 3000, and it's waiting to receive a packet of 101,024 bytes.
+35:45
+Nothing has come through yet, but as soon as I start my client ah,
+35:52
+then I get that my program sent the packet and if I look at the server, the server has received the packet.
+35:58
+So that was an example of a UDP packet being sent via the network, or in this case via the electronics in my machine to the server.
+36:05
+Is this a particularly meaningful packet? You know what's missing?
+36:13
+What's your content? Content. So I successfully sent an empty packet with 1024 bytes initialised to zero.
+36:21
+So what I forgot to do here is actually put some content into the packet.
+36:28
+Let's see how we do that. Things can get a bit tricky here, because we do not have the abstractions that the streams are offering to us,
+36:33
+so I can't say right string I have to break the string up into byte myself.
+36:39
+This gets a bit challenging sometimes. So what I'm going to do, instead of giving it a byte array and telling its length,
+36:44
+is I'm going to make a string content, which is going to be the string hello server.
+36:51
+And then instead of creating a bespoke byte array, I'm just going to convert the string into a byte array.
+37:00
+I'm going to use the bad method.
+37:09
+Now to get the length of that, I'm going to ask the string to convert itself to a byte array, and I'm going to get the length of it.
+37:11
+Does that make sense? So the packet you send will be the same size as the other service string you created automatically.
+37:21
+Not necessarily. So we'll get to that in a second because we're going to hit a slight roadblock here.
+37:30
+Okay. So currently I know the content that my client is about to send.
+37:35
+It is 123456789 ten 1112.
+37:39
+Let's call it 13 characters. Typically each of those is one byte, so I expect it to be roughly 13 bytes.
+37:43
+But it's very impractical to have to know how many bytes I'm transmitting ahead of time to tell the server to make a packet of equal size.
+37:51
+It turns out it is fine for me to expect a bigger packet and receive a smaller one in its place.
+37:59
+So Java is going to be all right with that. So on the server side then I'm not going to change that.
+38:04
+I'm going to leave it half an empty array of 1024 bytes and tell it it's 1024 bytes.
+38:09
+So I'm going to wait for something to come from the client.
+38:15
+I'm going to shove it into this packet, and then I somehow need to retrieve the contents out of it.
+38:19
+So before we get to the content retrieval, let's do a slight experiment.
+38:25
+Server received packet of length. Plus receive packet dot get length.
+38:29
+And let's see what happens. So I'm going to run. Oh am I running the server.
+38:37
+Well let's run the server again. And let's go to the main and run the client as well.
+38:41
+So the client send the packet and the server received the packet of size 13.
+38:50
+It works. So if I was to reconstruct the string here, I have to somehow get it out of the packet and put it into a string object.
+38:55
+And the way I do this in the server is by saying, uh, string data received.
+39:04
+Thank you.
+39:15
+Is a new string where the data comes from the received packets data, and instead of printing the length, I can actually print the data received.
+39:16
+Okay, I agree with Randall. Typing on the side is not easy. Okay, let's give it another run.
+39:29
+Make sure that it works. So run this. Run the client program.
+39:38
+Send the packet UDP server receive the packet. What is all this?
+39:45
+Interference. Well, I heard empty spaces.
+39:53
+I had non printable characters. What else? Just a generic generic array.
+39:57
+Close. Okay. So what I've told Java to do.
+40:05
+Well, know what I've told Java to do? Here is take the data out of the packet and treat it as a big string.
+40:10
+Trouble is, the data is 1024 characters long, but the amount received is only 13.
+40:16
+So these are the 13, and then everything else is zero,
+40:24
+which doesn't render and it becomes 1011 or whatever, um, zeros which render us that funky character.
+40:27
+So it has to send a packet of the size you dictated.
+40:36
+Either that or I can configure the way I create my string to say, take the data from the packet, but the data is only so many bytes long.
+40:39
+In other words, starting from position zero in the data array, read this many bytes.
+40:50
+So that's going to read 13 bytes starting from position zero on the data array, namely that portion.
+40:56
+It's going to convert it into a string for my viewing pleasure. So if I give this another run.
+41:03
+And the client. The program sent the packet.
+41:12
+Where is the server? Server received the packet. That's much better. If you still have a strip on that pattern.
+41:18
+Can you do some kind of strip on the receipt packet? Not easily, because the zero is a special character in programming, it's a null terminator.
+41:24
+So no, there's no methods designed to strip that. Unfortunately it's a zero bit.
+41:31
+Then it's a zero byte. Yeah, yeah. What would happen if you said you can send packets of, uh, 1024 bytes without?
+41:36
+What would happen if you tried to send a package that was too big?
+41:46
+2048 with that goes two packets, or would it just chop it up the first 1020?
+41:50
+Yeah, we can find out. So I'm going to tell my server to to expect a packet of ten bytes, maximum length of ten.
+41:57
+Now we know that UDP client is going to send 13. So let's see what happens.
+42:05
+I'm going to run my server. And then the server is waiting.
+42:08
+I'm going to run the client. The client is not going to be not.
+42:13
+It's not going to know anything because it just sends a packet and forgets about it.
+42:17
+And then if we go back to the server, hmm, it receives the packet, but it only keeps the ten characters of it,
+42:20
+the ten bytes of it, because that's how many can fit into the memory buffer that I allocated.
+42:30
+So it will receive the packet and it's going to truncate it to so many bytes.
+42:34
+So what if you go to this and a really really large amount are right.
+42:41
+So let's limit a little bit because UDP has to have relatively small packets.
+42:45
+It's kind of like putting a box. No removals company is going to allow you to have a box the size of the room,
+42:51
+although that would be the most economical because you can fit everything in it. So they restrict you to a fixed size that is easy to work with.
+42:55
+Same goes for network switches. The limit I believe is 65 65536.
+43:02
+It's due to the 16, um bytes. This is how big a packet can be maximally.
+43:09
+And if your application needs to send more data, it is down to your application to split it up into packets and send it,
+43:16
+knowing that these packets may arrive in the wrong order.
+43:22
+So now your application is also responsible for receiving them and stitching them back together in the right order.
+43:25
+Right. That's why you would use TCP. So part five is similar.
+43:30
+Yeah. So file exchange that used to be done via UDP. There used to be a lot of UDP file exchange protocols.
+43:36
+If they were quick if you were an unreliable connection, if you were on an unreliable connection,
+43:42
+you were implementing a slow version of TCP just because you had to deal for repeated messages when they were dropped,
+43:46
+or partitioning of files and sending it and reconstructing it on the other end.
+43:52
+So is that and have download speeds. Yeah. So if you had typically downloads on the internet are done via UDP.
+43:56
+Sorry about TCP. Um, but if you have something like torrenting again, I'm coming back to this example a lot.
+44:03
+You're requesting different chunks of a file from different machines.
+44:11
+They arrive in different orders, and what you do is you write these part files into the file system as one by one,
+44:14
+and once you received all the parts, you then write code to stitch them all together into one coherent file in the right order.
+44:19
+It's the protocol giving them a sequential number like TCP and UDP.
+44:26
+No, there's no numbers. There's no nothing. It's just a packet with data. Can't get any simpler than that.
+44:31
+What would that streaming YouTube video be? Um, it's done via WebSocket nowadays, so that has to be TCP.
+44:37
+But there's other partitioning happening there as well. Because you don't send the entire video, you send it in chunks.
+44:45
+But that is on top of it's an application layer thing. It sits on top of TCP and you use the music and server.
+44:51
+All of this is for HTTP. Yeah. And you decide what size the chunks are going to be by that.
+44:56
+But it's a it's a secondary protocol on top of TCP. Yeah.
+45:01
+Cool. Okay. We have -three minutes. And in that time we're going to look at, uh, RDP rmi.
+45:07
+My bad. Which you're lucky I've prewritten that code.
+45:13
+Now I don't expect you to remember this, although there is a challenge task for you in the labs if you want to do it.
+45:17
+So RMI, TCP and UDP are nice, but they're not particularly friendly.
+45:23
+If you need the same data of different kinds and do so in a certain structure,
+45:29
+that becomes difficult and we need some sort of established protocol to do it.
+45:33
+So Java has created RMI can't remember what it stands for.
+45:37
+We'll see it in a moment. Essentially what RMI allows you to do is once again have a client server architecture.
+45:42
+But instead of exposing packets like sending specific words in specific structures, you're exposing an entire object.
+45:49
+So let's see what's happening in the server code first.
+45:57
+So in my server I have created a registry where I will write later register objects to be exposed to the internet.
+46:01
+So in my registry, I said that the Duc object, which is an implementation of the duck interface, is going to be associated with the word duck.
+46:09
+In other words, and when a client connects to my RMI server and says, I want an instance of duck, then I'm going to receive this object.
+46:20
+Okay. Now this code here is going to wait for a client to connect and say give me the object called duck.
+46:29
+And then the object duck itself has some functionality in it which is dictated by the duck interface.
+46:37
+So the duck class extends this funny remote object that it has to do and implements the duck interface.
+46:45
+So let's have a look at the duck interface first. The duck interface, like any interface in Java,
+46:52
+specifies the what can do can be done by anything that complies with this interface, but not how it is done.
+46:57
+So anything that calls itself an instance of the dark interface has to have a method called get name.
+47:05
+It has to have a method called whack. Both of these need to return a string, and then we ignore this bit.
+47:11
+It's forced upon this Java. So anyone who wants to make an object of implementing that interface has to have these methods minimally.
+47:17
+So I have implemented such an object I call the doc has a name and a quack message.
+47:25
+And when you call these methods get name and get quack and quack, it just returns stuff.
+47:31
+I've registered an instance of this object into my registry,
+47:38
+and this code here is now opening a connection and waiting for the world to connect to the server and ask for that object.
+47:43
+So let's now go to the client. The client has to be bound to the server.
+47:50
+So I obtain a register once again in a slightly different way by saying go and look at the server running in this IP at that port.
+47:56
+And then when you're connected, I want you to look up for duck.
+48:05
+Remember, the key duck is associated to that duck object.
+48:10
+Now, I know that whatever gets returned to me is going to be something that conforms to the duck interface.
+48:14
+So I can assume that what lookup returns is an instance of the duck interface.
+48:20
+I don't know what object that is. It's just an instance of the duck interface.
+48:25
+And then once I have obtained my instance of the duck interface, I can just start calling methods on it as if that class was in my client code.
+48:29
+It isn't. The code is in the server, but it has transmitted to me the information via the internet or via some network.
+48:38
+So let's give those a run. Let's give a run to the server first.
+48:47
+Now the server is waiting because it has registered duck to be associated with that instance.
+48:52
+And it's waiting for a client. And then let's give a run to the client which has now connected to the server
+48:57
+obtained an instance of the duck interface and then started calling methods on it.
+49:04
+I just remembered what RMI stands for remote method invocation.
+49:10
+Now, what I want to clarify here is that when I say it receives an object, it doesn't actually receive the object that the server associated.
+49:13
+What it receives is a dummy interface instance, which is connected via the network to the object in the server,
+49:22
+so the back object is still on the server side. Any methods you call go through the network to the server, get called on the server,
+49:30
+and then the return value gets written back to you to receive to be received here.
+49:37
+So the code for get name and the code for quark is not running in the client,
+49:43
+it is running on the server, and it's the return value that gets sent back to the client.
+49:48
+So the reason why this is important is because imagine that quark was running some very slow algorithm.
+49:53
+I wouldn't want every client to be copying the algorithm into the client itself and running it.
+49:59
+I let the server run the algorithm and just return the result, which I print.
+50:04
+That's what we mean by distributed system.
+50:10
+Now the work is happening on the server or one of the servers, and the information is being sent back once calculated.
+50:11
+That's just an abstraction built on top of TCP. RMI is just an extension of TCP that Java created,
+50:20
+so that you can do easy running of code like that without having to establish a communication protocol.
+50:25
+All I need to do is just establish an interface, and then I can call methods from that interface as if it is local.
+50:32
+Is anyone sold on RMI? Oh, okay.
+50:39
+Play with RMI. It's not something I expect you to know, but in the challenge task there is RMI play with RMI.
+50:45
+It's fun connectionless then between UDP and TCP because obviously I know on on that I don't see any ah for this connectionless or UDP.
+50:52
+For UDP it's connectionless. Yeah. Why is that? Because there's a connection in the what?
+51:04
+What does it mean. Oh so a connection means that both sides know that they're speaking to each other, which means that even if you leave it inactive,
+51:08
+both sides still know that there is information that could come at any point from either side.
+51:17
+That's what we call a connection. They maintain state. So if a packet is sent, they keep track of how many packets have been sent and by whom.
+51:21
+Whereas in a connectionless system, you don't expect anyone in particular to speak to you.
+51:28
+You're just sitting there waiting for the packets to arrive. The easiest way I can describe it is imagine you're sitting here conversing with me.
+51:31
+We are having a connection. We're essentially exchanging information 1 to 1.
+51:39
+I know to expect to hear back from you in a connectionless environment.
+51:44
+I'm holding a megaphone and there's several people around me that are also holding megaphones,
+51:48
+but I don't know to expect the message to come from anyone. I'm just sitting there waiting.
+51:52
+So that would be the closest realistic example I can think of, right?
+51:56
+Cool. Okay, now I got labs for both modules. They're going to go around.
+52:03
+Can I trouble you with sending them around? Your labs are going to be in Union House, room 302.
+52:09
+Same as what we were first term last year.
+52:16
+It's on the third floor of Union House, which is over there. And it's the old PC lab we used to be in.
+52:20
+Um, in my tasks. Okay. We've been through this stuff.
+52:27
+There's more notes on here about the programs we discussed, and there's also additional resources on canvas.
+52:30
+If you're doing the labs, I do recommend you look at the resources first, and maybe you copy and change my code as opposed to writing it from scratch.
+52:36
+Unless you want the challenge, you're welcome to write it from scratch as well. Go to the lab.
+52:44
+I'll see you again at half 5 or 6 and make sure you get a printout if you need one.
+52:49
+The lab button. Oh, it's in Union House, room 302302.
+52:55
+Again?
+53:01
+
+Your lecture notes are going to be the same. So you already have the printouts for those. And we continue where we left off.
+0:00 
+0:01 3:00 3:53 6:00 7:42 9:00 11:26 12:00 15:00 18:00 20:10 21:00 24:00 24:17 27:00 28:19 30:00 33:00 36:00 36:39 39:00 41:12 42:00 45:00 45:07 48:00 51:00

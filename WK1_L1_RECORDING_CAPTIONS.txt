@@ -1,0 +1,1143 @@
+	
+Powered by Panopto
+
+Lectures
+chevron_right
+Week 1 - Lecture 1
+volume_up
+
+Search this recording
+search
+Details
+AI Summary
+Contents
+Captions
+Discussion
+Notes
+Bookmarks
+Hide
+Auto-generated captions may contain errors.
+Recording is on. We'll see. For how long? Greetings. Would you believe it?
+0:01
+It's me, Mario, not Philippos. Um, yeah.
+0:07
+You had the misfortune of having me once already. Life is unfortunately unkind.
+0:11
+So you have me again. Um, for this term, we're going to be going through web services together.
+0:15
+I don't anticipate this to be too much of a pain, as I mentioned already.
+0:21
+But we'll do our best to make it a pain for you. That's.
+0:25
+That's the wrong statement. I wanted to say something else. Right. So we're going to go through a brief introduction on this module.
+0:28
+What it is, what you're expected to do. And then we're going to also start talking about socket programming today.
+0:34
+Now for those of you just joining the some printouts circulating somewhere,
+0:39
+but as a quick show of hands, how many of you would like print out moving forward?
+0:43
+Okay. Put your hands down. How many of you would not like print out moving forward okay.
+0:49
+Perfect. Thank you. Right. So as you may remember, you already have me, I talk.
+0:54
+I do talk a lot. And for this module as well, I will be asking you lots of questions.
+1:01
+Please answer them with anything that you think is sensible.
+1:07
+Um, and of course, I'm always happy to be interrupted during the lecture, but please don't start throwing things at me.
+1:11
+Put your hand up instead. It works better. Um, and I will also be trying some new modes of interaction as we go along,
+1:16
+so please keep me in the loop with what you think works best in terms of my teaching.
+1:22
+I'm always up for change now. As always, the content for this module will be available on canvas.
+1:27
+It will be uploaded a week in advance.
+1:33
+The slides that you see before they get taught may change, but the changes that get made to them will be contextual.
+1:35
+So extra information that helps you understand the content or static.
+1:41
+I'll be making some aesthetic changes, I hope.
+1:46
+Um, and sometimes there will be some additional notes given to you, either through the slides added later or given separately.
+1:49
+So keep an eye out in the resources section of each week. Okay, so already we've seen a magical symbol appear at the top left corner of our slides.
+1:56
+Any slide that has this symbol is a contextual slide.
+2:06
+It's not something that I expect you to remember to be examined upon, but it is there to help you understand the content that is examined.
+2:10
+So, like my lecture notes last year, which have banners saying non expandable material, it's the same principle here.
+2:18
+Okay. So let's go through a brief exercise about math which I'm sure you'll love and miss there happening to the first years as we speak.
+2:25
+Um, so let's define a few things. We're going to define P to mean the web that is dense and full of horrors.
+2:33
+We're going to define Q to mean this module is about web technologies.
+2:41
+And then we're also going to define R to be. This module is dense and full of horrors.
+2:45
+You can probably see the logic expression that forms here. Um click on it.
+2:50
+Work on it. Can anyone read out what this has in English for me?
+2:56
+He can ask you to translate to these variables into sentences and read it again.
+3:01
+When the weather tenses for the flowers and the margins of web technologies.
+3:07
+Therefore, the module is densely correct. Thank you.
+3:12
+Now this module has already been revamped, so it used to be a very different module before.
+3:17
+Currently it's called web Service development. But in its previous life it used to be called data representation Mark-up languages and web services.
+3:21
+So there was two additional chunks of information crammed into there.
+3:30
+For example, we were talking about data representation. So data types that you already know and some you didn't know already.
+3:34
+Data structure, serialisation, encoding and more. The Mark-up languages section had hierarchical mark-up, new syntax metadata,
+3:40
+different kinds of Mark-up languages with a focus on which one works best on how parsing, and more.
+3:49
+And then the web services contained information like distributed programming, concurrency interfaces, TCP, IP stack, HTTP, and Https.
+3:55
+A little bit. So all of this stuff used to be a lot.
+4:03
+And right now we have this column here. The web service is built with elements of the previous two columns, but not as much detail.
+4:06
+So hopefully this should be an enjoyable experience. So now let's see what this module is not.
+4:14
+So this is not a module on becoming a Java wizard if you became one last term.
+4:21
+Yay! But if not, then this is not your opportunity to do it.
+4:26
+You can. I'm not going to stop you, but it's not going to be the objective of this module.
+4:30
+We're also not going to be building APIs as the learning outcome.
+4:34
+We will build some. But you're not going to become an expert on building APIs. Likewise, we're not going to become experts on the website.
+4:38
+You're going to touch on the web stack more when you do web application development next year.
+4:45
+We're also not going to be experts by any stretch of the imagination on networking.
+4:49
+Networking is used to be a bespoke module. Very, very difficult.
+4:53
+We're not going to talk about this level of detail. We're not going to become backend developers and we're also not going to become masochists.
+4:57
+However, in this module you will see elements of all of these things.
+5:05
+Make of that what you will. Like most modules you've had so far, in fact almost all modules you had so far.
+5:09
+The breakdown is the same in terms of the assessment. We will have, of course, with one which gets released relatively soon.
+5:16
+And then of course work one is due somewhere before the middle of the term I remember right.
+5:24
+You also have your work base portfolio running concurrent to all the other things. This accounts for 25% of your mark.
+5:30
+You have two tests, one in the middle of the term, one at the end, again collectively accounting for 50% of the mark.
+5:36
+Your labs are 15% and it's the usual for free 15%.
+5:43
+Um, and the coursework that I mentioned is 10% of that.
+5:48
+So that all together forms your marks for your overall, uh, module percentages.
+5:53
+Um, in the in the lecture today, we're going to cover some foundations of computer networks.
+5:59
+Only a few high level details. We're not going to talk about how electronic communications work.
+6:04
+Too much information and I don't know it. Um, we're going to see how we can send information over the TCP IP stack and what that means.
+6:11
+Uh, we're going to solve some problems using distributed computing, which is what your lab is about as well.
+6:18
+Uh, we're going to talk about network sockets and how we use them to achieve distributed computing.
+6:23
+And then in the lab, you're going to write your own distributed program in Java.
+6:28
+We're going to be sticking to Java for this module. Yay. Um, and you're going to basically try the things we see here today together in your lab.
+6:32
+And you're going to gain an understanding of how sockets work in Java and other such languages as the high level
+6:41
+primitives that allows you to do all the networking stuff without writing zeros and ones on a physical wire.
+6:46
+Um, and you'll also have to design, mostly unintentionally, a protocol for communicating between two sides.
+6:53
+We're going to see what that means shortly before we do all of that though.
+7:01
+I'd like to ask, how many of you know how to how to convert a decimal number into binary?
+7:05
+If I asked you to. This one.
+7:12
+Yeah. So if I give you the number 25 and I ask you what is this in binary?
+7:17
+How many of you can convert it for me? I see.
+7:21
+Okay. Some people are reluctant. And that's why we have a part zero in this lecture, which is some foundations on binary representation.
+7:26
+We're going to need those for later to understand IP addresses and so on. So let's take it from the beginning.
+7:33
+In computers we have things represented as zeros and ones for reasons.
+7:40
+Everything in the computer system is represented as a 0 in 1 data types of any kind text are numbers floating point numbers,
+7:45
+whatever you name it, images, all of these things are represented as zeros and ones, and we call the zeros and ones bits.
+7:54
+So an example representation here we're only going to focus on integers for this part.
+8:01
+So the integer that we as humans use in base ten or decimal number ten,
+8:07
+number one is represented as a single bit, which is one that is the binary representation of 1 or 1.
+8:14
+Now if you start going up the numbers two, three, four, and so on, the binary representations change.
+8:22
+Remember that in binary we don't have the number, the digit two. The only two digits we can use is zero and one.
+8:28
+And we have to somehow be able to encode every number there is using just zeros and ones.
+8:35
+So the number two is actually one zero. In binary the number three is one one, number four is 100.
+8:40
+Number five is 101. Now you might begin to see a pattern here whenever I'm going up, I'm essentially adding, I'm changing that bit to a one.
+8:48
+Or if I have no more zeros to change to a one, I just add another digit.
+8:58
+That's how implementation works in binary. Of course, I don't expect you to memorise this table.
+9:03
+I just want you to know what binary is, so I won't ask you to convert nine from memory to its binary representation of 1001 or 1 1001.
+9:09
+However, there are ways we can convert between these numbers.
+9:20
+And typically when we say convert to binary, we have to agree how many binary digits we're going to allow ourselves.
+9:25
+So in the world of computers, things are not infinite. We don't have things of infinite length.
+9:31
+So we kind of agree to restrict ourselves to certain numbers of bits.
+9:36
+You may have heard me say in the previous year things like a 32 bit integer.
+9:40
+Do you remember that? I see nodding. Yeah. So a 32 bit integer means an integer which can be represented by 32 zeros and ones.
+9:45
+So a 32 bit integer can go in. The positive range can go from 0 to 4 billion 200 to 294 million, and so on and so forth.
+9:56
+And the reason for those arbitrary looking limits is to do with the beats and what numbers they can represent.
+10:05
+So all zeros represent the number zero.
+10:12
+All once represents the number that.
+10:16
+And in between we have every possible number between 0 and 4,000,000,294 million, and so on and so forth, represented as zeros and ones.
+10:19
+This is the numbers we can represent using 32 bits and things like the int is a 32 bit number.
+10:29
+That restriction on bits is not fixed.
+10:36
+There's no kind of like a special reason why 32 is used everywhere. We can have things that are eight bits for example.
+10:40
+So in an eight bit space essentially with the eight zeros and ones I can represent the far smaller range of positive numbers,
+10:46
+namely between 0 and 2 five five. I can't go above that.
+10:54
+There's not enough bits. So we're going to talk about this in a little more detail.
+10:58
+And we're going to see why this matters in a moment. Any questions.
+11:03
+Yes. You on most colour palettes.
+11:08
+Colour palettes are you. Almost. So if you're thinking about things like RGB.
+11:13
+Yeah. Typically you have eight bits for red, eight bits for green, eight bit bits for blue.
+11:18
+Collectively those come to 24 bits.
+11:23
+You can also have an alpha which is the transparency of the colour.
+11:27
+And then you denote that as a fourth bit. And the reason why they do that is because all together this accounts for 32 bits.
+11:31
+But nothing stops you in principle for having more bits allocated to red 16 bits or more.
+11:37
+But yeah. Is there a set of notes, please?
+11:43
+Oh, is there any printouts left somewhere? I think he has a lot to say.
+11:47
+There you go. Thank you. No problem. Cheers. Cool.
+11:54
+Okay, so that's the deal with zeros and ones. They're everywhere.
+11:58
+We're going to talk about integers just for now. But if you're interested in this have a look at how other things get represented.
+12:02
+Yeah. Can you, can you can you add this. Yeah.
+12:08
+If you can move back to the last slide. Yeah.
+12:12
+So if you, if you add two and three. Aha.
+12:18
+But we know that means five. Yep. And how how will that work.
+12:23
+Yeah. How does the binary registration work. Because you get all the flows.
+12:27
+So essentially you do simulation like you would with normal arithmetic.
+12:31
+Except you can't have a number which is more than one. You can have zero and one.
+12:36
+So one plus zero is a one. One plus one is two.
+12:40
+So that's not going to work. So what you do is you write a zero and you carry the one.
+12:45
+Yeah. And the last one that carries is at the beginning. So you get one on one which is five.
+12:50
+Right. Okay. It's very it's very fun. If you like this sort of thing have a look at binary representations.
+12:55
+You can make up some very nice pub quizzes for your friends to not be able to work with.
+13:00
+Did I say this? Sorry. Moving on.
+13:06
+Okay, now if you ever want to convert these numbers and that's the sort of thing that I want you to remember, there's an ease in a hard way.
+13:08
+Hard way involves modular arithmetic and doing a sequence and an algorithm.
+13:15
+The easy way involves drawing down a board. I usually go for the easy way.
+13:20
+You're welcome to use whatever you want, but if I was to tell you, take this binary number and convert it into a decimal,
+13:25
+what you can do is put down a table like this where on the top, starting from the right and going left, you note down all the powers of two.
+13:32
+So this is two to the power of zero, which is one. Two to the power of one is two, two to the power of two is four, age.
+13:41
+16 and so on and so forth. And you can stop at some point, like this kind of stretch infinitely.
+13:48
+But if I give you ten bits, you need to stop at the position ten.
+13:53
+You don't need more than that. So you draw that column at the top, and then you place the zeros and ones that have given you directly underneath it.
+13:57
+Now, once you've done that, you start from going from left to right.
+14:05
+And you look. Do I have a one here? Yes. That means I have 1024.
+14:09
+No no no no no no. Yes. So I also have 16. What is 1024 plus 16,014, 1040.
+14:14
+I knew it, that was telling me. Good that I don't have an eight.
+14:22
+I have a full 1040 plus four is 1044 plus one 1045.
+14:26
+You just converted this binary number into decimal. The inverse also holds true if I give you the number 134 to convert into binary,
+14:32
+you draw your table again and then you start from the left and find which numbers of each go into the number I asked you for.
+14:44
+So 135. Does 512 go into it?
+14:51
+Doesn't. Does this go into it? No. Does this go into it? Yes. So 128 goes.
+14:54
+So I put a one here 135 -128 is.
+14:59
+Seven. Okay. So I put a one here and I carry on.
+15:06
+This doesn't go this doesn't go this doesn't go this doesn't go. This will go.
+15:09
+Yeah. So I go to one and subtract four from seven. Three, three.
+15:14
+Does this go into three. Yeah I put the one here as well. Does this go into one.
+15:19
+I put the one there and I just converted it into binary. So this is essentially a crash course crash.
+15:23
+Yeah. That on binary numbers and conversions.
+15:31
+Don't expect it to have it straight up on the top of your head, but it becomes very useful once you're dealing with IP addresses across the board.
+15:34
+You will at some point have to deal with IP addresses, especially in the third year.
+15:41
+It's good to know this. So the question you're asked at the beginning 25 would be 1100111001.
+15:45
+So that's 16 plus eight. What's that 2424 001.
+15:53
+Yeah. That's it. Perfect. So keep this in mind.
+15:57
+Committed to memory. You just drive down the board and then you populate the zeros and ones underneath.
+16:03
+That's all. And with that introduction out of the way, let's now talk about web services.
+16:08
+Okay. So you may recognise some terms.
+16:14
+We're going to talk about terminology at the beginning. You may have heard of things like smartphone tablet server database laptop, desktop and more.
+16:18
+This is just a small list of the different terms we use for different devices with different purposes, and so on.
+16:25
+Fridge may also be there nowadays, although it will probably fall into IoT.
+16:30
+Now all of these things have corresponding terminologies depending on the context we are talking about.
+16:35
+So all of these things could be referred to as a Imagine all of these things could be referred to as a computer in some settings.
+16:41
+All of these things could be referred to as a node if we're talking about interconnected devices.
+16:48
+So the terminology we use for all of these things could be any of those things.
+16:53
+And you're going to see me use different ones from this list. To describe a device a machine and so on as we go along in this module.
+16:57
+Okay. In terms of connection, we can have different kinds of connections between machines or nodes.
+17:06
+We can have a wired connection that physically means that two devices, two machines are connected between them with a wire.
+17:12
+We could have a wireless connection, which means that two devices are communicating over the air without a physical link between them.
+17:19
+We can also have some intermediary that is responsible for making these devices communicate, and that's usually what we have nowadays.
+17:27
+I mean, my computer is not directly connected to another computer somewhere in the US to upload the video to Panopto.
+17:35
+It is actually jumping through many intermediaries, for example, routers, the access point of which there isn't any in the room, it seems.
+17:42
+But my computer is connected to another device in the university which is connected to other devices in the university.
+17:49
+Quite. Oh yes, you're right, I did not even see that. So that is the access point that I'm connected to.
+17:59
+I hope so, my computer is wirelessly connected to that device wireless connection.
+18:03
+That device is wired to other devices. And all in all, as far as I'm concerned, between my device and Panopto,
+18:09
+which is where the video is being uploaded to, there is a lot of intermediate intermediaries.
+18:16
+Computer networks can get quite complicated. The other thing we have is virtually connected devices,
+18:21
+and this is mostly applicable to situations where you have a virtual machine running into your computer.
+18:27
+Your computer and that virtual machine are connected somehow, but one is within the other.
+18:33
+There's no wires and so on and so forth. Okay.
+18:38
+So we're also going to use some terms like data. A data is just recorded observations that we're going to think of it as is.
+18:42
+Just data points is what we call it typically. And it's the records of observations that are made one way or another.
+18:50
+A keystroke on the keyboard is going to produce data. It's a recorded observation of something that happened.
+18:57
+Now when we have data recorded observations with a purpose, we call that information.
+19:04
+And typically in networks in networking we are transmitting information.
+19:10
+We're exchanging information in other words data with a purpose. And then the data applied to a purpose can lead to different things.
+19:14
+It can lead to knowledge inside conspiracy theories. We're moving swiftly on okay.
+19:22
+Now when we talk about communications then what do we mean for two devices to communicate?
+19:30
+Once again,
+19:35
+there's kind of like special cases of communications that we're going to need to talk about so we can have information being transmitted one way,
+19:36
+namely one machine is sending information to the. To the other.
+19:43
+And that's the interaction done.
+19:47
+We could also have an exchange of information, namely two different devices or machines somehow sending and receiving information from one another.
+19:49
+We're going to talk about this model in the labs, or you're going to implement this in the labs later.
+19:58
+And then we can also have situations where a collection of a collective of machines are sharing information.
+20:04
+And this could involve more than one machine. We're not talking about an individual exchange anymore.
+20:10
+We're talking about a multitude of devices sending information to one another.
+20:14
+Now, can anyone think of a very popular program that works in this manner that could potentially lead to illicit, or could be used illicitly?
+20:19
+What was that? Crypto? Yeah, crypto networks work like that.
+20:29
+What about other programs for exchanging files?
+20:33
+Peer to peer? That's the one. So anyone familiar with the term torrent torrenting?
+20:39
+No, no, it is not illegal. Torrenting is not illegal.
+20:44
+It's a form of exchange. It's what you send that is illegal. No, I mean, it's torrenting is a method.
+20:48
+Pardon? Oh, yeah. I mean, if you're downloading an operating system like ubuntu.
+20:55
+Massive file, three gigabytes. Imagine having to do it via transmission.
+21:01
+You have a server that sends the data to every device that connects to it and asks for it.
+21:05
+This is sending three gigabytes. Imagine 200 devices doing it simultaneously.
+21:11
+The server doesn't have enough bandwidth to do it, so what they do instead is they get a collection of machines, your device,
+21:15
+someone else's device that have downloaded the operating system to share it between them as a sort of kind of network.
+21:22
+So this machine is going to send to that one a piece of the operating system.
+21:30
+That machine is going to send another piece, and all together they assemble into one.
+21:34
+So that's what torrenting is all about. Now, the fact you have the freedom to do this between your machines without a
+21:39
+centralised server means you can also exchange other files without being noticed,
+21:45
+which could be legal, of course. Moving swiftly on. Right. Okay.
+21:50
+So now let's talk about networks. So a network is a collection of autonomous computers.
+21:55
+And networks can become complicated and take very, very, very different forms.
+22:01
+Because what is part of a network. The nodes do have different modes of interaction between them.
+22:04
+So devices on the network can be connected using guided or an unguided medium.
+22:11
+And you can also be any kind of different medium. So if you see here you have devices which are wirelessly connected to other devices,
+22:16
+you can also have wired connections to devices for the purpose of exchanging data.
+22:23
+So devices where you are not sending or receiving data from, but they are intermediate to you,
+22:27
+connecting to some bigger network where you can exchange data from.
+22:34
+And of course, all of this stuff gets very, very complicated very quickly to the point that we have a module in the degree of mentorship,
+22:38
+which is called networking in the third year. But lucky you.
+22:45
+That is being scrapped for next year, so you're not going to have to sit through this and learn all the modes of interaction,
+22:48
+including how the wavelengths are being used to encode data and so on.
+22:54
+You should be glad I didn't say this out loud. Don't tell Conor. Okay.
+22:58
+In terms of networks, then between computers, those are broadly classified into a few categories.
+23:03
+You may have heard of a local area network. Hands up if you have. Or a lan.
+23:08
+Cool. I'm pretty sure LAN is a bad word in some language. I just can't remember which one.
+23:13
+Um, and this is kind of the network that we have at home.
+23:17
+You form a network between your devices by having a router that coordinates all of them, or several routers in some cases.
+23:20
+So your phone and your desktop may be connected to your router. And all in all.
+23:27
+This forms a network of your own devices, which has only the router communicating with a wider internet.
+23:32
+So only one of your devices actually connects to the internet. All the others go through it.
+23:37
+You may also have a man, a metropolitan area network. Now, anyone know what that is?
+23:43
+Good. So man is something we don't have here, thankfully, but it's kind of like a network formed across an entire city.
+23:50
+You could have this, for example, in New York.
+23:58
+There's Wi-Fi that you can connect to in the entire city, and you walk around and you're constantly connected to that Wi-Fi.
+24:00
+So your device is now part of the man. These are dangerous.
+24:06
+Try to avoid them. And when you have so many devices on a network policing, what these devices do with one another becomes very, very difficult.
+24:10
+It's the same situation as the internet. And the reason why we have things like antivirus or firewalls in the way.
+24:18
+So yeah, keep out of these as much as you can help it. And then obviously we have to have something overarching,
+24:25
+all of these smaller networks or collections of devices, what we normally call the wide area network.
+24:31
+The wide area network spans across continents, and one or the wide area network is the internet.
+24:36
+Of course, you can have other wide area networks which are not the internet,
+24:43
+but are ultimately devices that connect to one another over vast distances.
+24:46
+Does the human count as a man? As a one?
+24:52
+Because our university is on a drum, and a drum is across all educational institutions?
+24:56
+Yeah. So Janet actually, which is the university, the network for universities in the UK.
+25:00
+Um, but yeah. So in the very early days, there used to be something called Arpanet.
+25:05
+Um, and Arpanet was kind of like a predecessor to the internet. It was a way to link universities in the US between them.
+25:12
+So you had some universities that needed to exchange scientific information, obviously sending them with traditional means with an absolute pain.
+25:20
+So they started physically wiring the universities between them and over time that just spanned
+25:27
+across the place and formed what was known as the first instance of a wide area network.
+25:32
+Of course, this you didn't use to be anything like the internet as we know it today.
+25:38
+It used to be very, very specific to exchange of data between educational institutions.
+25:41
+Now question for you guys. How do you imagine data to move from one device to another?
+25:48
+Why binary. So that is one good one. So how is the binary transmitted from one device to another?
+25:56
+Like how does it leave this machine and go to that machine on the wall there?
+26:02
+Bits and bytes as it. So zeros and ones. Yeah.
+26:08
+But how do these get sent? Radio. Radio.
+26:12
+And typically if we're thinking of radio, we're thinking of those magical lines that people draw the physicist draw the waves away.
+26:16
+Yeah a waveform. And the way we do it is we change how big or small the waveform is or other ways to communicate the data.
+26:22
+That's one layer. What about wired connections? You say wired wired with wires?
+26:30
+yet signals, electrical signals the same principle again.
+26:35
+But they're it's kind of more straightforward because you just put voltage on the line or you don't put voltage on the line.
+26:39
+So that's a zero and a one being encoded. So this is how data physically makes it from one device to another.
+26:44
+But thinking of data being transmitted like that becomes very, very, very difficult.
+26:50
+Like if you're thinking of me sending a message to my friend via the internet,
+26:55
+if you are going to analyse it to the layers of zeros and ones being transmitted between devices, you get hopelessly lost.
+26:59
+So we have layers of abstraction for this to help us understand the process.
+27:05
+Anyone heard of the OSI model? A couple of you.
+27:09
+Yeah. Good. So the OSI model is a theoretical model on how data is actually transmitted and
+27:14
+defines the different layers of abstraction that we're using in the process. Now, more often than not, what we do sits somewhere here near the top.
+27:20
+We are in the application layer, so I don't expect you to remember all of these is just contextual.
+27:27
+But typically what we do is sitting in the application layer,
+27:32
+and what we think of the application layer is having something like a browser sending data to another machine to get the web page and show it to you.
+27:35
+Obviously, the web page is not being sent as just a packet of information.
+27:44
+It has to be translated into different kinds of information to get down to the zeros and ones that get physically sent on the wire or the radio waves.
+27:49
+So along this process, you have different layers of abstraction that you don't have to think about if you're sitting above them.
+27:58
+For example, when I'm developing a browser myself, I don't need to worry about sections.
+28:05
+I don't need to worry about the transport layer, which we're going to talk about in a second,
+28:09
+and how we ensure that the information makes it across the network.
+28:13
+Because the other thing that could happen is that some information may get lost in transit.
+28:15
+I don't have to account for that in the application layer, because someone else has accounted for it in the transport layer or the network layer.
+28:19
+Even so, this is useful if you're learning about networks.
+28:26
+You have to visit each of the layers of abstraction and abstraction. Understand how they work before you move on to.
+28:31
+Developing something in the layer above it.
+28:36
+But since we're going to be here, the only thing we're going to talk about is a few pieces of information in this sort of area.
+28:38
+We're not going to get down to the physical layer in this module. Okay.
+28:44
+Right. And then there's different ways to explain this. In the application layer I mentioned web browsers.
+28:49
+Here is one example. With web browsers in the transport layer we typically have a protocol for communication.
+28:55
+And these we're going to actually talk about in a minute TCP and UDP being two examples of it.
+29:00
+But there is more. And these define how the information needs to be transmitted in the network layer.
+29:05
+The network layer or the IP layer is defining further information like how do we know where the data is going,
+29:11
+how do we identify devices, and so on and so forth. Anyone heard of Macs before Mac addresses?
+29:17
+Yeah, a few people. Mac addresses is how we distinguish computers.
+29:26
+Every computer has its own unique so we think Mac address assigned to it when it is built.
+29:30
+So the network device that the computer comes with has a unique identifier,
+29:36
+which can then be used in the network to know who is who and send the data in the right place.
+29:40
+And that is quite a bit down in our layers of abstraction.
+29:45
+It's directly above the physical layer, which is the actual wave sent between machines.
+29:49
+Okay, so we talked about Mac addresses. A Mac address is globally unique, or so we think.
+29:55
+There is a way by which they get worked. But it is possible to have a clash if you really try.
+30:02
+But we try to assume that these are unique IDs that are typically made up of 48 bits,
+30:07
+which is where the uniqueness issue starts to break a bit, because we're exceeding the number of devices that could be possibly represented.
+30:13
+Um, and they identify a network interface or a network card on a specific network.
+30:20
+Now there is the vendors who make the hardware for network communications have assigned ranges,
+30:27
+so Apple have their own assigned range of IP of Mac addresses that they have to be within.
+30:33
+So when they make a device, they assign it and a mac address based on their own range of Mac addresses.
+30:37
+We typically represent those in hexadecimal formats. Do you guys know what hexadecimal format is?
+30:45
+Roughly, when you have a number that has lots of decimals close, it's actually hexadecimal is where instead of having ten digits, you have 16.
+30:51
+So we have 0 to 9 as our ten digits.
+31:02
+And then we have the letters A, B, C, D, E, and F as additional digits.
+31:06
+To make those numbers similar to binary, where we have only zero and one.
+31:11
+In hexadecimal we have 16 different digits just to make life harder.
+31:15
+We're not going to talk about this, so don't worry about it okay?
+31:20
+The Mac address is there to ensure that Ethernet frames are on a network, are going to the correct devices.
+31:23
+And we do this with IP addresses. Nowadays, you may have heard of IP addresses.
+31:30
+These are assigned to devices based on their Mac address.
+31:35
+In other words, the successor in some ways. And more on that.
+31:39
+Now this is typically what we think of as a mac address represented in hexadecimal format.
+31:45
+See what I mean? We now have D and F and other characters which are not common digits appearing in there.
+31:50
+Okay. Now the prefix here, which is this part, this is slightly offset, but including the first part is unique to Apple.
+31:59
+So well it's a signature of an Apple device. So knowing the Mac address of the device I can kind of work out what manufactured it.
+32:08
+I can look up on the lookup tables, who is who. Okay.
+32:15
+And now we get to talk about 32 bit numbers finally. And namely the different IP addresses.
+32:20
+So I mentioned the word IP addresses. We're going to see what this is in a moment, but hands up if you've already heard of things like IPv4 and IPv6.
+32:26
+Okay, quite a few of you. So these are numbers that we assign on a network to devices to exchange information with.
+32:36
+We tell the network this device has the IP address. So and so if you want to talk to it direct your messages to that IP address.
+32:42
+Try to think of it as a home address.
+32:50
+If you are to send a letter to your friend, you need to know their home address, otherwise the letter won't go anywhere.
+32:52
+Similar idea on a network you need to know the IP address, otherwise your data isn't going to go anywhere.
+32:57
+So IPv4 is designed to have 32 bits per IP,
+33:03
+meaning that you can possibly have this many IP addresses like we saw before and which has been an issue in recent years,
+33:08
+because it turns out we have more than 4 billion devices on the internet.
+33:16
+So slowly we have run out of numbers that we can assign to these devices, and we have to get a bit creative with what we do in that situation.
+33:19
+But bottom line is this number actually corresponds to an IP address.
+33:27
+And the way we turn this into an IP address in the familiar format is by splitting it into blocks of eight bits or a byte.
+33:31
+The way we do this is we just divided into eight bits like that, and then we translate each of these eight bits into a number.
+33:40
+Remember when you have a number in the eight bit range it can be from 0 to 2 five five.
+33:48
+So this would be this IP address. Now funnily enough 137.44 is owned by our university.
+33:53
+So any IP address that starts with 137.44 belongs to Swansea University.
+34:01
+Great. Moving on. Right. There's a few IP addresses which are special.
+34:06
+So if you have an IP address which is 0.0.0.0, it either means unknown or unset IP address or it means this network.
+34:13
+You can also have an IP address which is all ones, namely 255.255.255.255.
+34:21
+I said it and that is what we call the broadcast address and address where things get broadcast to the wider network.
+34:28
+And then you may have heard of this one. Do you know what we typically call this in the world of computers?
+34:35
+Home. That's the one. There's no place like 1 to 7 .4.4.1.
+34:42
+Um, yeah. So we call this home. This is a special IP address that every computer knows about.
+34:47
+If you send any data to it, what it does is it exits the computer through the network card and then gets sent back to the same computer.
+34:52
+That's why we call it a loopback. Yeah. Every time I've learned to like my roots or whatever, it's 192.168.0.1.
+34:59
+Is that a similar sort of home thing or. Yep. So there is a couple of IP addresses which are reserved to be internal addresses for internal networks.
+35:08
+So 1192. 168I think that prefix is reserved.
+35:15
+So you can have dot something dot something for an internal network. And the same goes for ten dot.
+35:20
+I think 10.0 is also a reserved range. And that's what the university uses.
+35:25
+So your internal IP addresses in the university are ten .0. something, dot something, or might be ten dot anything starting with ten.
+35:30
+I can't quite remember. But yeah, these are IP addresses reserved for internal networks, so we don't confuse them with external IP addresses.
+35:37
+Okay. Now dynamic host configuration. Okay.
+35:46
+So we need some some times to find a way to map an IP address to a device.
+35:50
+Because think of yourself as a router. If device connects to you and you need to give it an address, how are people going to know how to address it.
+35:54
+But you have to assign an IP address. And I imagine that in the case there is a computer network, you need to remember who has which IP address.
+36:01
+How are you going to identify who is who? Well, for that you're going to use the device's Mac address.
+36:11
+So if you look at their Mac address and you associate it with an IP address,
+36:16
+and then anytime someone asks you what is the IP address of this physical device so I can send it some data.
+36:20
+You work out the IP address from it. There is the DHCP dynamic host control program.
+36:27
+Thank you. It's in my slides as well. Yes. Dynamic host control protocol.
+36:35
+I never remember the abbreviation which is a protocol designed to do exactly that.
+36:40
+Take the Mac address and work out the IP address from it. Now typically we see DHCP for ourselves on local networks.
+36:44
+So your router that you have at home is actually running at the HTTP server.
+36:51
+So that when you connect via Wi-Fi, it knows what IP address to give your cup, phone or other device.
+36:56
+This is not to say that a similar protocol is not running on the internet,
+37:02
+because obviously your router then needs to have a public facing IP address that gets assigned to it somehow.
+37:05
+There is that for non-local networks as well. Okay.
+37:11
+We don't need to remember that. Yes.
+37:18
+In terms of IP addresses, then there are different authorities in the world that provide out the IP address ranges.
+37:20
+Make sure we do not clash between continents. So Europe in other countries are not dictated by ripe NCC.
+37:26
+They are the ones who are responsible for telling us which IP addresses are to be used and who gets what.
+37:36
+Different parts of the world have different providers, but all in all, the Iana,
+37:42
+which I will remember without the abbreviation, do not want internet assigned numbers.
+37:46
+Authority coordinates the global effort of IP address allocation.
+37:51
+So this stuff is serious. There's people with suit deciding what IP address your router is going to have done.
+37:55
+Not that I expect you to remember this, but context.
+38:01
+And of course, when you're talking to a server via your browser, you do not have to remember the IP addresses.
+38:04
+In the old days, I am told that if you wanted to visit a web page, but when the web was still accessible,
+38:10
+you had to have a book in front of you which told you which IP address to type when you wanted to speak to a certain service.
+38:16
+So to go to Google you would open your book, you would look where Google is, and then you will figure out what number is associated with it.
+38:23
+Kind of like a phone book. And then you would type it into your computer to connect to Google.
+38:28
+Turns out this is not very effective when you have so many billions of different web services servers online.
+38:33
+So what we do instead is we have domain names.
+38:39
+Domain name is this part here. Swansea, UK could also have a subdomain at the beginning like w WW.
+38:43
+So all I need to remember is human text. But then we need a way to turn that into an IP address.
+38:51
+And maybe the IP address changes behind the scenes quite frequently. Um, so this would resolve to that IP address.
+38:57
+And we have what we call DNS domain name servers or domain name systems,
+39:04
+which are designed to take the human readable text and translated into an IP address that your computer can look into automatically.
+39:10
+Okay, this stuff is forming again, another hierarchy between these systems,
+39:19
+and it stores information about how to resolve these domains into IP addresses.
+39:23
+They get updated periodically. But there is also we're going to talk about this if you do pen testing with me.
+39:29
+Um, there's also issues where the DNS servers are falling behind on the correct allocation.
+39:36
+And that's why sometimes when you just roll out a new service, some computers may not be able to access it for longer than others,
+39:41
+because not all the DNS servers in the world have propagated the information between them to get you the right IP address.
+39:47
+Yeah. Why would you change the IP address? This means there are.
+39:53
+Think of you being Google. Imagine that you have one single server that sits behind google.com.
+39:59
+In that case, you're going to get all the people in the world sending requests to that one server.
+40:05
+That server is not going to be able to cope.
+40:10
+So you make it so that google.com resolves to different IP addresses across the world to send them into different machines.
+40:12
+One machine may go down. In that case, you change what google.com results to so that people get rerouted to the other place.
+40:20
+So that's one example. Does that mean that he didn't get like a page not found?
+40:28
+There's just no. There's no IP address for that. Right. You get yeah. You get not resolved typically.
+40:34
+Slightly different error but yes if that does happen.
+40:39
+So if you just registered your own domain, the information on what IP people should be sent to hasn't yet propagated to all the DNS servers.
+40:42
+And if your computer is speaking to a DNS server that is still out of date, you're going to get an old result.
+40:51
+If the change hasn't propagated to that server, you're going to get the same effect.
+40:56
+It's quite rare, but sometimes you do see it out in the wild when you access a well-established page.
+40:59
+And then when you said about the Google example, you don't have to go to one server.
+41:04
+I guess if you needed your website to look different for different territories,
+41:08
+you can do that by sending them in a local appropriate server for load balancing and so on.
+41:12
+And then if you needed to change that manually, if you watch Netflix in America, and That was that.
+41:17
+Uh. It's similar. Yeah. So they do other geo restrictions there.
+41:22
+But when you switch to your VPN to America to watch restricted services, which no one does, of course.
+41:25
+Um, you're essentially speaking with DNS in the US, which sends you to a local to that location device.
+41:30
+Okay. There's also some caching here, which we're not going to talk about too much,
+41:39
+but keep in mind that caching can mess things up a little bit and skew my plans of distribution.
+41:42
+But anyway, okay, so let's talk a little bit about ports.
+41:48
+Uh, ports are numbers. A port is a number that we choose and we assign it to a service.
+41:54
+So think of your computer. You can run in your computer a web server which serves a web page.
+42:01
+You can also run an old version of Skype which used to do peer to peer communication.
+42:07
+And you can also run a DNS server like the one I just mentioned before.
+42:13
+Now these are three different services that need to be contactable from the outside world,
+42:17
+but how are you going to know which service you want to talk to into a machine, and how would you be able to identify them?
+42:22
+Well, that's why we have ports. So a machine can have numbers which are associated to different services.
+42:28
+For example, the typical port for a web server in HTTP is port number 88 zero.
+42:34
+So anyone who says I want to speak to Philips computer, which has the IP address 10 to 20 5 to 20 5 to 25,
+42:41
+and specifically in that machine I want to speak to whatever is at port 80 is going
+42:48
+to be sent to my HTTP server in my machine and exchange data with this application.
+42:53
+Someone else comes along and says, I actually want to speak to Philippoussis machine.
+42:59
+So 10 to 25, 25, 25 but I don't want to speak to the web server.
+43:03
+I want to speak to the DNS server. So I'm going to send traffic to port 53 of that machine.
+43:07
+Of course, these numbers are we kind of have a mapping in our mind or that 80 80s.
+43:14
+It's typically used for HTTP, and 53 is typically used for DNS and so on.
+43:19
+But there's no kind of hard rule that this must be the case.
+43:23
+So because I am a cheeky [INAUDIBLE], I may switch to port 80 and make HTTP server.
+43:27
+I respond on port 1 to 3 and then make the SMTP server talk in port 80, just because it would want to confuse people.
+43:34
+That's fine, you can do that. The bottom line is in your machine, you tell the world what port corresponds to what service, and that's that.
+43:41
+Um, we're going to see that in more detail later.
+43:50
+One thing to keep in mind is that ports that are below 1024 are typically the privileged ports where the important things happen.
+43:54
+Uh, operating systems will probably not let you open a port that is less than 1024,
+44:02
+unless you are an administrator above 1024 is kind of left as a free for all.
+44:08
+There are still services that are assigned to these numbers typically, but you then don't need to be an administrator to open one.
+44:13
+The ports themselves are a 16 bit number, which means you can have port zero, which I believe is reserved all the way to 65.
+44:20
+5 to 5. And you have to choose one for your server. You can't run more than 65,525 services on one machine.
+44:27
+Yeah. Is this how you would log into a virtual machine?
+44:34
+Yeah. So VNC is on port. It's not 23. It's 23 is telnet.
+44:39
+What is VNC? Anyone know what VNC is?
+44:42
+What bold. We're going to call it port 199. Don't remember what it is.
+44:47
+So if you want to connect to a machine remotely you use some sort of protocol like VNC.
+44:51
+You can also use SSH or telnet. Telnet.
+44:56
+Don't do that. All of these services have a corresponding port.
+45:00
+So as I say just 22 telnet is 23, VNC is whatever it is.
+45:04
+So essentially you get your computer to contact that other machine on this specific port and you start sending it traffic of that service,
+45:07
+VNC or whatever. So yeah. Okay.
+45:14
+Yeah. 1000, not 65. Five. Three. Five. Here.
+45:21
+So it's because we have somehow some more clever people than I have agreed that four numbers should be representable with 16 bits.
+45:25
+And the maximum value in the 16 bit world is 6553525.
+45:32
+Huh? Um, if you write down the all ones in 16 bits, that will translate to that number.
+45:39
+I think don't check my quick math. Someone can convert it.
+45:45
+Um, it should be two to the power of 15, I think. Plus one.
+45:50
+Um, anyway, we can come back to that, but essentially,
+45:55
+this is the maximum number of ports you can open on your machine, and you choose one appropriate to your service.
+45:57
+For example, Minecraft is 25535 as Minecraft server.
+46:03
+So if you're running a minecraft server, you typically put it on that board. But you could if you really want it, put it on port 1024 instead.
+46:08
+Cool. Okay. Right. So we talked about Mac's tcp IP briefly.
+46:18
+Ports DHCP and DNS. Excellent. So this is how we form the network so that we know how to send the data from one place to another.
+46:25
+All of these things have a different responsibility in that process. But we briefly seen all of those.
+46:32
+The next question is what does this data look like?
+46:38
+We already said zeros and ones, but that's not typically how we represent the data.
+46:41
+Okay. So typically we take whatever information we want to communicate.
+46:47
+Let's call it a message. And then we start splitting it down. So we don't do that.
+46:52
+It's the different layers of abstraction that are responsible for this. We are only responsible for constructing the message.
+46:56
+Now each of those messages can be represented as bytes.
+47:01
+Bytes being zeros and one. Well eight zeros and ones is above.
+47:05
+So we break it down into its individual bytes. And then we need to put these bytes into carriers to send them over the network.
+47:10
+Typically you do not stream data on the network continuously. You put it into little carriers, little boxes, and you send the boxes one by one.
+47:18
+There's reasons for that. We're not going to talk about them here. And then once they they reach the other side,
+47:27
+they get turned back into a collection of bytes and ultimately get reassembled into the message that we sent.
+47:33
+So the message that you send goes through some transformations in the process before it arrives on the other side.
+47:41
+Typically we have a TCP IP packet, and the TCP IP packet is a collection of 32 bit words,
+47:48
+and it encodes different information about the communication of the interaction between machines.
+47:55
+Now notice there's things like the information the version header which is eight bytes.
+48:01
+I remember that is the type of service but the length of the packet and so on and so forth.
+48:06
+Time to leave, which we're going to talk about in security and so on and so forth.
+48:11
+All of this stuff is useful to the intermediate layers that are involved in the exchange.
+48:15
+To learn information about where this data is supposed to go, how it is to be treated, and how it is to be routed in here.
+48:20
+We also have the address from which the data originates.
+48:26
+So the IP address of the machine that is sending the data and the destination address where this data is going to.
+48:29
+And then you can have options as well. So all of this is just creating a chunk of data a packet essentially.
+48:36
+And then as far as we are concerned, we don't really see that we are not designing the IP protocol that happens for us somehow behind TCP.
+48:44
+And we're going to talk about TCP sockets that manage it for us later. Okay.
+48:52
+So TCP itself, the protocol is a stateful protocol designed to establish a avenue of communication between two devices.
+48:57
+What do we mean stateful.
+49:05
+We mean that once you initiate the connection, you have told the other machine that it is to expect information to be sent from you,
+49:07
+and you have also communicated to the other machine the way this information is going to arrive to it.
+49:14
+So when you send all of these packets, the packets themselves have to have a certain sequence.
+49:18
+Doesn't mean that the packets are going to arrive in sequence. It just means that the packet itself knows where it belongs in the sequence of data,
+49:24
+so that when they all arrive to the other machine, they can be put in order, and then the final message can be reassembled reliably.
+49:31
+That's what TCP does for us. TCP is duplex, which means that once you establish an avenue of communication between two devices,
+49:38
+you can send data and receive them through the same pipeline.
+49:45
+And all of that is supported by the protocol. So you don't have to worry about configuring the packets in such a manner.
+49:49
+And for connecting between TCP devices, there is a establishing a TCP connection.
+49:56
+There is a three way handshake. Do the terms same ack syn ack mean anything to anyone?
+50:01
+Yes, one I'm very surprised. Um, yeah.
+50:09
+So this is the three stage handshake that you do between one computer and another to establish that
+50:12
+both machines want to communicate via TCP and communicate the relevant information to one another.
+50:18
+So Syn is a synchronisation request that one machine sends to another saying I want to connect to you.
+50:22
+The other machine responds with ack!
+50:28
+If it acknowledges the request, and then the machine that sent the scene to begin with is sending a scene acknowledgement back to that machine to say,
+50:30
+okay, we have a connection between us.
+50:38
+Then through that connection, there is the established packet format that gets sent back and forth a lot of information to take in.
+50:41
+We're going to take a break in one minute, I promise. Okay.
+50:50
+And then other than TCP we have UDP as well.
+50:54
+Anyone heard of UDP two two and a half three.
+50:58
+Okay. Pardon. Political party in Northern Ireland.
+51:03
+There's such a thing as UDP do you feel it?
+51:08
+Yeah. I'm very glad because then UDP would never be the same in my mind again.
+51:12
+Okay, so UDP or the User Datagram Datagram Protocol.
+51:17
+So the User Datagram Protocol is much much different to TCP.
+51:22
+TCP is this reliable avenue of sending data in the correct order between devices not losing any data,
+51:26
+repeating the information if they get lost in transit. And all of that UDP is shoving the information on the network and hoping they arrive.
+51:31
+Maybe they do. Maybe they don't. The difference here is that there is no connection.
+51:38
+They expand all of these. The UDP does not have a connection between devices.
+51:43
+They just actually send the packet through and hope it arrives and hope the other machine receives it.
+51:47
+Well um, and it's much, much faster than TCP.
+51:52
+So TCP is used in cases where reliability is important, getting the data across and making sure it arrives in the correct format.
+51:57
+UDP, on the other hand, is when you need the data to get there fast, even if not all of it arrives.
+52:05
+An example of where UDP is useful is for phone calls.
+52:11
+So if you're using WhatsApp to call someone, your voice is being broken down into UDP packets somehow,
+52:14
+and then these get thrown on the network with the aim of reaching the other phone somehow very quickly.
+52:20
+If some of these packets get dropped, parts of what you said will not be audible,
+52:26
+but ultimately the other side is still going to have enough to make out what you're saying, hopefully.
+52:31
+And that's why you get this kind of like ghosted effect sometimes on the call when you're
+52:35
+going out of the range of Wi-Fi because some of the packets are actually being lost.
+52:39
+Okay. So in the labs today, we're going to play with both TCP and UDP.
+52:45
+And in the next lecture we're also going to do a demonstration of these two things. And maybe we'll also make a server client example as well.
+52:49
+I'm going to leave you with that. And I'm going to give you a ten minute break and apologise to Randall for running over already on the first lecture,
+52:57
+but let's come back in ten minutes. Cool.
+53:04
+
+Recording is on. We'll see. For how long? Greetings. Would you believe it?
+0:01 
+0:01 3:00 4:06 6:00 8:28 9:00 12:00 15:00 16:48 18:00 21:00 21:11 24:00 25:05 27:00 29:05 30:00 33:00 36:00 37:55 39:00 42:00 42:01 45:00 46:03 48:00 50:22 51:00

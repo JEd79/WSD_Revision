@@ -1,0 +1,1279 @@
+	
+Powered by Panopto
+
+Lectures
+chevron_right
+Week 3 - Lecture 2
+volume_up
+
+Search this recording
+search
+Details
+AI Summary
+Contents
+Captions
+Discussion
+Notes
+Bookmarks
+Hide
+Auto-generated captions may contain errors.
+Let's make a start. Good evening everyone. Evening. Close enough.
+0:00
+Right. So we continue back where we left.
+0:04
+Obviously, this is going to be part of what we do now, so might as well start with a meme and all the slides right away.
+0:07
+Um, we stopped a bit earlier than I was expecting in the previous lecture, but that's not a problem,
+0:12
+because this lecture has a lot of demos where all of what is on the slides will also be shown, so that's good.
+0:17
+So where we stopped before was that's not going well.
+0:23
+Where we were talking about the different methods or different verbs we could use for HTTP requests.
+0:28
+So you can make a Get request to a server to request that it sends you a resource.
+0:33
+You can make a Post request to request that it changes it or creates a record.
+0:40
+I say changes, which is that. But we'll come back to that.
+0:46
+Um, you can also request that the resources deleted from the web server and so on and so forth.
+0:49
+These are just some of the things you can do. We will see them in action momentarily.
+0:54
+Now this is a bit of a lie. This is supposed to be. It's supposed to be used to update stuff.
+0:58
+But as you'll find out in this module and in web servers and in web web applications in third year, everyone just uses post anyway.
+1:02
+But we don't care about that. We learn it properly. Okay.
+1:11
+Now every HTTP request that is successful in being reached in reaching the server will come back with some response.
+1:16
+And that response typically contains a three digit code, the so-called response code.
+1:23
+And there's very, very many different ones of these that we don't expect to remember off the top of our heads.
+1:28
+If you get a gain experience with this, you just naturally memorise them, but you don't have to.
+1:33
+Um, generally these codes start with a digit, and that digit is, uh, kind of like categorise them into what they're supposed to mean.
+1:38
+So any code that starts with one like 100 is information based.
+1:46
+Very rarely see those nowadays. Uh, two is success.
+1:51
+So if you remember, when you make when you try to make a request to a server and you just want to hear back 200 from the server,
+1:55
+which means success in your request. There's other kinds of success which are encoded in different codes, but 200 is the one you see the most.
+2:03
+Three is anything to do with the redirection. The resource you asked me to give you is not here, it's somewhere else.
+2:12
+Go get it from somewhere else. That's a redirection for is a client thought.
+2:17
+In the words of my former colleague. You [INAUDIBLE] up. Um, yes.
+2:23
+That he. He littered this module with, uh, profanity, but I'm trying not to read it.
+2:27
+Um, but it's a very accurate description. Anything you do wrong issues. Returns a 400 code.
+2:32
+Can anyone think of one very common. There we go.
+2:37
+The nursery rhyme for programmers. Yes. 404 not found.
+2:41
+That's a code you get when the resource you're trying to access actually doesn't exist anymore.
+2:45
+May have existed in the past and 500 or anything starting with a five,
+2:50
+which describes cases where the server has done something wrong and it's telling you that something went catastrophically wrong on its side,
+2:54
+it's not your fault. Okay? These are very useful to give you information, especially about the interaction you just had with the server.
+3:01
+We will be taking these into account as we go on and in your work base portfolio.
+3:10
+You need to design your web service so that it issues an appropriate code depending on what is happening.
+3:15
+200 if it is successful for a four. If there's nothing there, and so on and so forth.
+3:21
+Okay, now there's another thing that goes with requests.
+3:27
+Whenever we make HTTP requests, there's also a set of what is called headers.
+3:31
+Travelling with the request I'm going to expand. These headers are key value pairs.
+3:36
+So you have the name of the header colon, the value that is associated with it flying together with your request to the web server.
+3:42
+So when you send a request to the server, you will at minimum have a host key by the pair, which is the host header,
+3:50
+and the host is going to have the value of whatever domain you're accessing at the moment.
+4:00
+So where did you find this web server on? I found this web server and forms in the UK.
+4:04
+There's very, very many of them which are standardised. And you can also add your own in ways.
+4:10
+But most requests you're going to see come with headers like except where you list
+4:16
+all the different formats of response that you as a client accept from the server.
+4:21
+And finally, enough. If you say you accept a response coming to you in the form of application JSON, which is a Mime type,
+4:25
+then you can expect safely that the server might choose to respond to you in that
+4:33
+if you take it out of your list and you do not say I accept application JSON,
+4:37
+you believe application XML, you might get the same response in XML from the server.
+4:41
+So this dictates what languages your client can speak with the server.
+4:46
+You just list them all and the server decides which one is going to talk to you in response with other things like date go with requests as well,
+4:50
+and many others exist which are optional. There's so many of them, there's no point listing them all.
+4:59
+Now, these headers have the purpose of offering information about the request you are just making.
+5:05
+And this information could be metadata, or it could be actual data that is forming part of the request.
+5:11
+Can anyone think of a very common header? Google.
+5:17
+Google is a domain, not a header. So think of something like this for host colon something except colon something.
+5:23
+List. These are the hangers. Give me a name of a header. Huh?
+5:30
+What was that? Oh, nope. Not quite a standardised one.
+5:37
+Could perhaps exist. I've seen 40.
+5:41
+I don't remember if that's a standardised header. Is it? Response? Nope.
+5:45
+Has anyone done any web crawling in the past? Try to grab things programmatically from the internet.
+5:51
+No. Okay. You're good. Um, user agent is one of them.
+5:59
+I'm accessing this with a browser that is Firefox. I'm accessing this with the browser that is Chrome.
+6:04
+The user agent describes this information. Now, before we move further, let's actually, while we're in the meme, might as well see a standard request.
+6:09
+Anyone familiar with the developer tools? Yeah, yeah yeah, a few of you.
+6:18
+So developer tools show you the current page. You can interact with the page in various ways, and that's not the point.
+6:24
+What we're going to see here is the network traffic. So when you open your developer tools on your browser, whatever your browser of choice is,
+6:30
+you can view what interactions you had with the web, various web servers in loading this content.
+6:38
+So to load this content, when I first loaded the page, I made all of these requests to various servers across the planet to fulfil that request.
+6:44
+Now, if I click on one of these, I get shown the headers in my original request.
+6:54
+Where is it? This is what I send to the server.
+7:00
+Ignore some of these, but you see, like the ones we mentioned earlier here.
+7:05
+So you have accept and my browser can accept all of these formats in response.
+7:08
+So it lets them all accept encoding.
+7:12
+The way the data is encoded may be both in a zip format, and there are many, many, many more cookies also fly in this format.
+7:15
+And then all of these are batched together in my initial request to read it to load this page.
+7:24
+Yeah. So you gotta accept that says like JSON. Yeah.
+7:30
+Is that what flash needs to do? You know, there is a mime type for flash, but that's now obsolete.
+7:35
+I don't remember what the mind type was though. Right. Okay.
+7:43
+So that would have been there where There would definitely be one to load the flash software, so to speak.
+7:46
+But yeah. Um, so yeah, this is headers that were part of this request.
+7:51
+There's more this you don't have to send all of these, but the browser is configured in a way to send all of these in case the web server needs them.
+7:55
+And of course the server took this information in, took my initial request, which was a get to this URL,
+8:02
+and then produced a response for me, which is actually the HTML code for the page that we're looking at at the moment.
+8:09
+Now, as soon as my browser, I said HTML code and I'm scrolling through CSS.
+8:15
+But then you didn't hear this. My call. This is long. Anyway, you get the point.
+8:19
+So this is an example of an interaction between my browser, the client, and the server,
+8:24
+and the responses it gave and the headers that were part of my request down here, and the headers that were subsequently part of the response.
+8:29
+Because this the server responding to me can also set header headers.
+8:37
+We're not going to go into detail on what all of these are, but there is some information here like the content type.
+8:42
+The server decided to send me content type of the form text HTML,
+8:48
+because what it replied with is HTML from the list of languages that my browser can speak.
+8:52
+So this is an example of headers. They go with every HTTP request and that's what you need to remember.
+8:59
+Okay, so back in the day, let's take a trip back in memory lane that I hope no one remembers actually.
+9:07
+But the internet has come a long way, which is what we're piggybacking off when we're making web services.
+9:13
+In the olden days, you used to have machines physically connected to one another,
+9:19
+things like sending email in the very early incarnations of that required you to listing
+9:23
+which we've seen machines the email is going to go through and how we're going to forward it,
+9:29
+to which other machines that they're connected to. It was a mess.
+9:33
+The internet as we know it today comprises of systems which are all connected together in some fashion, and we do not need to worry about any of that.
+9:37
+What we need to worry about is how we exchange information so we know how we exchange information.
+9:45
+We mentioned it in the previous lecture. It's via HTML.
+9:51
+The question then becomes, how do we use this convoluted network of devices that we have to exchange services.
+9:54
+Information is static. Stuff services is active. So that's what we're going to be looking at now.
+10:02
+So in the last second part of this lecture we're going to be talking about web services.
+10:10
+And this is where we start getting into the meaty stuff. In this module we're going to talk about soap and rest.
+10:14
+These two terms are going to make sense. They don't mean what you think they mean.
+10:21
+But we're going to see them in a moment. First of all, web services, what on earth is a web service?
+10:25
+Anyone heard of API before? Quite a few.
+10:31
+Good. So API, your application programming interface is a category of things that can be used to achieve a purpose.
+10:37
+It's a very generic. It's something that we use in programming to execute functions.
+10:45
+Who knows? Um, yes. A web service is a type of an API.
+10:49
+Now, these two terms are kind of merged in recent times.
+10:55
+So whenever someone says I have made an API, they usually mean I've made a web service.
+10:58
+But an API doesn't have to be a web service. It could be other forms.
+11:02
+Some people would argue that making a Java library, which you distribute to people via maven, is also an API.
+11:07
+There's a lot to be said about that, but basically a web service is an instance of an API is an API.
+11:13
+When we're talking about web services, there are some properties that we would like to have in designing these web services.
+11:20
+And these can be boiled down roughly to three categories, which I'm going to expand wholly.
+11:26
+Right.
+11:32
+So we're trying to keep open infrastructure when we're designing web services, which means that we want the services to be interacting between them.
+11:33
+We want to foster this. We want to make it easier to do that.
+11:41
+We're using some way of communication. And there is industry standard way of communication, two of which we already mentioned, HTML, um http sorry.
+11:45
+Then we have the way we represent the data. XML travelling over HTTP and other methods and so on.
+11:55
+We want to be using what is already there and not creating bespoke things,
+12:01
+because then you can have everyone speaking sort of the same language and make it easier for them to connect,
+12:04
+and likewise to transport the data between our services. We want this to be happening over pre-existing infrastructure.
+12:10
+Again, don't go bespoke on these things. Use what is already there because once everyone agrees to use what is already there,
+12:18
+we eliminate the problem of everyone speaking their own languages and their own ways and not communicating with one another.
+12:24
+Now, when it comes to designing and making web services, we want to be language transparent,
+12:31
+which means it shouldn't matter what language your web service is designing,
+12:35
+it should be fully capable of communicating with other web services and other clients in other languages.
+12:39
+Likewise, this can be extended to software. It shouldn't matter what operating system you're using.
+12:45
+You should still be capable of communicating with anything else in any other land.
+12:50
+And then finally, and this is usually can can be misinterpreted quite badly.
+12:55
+You want to have modular designs. You want to make web services that are modular can be easy to extend.
+13:00
+We'll talk about that in a moment but also can be split into individual are rather split
+13:07
+into individual components which can be isolated and interacted and replaced in isolation.
+13:12
+Now this is where microservices start to come in.
+13:18
+Can you talk about the theory of that in a little bit as well.
+13:22
+But yeah okay. So in terms of the landscape of for web services from the past to today, um,
+13:26
+HTTP and URLs do allow our clients to communicate and exchange HTML pages.
+13:34
+This is how the internet started and using this technology,
+13:39
+it was not possible to call specific functions like what we saw with RMI using this HTTP exchange or HTML pages.
+13:44
+Now for that reason, we decided we needed a new format to represent the data and something called the Extensible Mark-up language,
+13:54
+which abbreviated to XML, was formulated. Um, let's skip that.
+14:01
+Yeah. And then once we have this formulation of a way to exchange data,
+14:09
+then we could make use of it in things like web services and web services is things that are providing information to clients generic enough.
+14:13
+But if you think about it, there is a web service behind most of the things we do nowadays.
+14:22
+If you open your phone and look at your phone's weather app, there's bound to be a web service that provides the weather details to your phone.
+14:27
+It would be very foolish of the designers of this weather app to put all of the code that determines the information in your phone.
+14:36
+So what they do is they make a front in your phone, which goes and fetches the information from somewhere far away from you.
+14:43
+This would be an example of where a web service is integrated with your client.
+14:51
+And in those situations, what you're developing in the software architecture is a client that is has a very specific purpose
+14:55
+and is using pre-existing technologies to talk to a web service that helps it to fulfil this purpose.
+15:02
+Now, the simplest form of a web service has typically two participants.
+15:10
+There is the provider or the the server, and then some client, which is the consumer.
+15:15
+You might have heard me talk about providers and consumers before produce a consumer design, maybe even in the concurrency video.
+15:22
+Anyone know? Um, but yeah. So at a high level you have some someone producing information and someone consuming this information.
+15:29
+This is typically seen in the web service world, and you have the server being the producer and the client being the consumer.
+15:38
+Typically it doesn't always happen, okay. And in the world of web services, which we started hinting at in the previous lecture,
+15:45
+you want to be having some other things in taking into consideration.
+15:53
+You need to have some sort of standardised way of passing messages.
+15:57
+We've already established that things like XML, but as part of that you should also be capable of handling errors.
+16:00
+Your services should be fault tolerant. So other than designing ways of sending data back and forth,
+16:05
+you should take into consideration what happens when things go wrong and how the
+16:11
+way you represent this data can be used to communicate things having gone wrong.
+16:15
+Another thing to consider is the intermediaries, which we're not going to talk about.
+16:20
+Now this is something we're going to see in the future as well.
+16:24
+But it turns out there is intermediate services that take the responses from your web service,
+16:27
+address it with some additional metadata before it reaches the intended target.
+16:33
+We'll take that into consideration when we're designing the web services down the line.
+16:38
+Okay. We want to have a way of defining what information we're exposing through a web service.
+16:43
+So the web interface here. Don't confuse it with Java interfaces.
+16:49
+It's a similar principle but not identical. So we are defining an interface by producing a web service.
+16:53
+We're saying that what this web service can do, and we need to have a standardised way to expose what our web service can do to the world,
+16:59
+in a similar fashion to how Java interfaces expose what can be done by anyone who implements them.
+17:06
+And then finally, it should be sensibly easy to locate our services.
+17:14
+And this is why there is such a thing as web service registers,
+17:17
+which follow the similar principle to RMI registers, which tell you where to go to reach a web service.
+17:22
+Okay, So behind web service design, the service Orientation, Architecture Oriented Orientated architecture,
+17:29
+or Sowa is what governs how we should be designing web services.
+17:37
+It's quite high level, but we will see it applied over the next weeks, so it will just match up what you see here.
+17:41
+So designing systems and that could be any software system that follows this
+17:48
+architecture that are comprised of independent services is part of this architecture.
+17:55
+Now anyone heard of the term which I mentioned before microarchitecture, microservices.
+18:01
+A couple of people. Yeah. So this is falling into this category.
+18:08
+It's systems that are designed on the principle of the service oriented architecture,
+18:12
+where you have individual components of the system formulating individual services.
+18:16
+And all together, when you put these and link them together, you create a software product.
+18:21
+Okay.
+18:28
+In this architecture, we do what we said before, what every web service should be following, which is using standardised protocols to communicate.
+18:29
+We should have some sort of way of publishing the interfaces that are provided.
+18:36
+Um, we can have it distributed over networks, we make services extensible and so on and so forth.
+18:42
+Now, what we're going to be doing from now on is going to try to follow all of these principles in any applications we design,
+18:49
+especially if you're doing it for your work based portfolio. Take this into consideration when you're talking about it.
+18:55
+Okay. And then to look at it, let's expand these to look at a slightly more complicated variant of the web services we mentioned before.
+19:02
+And something that is rather typical is this. So we have web services that are existing in the world.
+19:10
+And think about it doesn't have to be an individual developer that makes all of them there exist or pre-existing services that I as a developer,
+19:16
+can use as part of my tools.
+19:24
+So if I want to make a second app that reads weather data, I can go and piggyback off the Met Offices web service, which they use for their apps.
+19:26
+And I can do things like the different based on the data this web service provides me with.
+19:34
+So you can have different clients made by different people piggybacking off the same services.
+19:38
+This is great because the the modular design that we're employing means you don't have to be reinventing the wheel every time you make software.
+19:44
+At the same time, though, this poses the question, how does someone who is designing a, let's say,
+19:53
+an app or whatever to be the consumer, locate the web service providers, the ones who can provide the information?
+19:59
+So this is where the more sophisticated side of things comes, which is where you have registers, registries.
+20:06
+A registry is a system that knows of which web service providers exist and what they can do and the interfaces they expose.
+20:13
+And then the clients can go to that and request specific information about the service that they get.
+20:22
+Put in contact with these incubators. Kind of like a glorified phone book.
+20:27
+I am looking for a service that can do the following.
+20:31
+Insert description here, and then the registry is the one to tell you which web service meets that contract.
+20:33
+The idea here is that you can have multiple instances of the same web service offering the same actions or information,
+20:40
+and then the registry is responsible for sending you to the one most appropriately request, or even balancing the workload between them.
+20:46
+Okay enough theory. I'm surprised so many of you are still awake.
+20:54
+We're not going to get into web services and the different technologies that have been used on those.
+20:58
+Anyone heard of soap? Ah, I'm so sorry.
+21:04
+So in the early days, there was such a thing called soap, which meant simple object access protocol.
+21:09
+It then manifested to meaning service oriented architecture protocol.
+21:17
+And nowadays it just means soap. It's a pretty old way of doing things.
+21:21
+So if you have the misfortune of interacting with Soap APIs, I'm very sorry, but we're going to learn it anyway.
+21:25
+So there was an early attempt to meet what this magical Soap specification is by Microsoft in the mid 1990s,
+21:33
+and the idea of Soap is that it is designed to explain to to describe how you
+21:44
+make web services so that they meet the requirements we mentioned before.
+21:49
+So in Soap. The way you communicate data was via XML.
+21:52
+You heard me mention XML before. We'll see it in a bit. Now this is how the information was packaged and presented using XML.
+21:57
+The transport of this information was happening over HTTP, so the same as what we'll see in a moment.
+22:05
+The messages were being passed through and then should be using this Soap architecture.
+22:12
+You can pass information about how the data is to be interpreted as well.
+22:19
+Okay, now there were some good things that came out of Soap, which is that XML, the extensible Mark-up language became very well established,
+22:25
+meaning that there were tools were created that could pass XML very effectively or could also be generating XML as effectively.
+22:32
+And XML becoming an established format also meant that we typically appear to be legitimate traffic.
+22:42
+So it wasn't running the same issues as what we had before with RMI, where it was becoming blocked by firewalls for reasons.
+22:48
+Now, part of the contribution to it becoming legitimate traffic was being treated as
+22:55
+legitimate traffic was the fact that in XML you can't do remote code invocation,
+23:00
+you just encoding data in a format that can be understood by everyone who participates in the communication.
+23:05
+But there's no active code that you could execute. XML is also platform independent, and languages like Java, believe it or not,
+23:10
+have pre-built ways of parsing XML and in code without external libraries.
+23:18
+So that was all good and stuff and stuff that came from soap.
+23:24
+Is it fair to say that the XML file is just a set of parameters?
+23:28
+Yes, there is some hierarchy there as well, but in essence, yes.
+23:34
+Now in the world of soap, in the communication,
+23:40
+there is what we call the soap envelope that things need to be packaged into and structured into to have a soap API.
+23:44
+So in the envelope is where you put the information such as the header and body.
+23:51
+And then in the header and body you can provide optional information about the
+23:56
+exchange and then the data that you're trying to exchange with the web service.
+24:00
+Now you can also have defaults encoded in it. Remember what we said before about fault tolerance.
+24:04
+And taking into account the fact that there can be a fault on the web service that needs to be communicated to the client?
+24:10
+Well, soap of course, has facilities to do that, and it is not required that there will always be a fault.
+24:15
+This is why this is marked as optional, but in any exchange it is required that there will be a body of information, whatever that is.
+24:20
+So as long as the web service meets this sort of structure, then we call it a Soap web service.
+24:27
+Of course, all of this is great on paper, but it's not very visual. So let's actually switch to see something visual.
+24:33
+I'm going to get rid of this. Now, believe it or not, it's quite hard to find Soap web services nowadays, mainly because it's become obsolete.
+24:39
+So not many people have them running. But there is still some lunatics in the planet that do offer them.
+24:47
+So an example of this is the Data Flex web service grouping,
+24:52
+where they provide various services you could use and piggyback off for your applications.
+24:58
+And these are so based. So this page gives you a few services like these are country based.
+25:03
+So if I give you an ISO country code tell me the name this sort of web service.
+25:09
+So let's go to that for instance. And you see that they have designed a page that looks like it was made in the 80s,
+25:16
+but also allows me to test things before I start to integrate it via Soap into my applications or whatever.
+25:22
+So in this instance, if I enter an ISO code GR for Greece and I press enter, I get given a response which is in XML.
+25:29
+That's XML in a nutshell. There is some stuff missing here which says the response is a string and the answer is Greece.
+25:41
+So for the code GR, the name of the country is Greece.
+25:48
+This is an example of a simple web service. Now of course when you're designing software you can't make your software go to this page,
+25:53
+type things in the box, hit the button and then read the response. That would be impractical.
+26:00
+So what you do instead is you issue Soap requests.
+26:05
+And if you see here conveniently this page is showing me an interaction of between a client,
+26:09
+hypothetical client and this web service and how this manifests using Soap.
+26:16
+So on this box here, you see what a request to this web service would look like.
+26:21
+And here you see what a response would look like. There's a lot of breakdown.
+26:27
+But in a nutshell at the top you see the familiar by now HTTP headers.
+26:32
+So you see the the request type or the method that is being used which is post.
+26:38
+In this case all of soap is in post.
+26:43
+And then you see the host to which this is being issued, the content type that we are requesting that we are sending to the web server,
+26:45
+which is text XML, the content length which varies, and then what follows is the body of the request.
+26:53
+Now in the body of the request we have this very ugly looking thing,
+27:00
+which is what I mentioned before as the XML envelope that is being sent as the Soap envelope that is being sent in XML.
+27:04
+So we're not going to break this down. If you feel masochistic enough to learn more about XML, then I'm going to put a resource on canvas.
+27:12
+I don't expect you to be able to look at XML and analyse it, but from a quick glance I can sort of make out some things on here.
+27:19
+So anyone issuing a request? Oh, that was unfortunate. Um, yeah.
+27:28
+So anyone issuing a request creates the soap envelope, which has a body in it.
+27:32
+It could also have a header, but we don't have that here.
+27:38
+And then in there is where I put the specific information addressed to this web service that I'm accessing.
+27:40
+Namely I'm accessing the country name web service. And inside it I need provided with one or more parameters to fill my request.
+27:47
+In this case, the parameter country's country ISO code should have some sort of string payload here,
+27:54
+and that is the country code that I want to send to the web service for it to tell me the name of the country.
+28:01
+Now, once I send this and supposing that this is a successful request.
+28:09
+What I should expect to get back from the server is the following.
+28:13
+I should expect to get a response that receives the code 200, which means success or okay.
+28:17
+And then it's going to have some headers, such as the content type that the server is sending to me,
+28:23
+which according to them is going to be in text slash XML natural and the content length, how many bytes it's sending back to me.
+28:28
+Now the headers that the server send back should be followed by another Soap envelope,
+28:36
+which contains a body which contains the country name response, which in turn contains the result as a string.
+28:42
+And this is where the answer to my question is going to be arriving in.
+28:49
+So, armed with this information, I as a programmer can make use of it and implement it in my programs.
+28:55
+I can make requests to this. And as I said, there's a few services.
+29:01
+For example, a slightly more intriguing one is this one that takes a number and gives you its representation in words.
+29:06
+So if I type in some number and I press enter, it turns that number in words you can't read.
+29:12
+It turns that number into words. 65,000,000,304 blah blah blah.
+29:20
+Okay, so for the sake of argument, let's say that I'm doing something like building a banking app,
+29:26
+and I want to convert the amount the user has typed into the app into something that can be printed onto a check.
+29:32
+In checks, you don't write the number, you write the text. So for me to be able to do that, I need a way of converting the number into text.
+29:38
+And luckily there is a web service that does this.
+29:47
+So let's now see how I can programmatically share requests to this web service to to do that, for that,
+29:50
+and for your labs and for the rest of this module, we're going to be using a new tool which is called postman.
+29:57
+Anyone heard of postman? Yeah. Oh, impressive.
+30:03
+Good. So postman is kind of the fantastic tool that you can use to issue requests to anything web service, anything web related, in fact.
+30:07
+So the idea is that it's built to help you develop, test and learn about web services.
+30:18
+And that's what we're going to be using. And the interface you're going to be met with once you open it.
+30:23
+Look something like this. Now let's see how we interact with this API.
+30:27
+Again, I'm going to go off of the example that I see here. So it says that I should send a Post request to this endpoint here.
+30:33
+So that's exactly what I'm going to do on my postman screen. I'm going to configure this to send a Post request to an endpoint.
+30:44
+And because I can't just simply state the endpoint, I also need to say which machine this endpoint is running on.
+30:53
+I'm going to look for the host. The host is this. So I'm issuing this request to this host followed by this endpoint.
+30:58
+And then it says something about headers. We'll come back to those in a second.
+31:08
+And then it wants me to use this format in my request body when I'm sending it.
+31:12
+Now you can configure a lot of things about the requests you're issuing, and the body is one of them.
+31:17
+So if you click here, it should let you type in a body for your request.
+31:22
+At the beginning it configured to none. But you want to click this and configure this to let's say raw for now.
+31:27
+And then you can choose how it visually displays this as.
+31:33
+So you could say I want to display this plain text. Or you could say I want it visualised as XML doesn't really matter to the request.
+31:37
+This is only for your eyes. So paste the code that I obtained from that here and you will see I now have
+31:44
+it visualised as XML versus having it visualise this text which look ugly.
+31:51
+Uh, okay, so now I'm nearly done with me.
+31:55
+My requests that I'm trying to send to the server. The only thing I need to populate is the number.
+32:00
+Give me a number or just start shouting. Digits seven, eight, four, five.
+32:06
+Close enough. Right? So now I have packaged the number that I'm trying to convert the text into the envelope and all of that funky syntax.
+32:13
+I have told postman to send a Post request to this place, which is the web service I'm trying to communicate with.
+32:22
+I'm going to hit send and hope for the best. Interesting.
+32:28
+That doesn't look like the response I was expecting this game back with HTML.
+32:33
+Is that normal? Yeah, HTML.
+32:37
+What did we say? A response of a Soap and API should be XML, so I was expecting XML, but for some reason this has responded to me in HTML.
+32:44
+Let's see what I've done wrong. Ah, I didn't look at my headers.
+32:56
+Let's go back here and see if changing the headers is going to affect this.
+33:00
+Now notice that conveniently, the the postman interface is going to add headers for you.
+33:05
+And this is not necessarily bad, but it's also not necessarily good.
+33:11
+So here you will see I have unpicked some of these headers. In fact, if I put user agent back and I try to send this request again I get an error.
+33:16
+For whatever reason, the masterminds behind this web service have decided that if you specify your user agent to be a postman,
+33:25
+it's not a person not to you. How nice. So there is some configurations you need to play with when you're sending requests like this.
+33:32
+So untick the user agent. Don't send this header to the server.
+33:39
+Likewise, you can leave the others like I do. Accept any any piece of information you send me.
+33:43
+I accept any encoding and we don't care about connection. Now the content type header is one I have modified because if we get rid of that,
+33:48
+the postman interface chooses the content type to be application XML.
+33:59
+Yet if you send this, you are getting back some very funky stuff.
+34:04
+Still somehow thinks this is a get.
+34:08
+What? This is unusual. Please hold.
+34:12
+Now, this is very peculiar. This shouldn't be happening. By the way. It should be responding in soap.
+34:19
+I don't know why it's responding in HTML. It wasn't doing this earlier, but anyway.
+34:23
+So the bottom line here is when you're doing it yourselves, I do not. I do want you to undertake user agent.
+34:27
+Yeah. Because you've got HTML um, in the dropdown. Yeah.
+34:33
+Under the body. Where is it. On the left hand side of the numbers. Oh, here.
+34:37
+That's the visualisation of what you get. I mean you can visualise the same information as XML.
+34:44
+It is just the visual representation of it. It doesn't change what actually comes back.
+34:48
+So what should be coming back is this.
+34:53
+That's what we should be seeing back. But for some reason the web server is responding with HTML and CSS.
+35:00
+So essentially a web page that tells me this is the number conversion web service, like what I saw before.
+35:06
+Highly unusual, but we're going to glance over that for now.
+35:12
+Okay. Now if I was to leave content type here, sometimes it misinterprets the the mind type on the server and gives you the wrong result back.
+35:18
+In fact, this usually causes a 500 error. So instead of application XML, I recommend you set it to text XML.
+35:27
+Slightly different Mime type when you're issuing these requests. So you can't change the ones.
+35:34
+Then you've got to create a new one. Yeah. So of the predefined ones I can't I can't edit them, but I can untick them so they don't get sent.
+35:39
+And I can recreate them by saying the content type is actually text XML.
+35:47
+So it's only talks about the user agent model. It says it doesn't.
+35:54
+It will work with us on time. Is that because they haven't specified.
+35:57
+There's no money time? Or is it except an intelligence?
+36:03
+No. So they should be accepting user agent.
+36:07
+User agent is a standard HTTP header, but I think the web server probably got too many of these requests and was like this is spam.
+36:09
+So I'm going to block this user agent altogether, which is why if you leave it out all of a sudden, you can bypass that check.
+36:16
+Um, I'm still very surprised this is not responding to us in soap.
+36:22
+Please hold. Very brief. Debugging will ensue now. Um, oops.
+36:29
+There is another conversion, so I'm going to try something. Please hold in case.
+36:37
+No. Okay. I'll have to figure out why that is. It was working earlier I promise because that's the example I have chosen to demonstrate today.
+36:48
+But today it feels a bit different. For whatever reason. Um, yeah.
+36:55
+Very, very strange. Okay, we're not going to dawn on this too much, but essentially,
+37:02
+you should emphasise one should be able to issue post requests to that follow the schema you have here onto these services and test them for yourself.
+37:07
+The same idea can happen with this service. I should have probably gone off that one because at least I know this one works.
+37:17
+But anyway. So this is as far as playing with postman goes.
+37:22
+Now, postman is another tool that's like an ID, so there's a lot of complexity to unpack.
+37:28
+The only way to do that is by playing with it. The same way you learn your IDs by doing do the same with postman.
+37:33
+There's going to be a task in your labs to get you started with postman. And then when you're doing your work based, another course works.
+37:39
+It's a great opportunity. It's a great way to demonstrate to me how your web service works in the screenshots, for instance,
+37:44
+by issuing requests, using postman to your web service and demonstrating the outputs.
+37:51
+Okay. So in essence, if you have a service in Soap, you produce an HTTP request to it.
+37:56
+You have some headers set up into it. These usually well you specify that one.
+38:04
+This is calculated by the tools you use.
+38:09
+And typically you don't have to specify it manually like postman will automatically calculate this and add it.
+38:11
+Just leave it on there. And then the response that you get or the the body of the message that you send has to be a well-formed Soap message.
+38:16
+And Soap message is wrapped into an envelope which has headers, body and so on and so forth.
+38:25
+Now upon sending that request, a compliant server which is running a Soap web service should respond to you by issuing
+38:30
+an HTTP response just like it would in any other web server which has a successful code.
+38:39
+If your request wasn't been successful, and then in there, it should tell you what type of data it respond to you with.
+38:45
+Should almost always be text XML in Soap and then the length of that request, and then in the request in the in the response.
+38:51
+You should also have another SQL soap message which has an envelope, body, and so on and so forth.
+38:59
+And deep within it is the result of the request. Now this is all great for its time, so it was great.
+39:06
+However, this is diabolical. First of all, how many of you like XML based on what you've seen in this lecture?
+39:13
+Of course. I see. I don't blame you.
+39:22
+I hate it with passion. XML is such a verbose representation.
+39:26
+I mean, if you look at this, what did the server tell me back? It communicated one, two, three, four pieces of information.
+39:31
+And to communicate these four pieces of information it sent me this.
+39:37
+Now the moment you try to communicate more complex information like a list, God forbid you want to send the list in XML,
+39:42
+you get a massive, massive response which contains very little actual substance.
+39:48
+So XML messages are very verbose. And if you're doing troubleshooting into a web service that speaks XML, it's very difficult to look at.
+39:53
+So for a human parsing what you see is very hard. Now of course, the robustness of these messages make it hard to process for computers as well,
+40:00
+because having a lot of text means you need to put a lot of text in memory and build a
+40:09
+complicated parser that needs to convert it into a memory structure that your code understands.
+40:14
+Um, and operations, data types and all of that are involved in XML,
+40:20
+and they should be some sort of contract between the client and the server, which is a formal contract in Soap, actually.
+40:25
+And in fact, if we don't really have the time, but might as well try, you can request to see the contract or part of it by asking for a whistle file.
+40:33
+And the whistle file is what tells programmatically a program,
+40:47
+what web services are available in this server, and what they can do for you in an XML format.
+40:51
+Have fun reading that and figuring out what you can do and how.
+40:58
+I wish you all the luck in the world.
+41:02
+Yeah, so this is why part of the reason why soap is now obsolete and why we're not going to be using it as much or at all.
+41:04
+Instead, in comes rest. You can't rest with rest.
+41:13
+But anyway. Really bad. I'm so sorry. Um, right.
+41:17
+So Rest stands for Representational State Transfer, or at least did at one point.
+41:20
+Nowadays we just know it as rest and describes basically the same thing.
+41:26
+How do I make a web service that can speak to clients? So in Rest things are different.
+41:30
+So we're still using HTTP URIs and so on like we did with Soap.
+41:36
+However, we're going to be primarily using JSON to communicate information,
+41:41
+which is a different format a different way of representing the data to XML.
+41:46
+So in Rest there's some design changes.
+41:51
+Instead of interacting with the service directly, what you're interacting with is a resource in a service, and we'll see what the resource is.
+41:55
+We're using URIs to identify the endpoints. We have HTTP, different HTTP methods that can be issued on different URIs or even the same URI.
+42:03
+And those describe different actions that I take with that resource.
+42:13
+And of course the same thing as what we had before.
+42:18
+HTTP codes, codes and headers will carry additional information both in exchange from the client to the server, but also back.
+42:21
+And of course, since Rest is mostly doesn't necessarily have to, but mostly using JSON,
+42:28
+in fact, the absolute majority of the Rest APIs are using JSON.
+42:34
+Then the benefit here is that JSON is a lot simpler to see, write, understand, and produce manually.
+42:38
+Again, a lot of talking, but it's better seeing visually. So we're going to get to that in a moment.
+42:46
+Now, last time when we're doing in the workplace, some of you seemed a bit confused about what a resource is.
+42:51
+And that's very normal. So a resource is, in this instance, something identified by a URI.
+42:56
+So if you look at this we have several resources encoded here.
+43:05
+In fact we have the first part which is a protocol. Then the authority that we said before and now after the authority come the resources.
+43:09
+Now if you look here, there is a resource called stuff and there is a sub resource called More Stuff.
+43:18
+And there is a sub sub resource called the Deeper Stuff. So my any request that I send to this URI is going to be referring to the deeper stuff.
+43:22
+So if I send a delete request to this URI, I am trying to tell the service go and delete this thing, right?
+43:33
+But I can build a hierarchy and I can identify resources differently. Okay.
+43:41
+Now in the encoding that we're using here in the URIs, it is not necessary movement.
+43:47
+It is not necessarily that we have just resources. It could be that part of the URL is describing the resource.
+43:54
+And what follows is parameters associated with that resource.
+44:00
+All of that is nice. But let's see an actual practical example which you can find on canvas of all places.
+44:05
+Not anything I've uploaded, but how canvas actually works. And the answer?
+44:12
+We're looking at the files which are behind the scenes in my module, and the answer is up here.
+44:16
+Now I can't zoom this in, apologies, but it is the URL for canvas which followed, which is followed by some information.
+44:21
+Namely, what I'm looking at right now is in canvas and the courses there is a course which has the ID 72855, which is this module.
+44:29
+And then within that course there is files. Within those files there is folders, and within the folders there is one called lectures.
+44:39
+Now in when I'm getting this resource from the server, it returns to me this information.
+44:46
+So when I'm asking the server get me the lectures folder which is in folders and files in this course.
+44:52
+Then it gets me the the information that lives within it, which is the lecture notes.
+44:59
+If I click to another folder, namely images, because there isn't really much that you see that the URL has now changed.
+45:04
+We're still in the same course. We're still talking about this course. There is files in that course.
+45:11
+There's folders in those files. And then there is images and a folder.
+45:16
+So when I'm getting this resource it gives me the information in the images.
+45:20
+So there's various ways you can structure information as resources in rest.
+45:26
+And that is a lot more intuitive than what we had with soap.
+45:31
+It's very easy to tell what you're doing here. Okay.
+45:36
+So the principal is going to be the same. You're going to be issuing some sort of request.
+45:41
+And now it's not going to be just post request like in soap.
+45:46
+It's going to be any sort of method. Could be get could be post could be anything.
+45:50
+You're going to be issuing it to some resource which is found in some authority.
+45:54
+It's a web server. And then you're going to be specifying what data you're sending as the body of that request.
+45:59
+Now typically in Rest APIs this is going to be JSON. And believe it or not, that's pretty much it.
+46:06
+There's no convoluted information that you have to necessarily send for all your requests.
+46:13
+For instance, since we're making a Get request, I don't have to specify a lot of body to it.
+46:17
+I'm getting information. Why should I specify a body with soap? You would have to have an envelope with all of that crack in it.
+46:23
+Okay. And the response from the server is quite literally the inverse of what you saw.
+46:31
+It responds with a code, the content type header, the content length which are kind of standard.
+46:36
+They count everything. And then in the response you get what we call JSON.
+46:40
+Now have you guys seen JSON before? Yeah. No. Excellent.
+46:44
+So JSON is the JavaScript object notation representation and it's actually quite tied into objects.
+46:49
+You can take an object in an object oriented language and map it onto JSON very easily.
+46:56
+If we do an example together in programming two by any chance. Because I vaguely have recollections of that.
+47:01
+No, I'm dreaming it. It's fine.
+47:07
+Okay, so now we're going to go back to postman, and we're going to look at the different API that someone else has made,
+47:10
+um, which has some nice endpoints that we can just use for testing purposes.
+47:17
+Now this isn't a meaningful API. As such, it doesn't do anything for me that I would build into my application, but it's good to show as an example.
+47:21
+Now, whoever made it has been kind enough to provide us with some information on what endpoints they provide.
+47:29
+So a lot of the time with Rest APIs, you can even have pages like this that tell you what you can do,
+47:36
+to which resources and endpoints, and what happens if you issue those requests.
+47:43
+For example, if you make a Get request to this page, what do you expect to happen and what do you expect to give?
+47:47
+Here is the description. It will give you a list of objects and stuff.
+47:56
+You can optionally specify parameters. This is the ID parameter which is optional.
+48:00
+And if you do specify it, you identify a specific object. If you don't specify it, it gives you all the objects as a base.
+48:05
+And here is an example of what you should expect to see if you issue a Get request to it.
+48:12
+A list of objects. Okay, let's try this.
+48:17
+And I'm very glad this is now in rest because rest is easy, he says, and it will go catastrophically wrong.
+48:22
+Okay, so let's switch back to postman and let's ignore that failed attempt.
+48:29
+Now I want to issue a Get request to this endpoint.
+48:34
+Right. If I send this, I haven't configured anything else.
+48:40
+I get what I was promised, I get JSON back and in this JSON I have a list of objects and each object in here seems to be identifying a fault.
+48:44
+Yeah, seems to be identifying form and then some data about this phone and every object has an ID,
+48:55
+so id one is the Google Pixel six Pro with this information.
+49:01
+Now if I go back to this Rest API documentation that I was reading, it told me that there is also another endpoint I can get from.
+49:06
+Namely if I get slash objects slash and then I put an ID here,
+49:14
+I should be able to identify a specific phone and get the information about that specific phone.
+49:19
+So let's try this out. I'm still making a get and I'm directing it at objects.
+49:24
+But I'm also going to provide a parameter at the end which is slash and then an id.
+49:30
+So we see these have IDs. Pick a number. Someone up to 1312.
+49:35
+Thank you. So if I put 12 here, it should go in fetch this specific phone or record for me.
+49:41
+Send that. And indeed it does. So rest is a lot more intuitive.
+49:50
+I want to get object from objects. Number 12.
+49:55
+Can I get number 12? A lot better than soap if you ask me.
+50:00
+Okay, now of course get is nice to retrieve information, but what about creating information?
+50:05
+Well, I can also create information. There is a support for post.
+50:11
+I can give stuff to the server to make something. Let's read this a bit so I can tell the server to create my own set of phone device.
+50:15
+Whatever you want to call it.
+50:25
+I can specify the information that I wanted to have, and the way to send it to the server is by making a post to the object's endpoint.
+50:27
+Notice that I'm using the same endpoint here as I'm using here.
+50:35
+What changes here is the method. Remember get asks the server to give you stuff.
+50:39
+Host. Ask the server to put stuff or update stuff.
+50:45
+So let's try to issue this request here and create our own record in there.
+50:50
+So it gives me an example of what information it expects me to include in my request.
+50:57
+So I'm actually going to copy that. Go back to my postman and I'm going to change my request to be a Post request.
+51:01
+Now that I've done that, I can go into the body of that and specify that I'm going to be sending raw body.
+51:09
+Don't worry about what this means yet. We're going to talk about it in a future lecture, and I want it to be visualised as JSON for my eyes.
+51:17
+Okay. What's the purpose? Very good observations.
+51:25
+Otherwise, I'll will probably get an error code. We can try that to see what we get.
+51:30
+So I've copied the example from their documentation and I'm just going to change the values.
+51:34
+What should I call my device. Think creative.
+51:39
+The duck duck phone. Okay.
+51:47
+It was made in 2026. It has a price of £18.99.
+51:52
+Um, it has no CPU and the hard disk size is, well, eight bits.
+52:00
+Okay. Right. So this is the body of my request.
+52:14
+Done. Let's send it to the server. Aha! Success!
+52:18
+So how do I know if this was successful? Then I need to know.
+52:23
+I got an ID number. But what else gives away that the request was successful 200 which is visualised here.
+52:27
+So the server in its response a 200. Congrats. The request was successful and it also sent me back.
+52:34
+It doesn't have to do this, but a lot of the time it happens. It sends me back information about what I've just done.
+52:40
+So it reflects back to me the information I submitted. And also it's now assigned an ID to the stuff I've created.
+52:46
+So I wonder what would happen if I copy this ID and I get information about it.
+52:54
+How do I get information about this specific object? In this, put the ID forward slash cloud.
+53:00
+So we specify a forward slash here in the ID right.
+53:07
+Yeah that's nice. So I have to go to get and I don't necessarily have to do this.
+53:11
+I can leave the body here because a Get request doesn't necessarily carry a body. Um so either either I leave it or I don't.
+53:17
+The server is going to ignore it, but let's take it away. Send that. Voila!
+53:23
+The duck phone has now been saved onto the server, and anybody else across the world who has to get information about this ID is
+53:28
+going to get the information about the duck phone usage rate just of the name.
+53:35
+Let's see. Can I, uh, I can put I can patch, which we're not going to talk about.
+53:41
+I don't think so because all of these are ID oriented.
+53:50
+But the web service could provide an endpoint which allows you to specify the name and find the object that was created.
+53:53
+So this should give you an idea as well of what your workspace portfolio could look like.
+54:02
+Now, obviously, I don't expect you to make a web based portfolio that serves, um, phones as a list.
+54:06
+Maybe that has business purpose, but not exactly like this. Please. But that should give you an idea of what the expectation is.
+54:12
+You have any points where you can get stuff on your end, points where you can get specific stuff, maybe searchable by name.
+54:17
+I have endpoints where I can put stuff into the server state.
+54:23
+I can delete stuff from that. Yeah. If you were to go to post and put say number 12 in and the phone, would it overwrite the current number tile.
+54:27
+So essentially number 12 and then like that.
+54:38
+Yeah. Let's see what the server says about that. Uh, if you can put it there aren't you.
+54:45
+Would you then move it down. So you can change that to put here.
+54:52
+So you put I can try position and it moves it down. All right. Let's see.
+54:56
+I mean all of this depends on how the service has implemented things. No.
+55:00
+12 is a reserved ID if the object cannot be overridden. So the server is telling me off and it says your method is not allowed.
+55:05
+So I tried to use put on an endpoint that does not allow me to do put, but you could put it here.
+55:12
+Object Pro is not locked down by the server.
+55:19
+The web server. In principle, I could. Oh, yeah.
+55:23
+Yeah. So we have a bot here. Let's read what bot says completely replaces the data of an existing defined by its ID with new information.
+55:28
+So yes, we can override what we have created and updated it.
+55:37
+So update it. So let's do that. So instead of 12 I should probably have my ID which is the duck phone.
+55:41
+And now the information that I want what do I want to call it. What was that quack phone.
+55:49
+I like that the quack phone pro okay.
+56:01
+And then maybe the year stays the same. The price has definitely gone up with that name.
+56:06
+Um, the CPU model is good, and then the hard disk size is 16 eight kilobytes terabytes.
+56:10
+Oh that's optimistic. What a phone that is, guys. Okay, now notice we know this record exists, but now I'm issuing a put request to it.
+56:20
+And indeed the server has gone and updated their existing record with information I provided.
+56:31
+And I should if I make a Get request to that same thing.
+56:37
+Now get the information of the clerk phone pro.
+56:41
+Does that make sense? Now of course, none of that is to be expected of the web service.
+56:46
+Everyone is going to design the web service different and they didn't have
+56:54
+to provide the facility for put maybe the creators of the web service would,
+56:59
+would say, if you want to update something, you have to issue delete,
+57:03
+delete the quick phone and then issuing your post to create a new one of these, recreate the record.
+57:07
+They don't have to specify what they do, which is nice.
+57:16
+They can also specify as many of these things as they want, and they can also have different resources.
+57:19
+So other than slash objects. Maybe there is another slash produce which gives you a list of fruits, for instance.
+57:23
+And then you can do similar things to fruits. So rest is nice.
+57:29
+Rest is everywhere. In fact, since we mentioned it, canvas what you see in front of you every time you load.
+57:35
+Canvas piggybacks off a rest API. And if I open my trusty developer tools again and I refresh the page,
+57:43
+I should be a bit careful now because I can expose my credentials and you can log in as me, so let's be careful with that.
+57:52
+Um, but in here, among the sea of information, let's not do that.
+57:59
+You will find some requests which are being served JSON responses.
+58:06
+Ignore that. Please continue to hold.
+58:10
+Aha. Right. So among the see of things my browser sent was a Get request to slash API slash v1 slash folders, ID slash folders,
+58:14
+slash page seven, and the response from the server was to list the information found into that folder.
+58:28
+So what you get visualised in your screen actually comes from RESTful queries
+58:35
+to the server that get translated into something that you can visually see.
+58:42
+In fact, Canvas Come Back has a very extensive documentation page where you can do literally anything,
+58:46
+anything you can do with buttons on canvas, you can do by issuing requests.
+58:55
+So let's say I want to post an announcement using the API.
+58:59
+Get tells me the announcements. Um, gives me a response.
+59:03
+Okay, maybe I can't post an announcement, but there is there should be documentation.
+59:09
+If I could, it would be here. So all of these modern platforms come with RESTful APIs that you can use to make program programmatic access.
+59:14
+Your canvas app exists because this RESTful API exists.
+59:24
+Okay, excellent. So we talked about Soap.
+59:30
+We said it's pretty proprietary type. It's superseded. Now we use XML.
+59:36
+XML is hateful. We don't like it. It's an old technology. Not many APIs use Rest are implemented in Soap anymore.
+59:40
+So we're not going to talk about it very much.
+59:47
+We also talked about rest, which doesn't leave you rest, but in a way it's another architectural style which is the current way, the state of the art.
+59:50
+Almost all the APIs you're going to encounter are a built in rest, and this is what's going to be the focus of our module moving forward.
+59:58
+Let's summarise all of what we did today. I think you kind of know what we did today in the labs.
+1:00:07
+You're going to be playing with Soap APIs, Rest APIs and making web services.
+1:00:12
+So there should be three distinct categories of tasks which are going to be based on these.
+1:00:16
+Postman is your best friend.
+1:00:22
+Even through these tasks, I want you to gain exposure to postman because it's going to be very useful for the rest of this module.
+1:00:23
+But please continue to use postman for interacting with random APIs you find on the internet, and get some practice under your belt.
+1:00:29
+Postman is a fantastically powerful tool, um, which now integrates AI.
+1:00:36
+I don't like that, but at least get used to it because you can access.
+1:00:40
+You can do so much with it in work as well. Okay, so that is all for today.
+1:00:45
+Is that a question? Are there more endpoints for authenticated users?
+1:00:52
+Yes. Well there's OAuth which we're going to talk down the line.
+1:00:56
+But it does happen through web requests. Where did my documentation go.
+1:01:00
+So here in canvas if you ever want to make your own service, there should be something that explains to you how to authenticate with.
+1:01:04
+All of it tells you all about the OAuth protocol and how they've implemented it.
+1:01:11
+And then it should also have the endpoints that you can use to authenticate as an application or as a user, and so on and so forth.
+1:01:16
+When you're trying to get an access token to be able to use all of the other stuff, okay, authentication gets a bit complicated.
+1:01:24
+So we're not going to talk about it too much now. But ultimately what you're trying to do.
+1:01:30
+In fact, when you log in to canvas and any other platform you're issuing or triggering a flow like this behind the scenes,
+1:01:34
+that gives your browser a token that authenticates you to the system.
+1:01:41
+So that will happen with most APIs are going to have some form of authentication, either by an API key or by law.
+1:01:45
+We did an API key thing in the last semester.
+1:01:53
+So thank you sir. Okay. Yeah. So yeah. So some services are simpler than this.
+1:01:59
+They don't go with your workflow. They just issue you a token which you just make sure you don't lose.
+1:02:03
+And. Yeah. But yeah okay. Now you don't have to stay for this.
+1:02:07
+And I'm going to stop the recording.
+1:02:12
+
+Um, we stopped a bit earlier than I was expecting in the previous lecture, but that's not a problem,
+0:00 
+0:01 3:00 6:00 9:00 9:19 12:00 15:00 18:00 18:42 21:00 24:00 27:00 28:36 30:00 33:00 36:00 38:39 39:00 42:00 45:00 48:00 48:22 51:00 54:00 57:00 1:00:00

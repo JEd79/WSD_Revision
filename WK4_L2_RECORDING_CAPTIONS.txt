@@ -1,0 +1,1101 @@
+	
+Powered by Panopto
+
+Lectures
+chevron_right
+Week 4 - Lecture 2
+volume_up
+
+Search this recording
+search
+Details
+AI Summary
+Contents
+Captions
+Discussion
+Notes
+Bookmarks
+Hide
+Auto-generated captions may contain errors.
+Greetings. Unfortunate lot. You have the misfortune of having me again.
+0:01
+And we continue where we left. Now the good news. There's more slides which are now updated on canvas.
+0:04
+Apologies. Um, so the good news is that we're going to continue with a bit of theory, and then we're going to move straight into code,
+0:09
+because half the slides are there to complement what we're going to see in the live demo.
+0:16
+Okay. So we talked about representations. We don't have to answer in JSON. We don't have to transact in JSON between our um client and server.
+0:21
+We could choose something else. In fact we could support multiple things multiple ways of communicating between client and server.
+0:28
+And this is where the representation issues start to emerge that we need to do something about.
+0:34
+So the server somehow needs to know what what type of representation is being used to support it or say it doesn't support it.
+0:40
+And there are several ways in which this is quote unquote communicated. We have an accept header.
+0:49
+Do you remember the exact header from last week Roughly one by one.
+0:55
+Yeah. So accept sort of, um, it could be applications last JSON.
+1:02
+It could also be applications like XML. It could be text plus plain.
+1:07
+So it could be different ones. And in accept you encode all the formats you will accept as a response.
+1:11
+So in that you get the information sent across that I would accept JSON, I would accept XML and all of that.
+1:17
+That was the content type in. Yes. Yeah.
+1:24
+So the same can be done with file extensions in quote unquote style.
+1:28
+You're not actually, let me show you an example. Um, I'll show you an example in a moment.
+1:33
+You're not actually communicating a specific file, but you're using a file extension to say that this is intended to be a JSON response.
+1:37
+You can also set a query string, which we're going to see in a moment.
+1:46
+But that's the question mark that follows at the end of a URL question mark format equals JSON format equals XML and so on.
+1:49
+Now for example, in this instance we have a resource called current price, which is which dot JSON at the end.
+1:56
+Don't be confused by this. This is not a JSON file. We're not accessing a JSON file.
+2:06
+We're saying that upon this resource, which is a standard endpoint in Rexx API, the response or the way we're going to communicate is in JSON.
+2:10
+Could put dot XML at the end and that would change it to communicate in XML.
+2:19
+There's no one way to do this. There's multiple. The typical way is not to do like that is to do the headers, accept content type and so on.
+2:23
+It doesn't matter too much to us because nowadays this is handled by the frameworks.
+2:32
+But it's good to know. And this leads me to my most beloved part of this lecture naming.
+2:38
+You know, I'm pedantic when it comes to naming conventions in Java. I am the same for web services, right?
+2:45
+So in rest we said that we have we have resources that we're identifying with our URIs.
+2:50
+And then there's some rules we need to follow when identifying these resources in a URIs.
+2:57
+So first and foremost, when we create a URI and we are thinking about making a web service, we need to pick some sort of path.
+3:04
+And in that path we're going to define we're going to only use nouns.
+3:12
+Now the reason why I've been referring to HTTP methods as verbs is because they are the ones that communicate the action that's being carried out.
+3:15
+I am deleting, I am getting, I am posting. So these are the verbs from what I am doing with the resource.
+3:25
+The resource is a noun. So the resource customers that resource can be get can be gotten upon, which gets me the customers.
+3:33
+If that resource can be posted upon to, let's say create a customer.
+3:44
+So for example, this is an instance where first of all, what is my resource here?
+3:50
+Oh, yeah. And then which part is that resource within.
+3:57
+Which is within. See the hierarchy structure we have.
+4:01
+So by reading this and let's say I'm performing a get on this, I know that I am expecting to get all horror films because horror is a genre.
+4:05
+So everything that is in horror, which is a genre of film.
+4:16
+This is a good example of a Rest endpoint. To the contrary, that is not particularly good because because here,
+4:21
+although it looks similar enough, the resource list all is an action and it's not a static thing.
+4:30
+It is me asking something to be listed, everything to be listed.
+4:35
+So in that sense, my verbs that I have for my method are making a little less sense.
+4:40
+For example, what does it mean to delete list all? Am I deleting or listing all?
+4:45
+Well if the method is to lead. So the method is delete. But then there is a secondary action here list.
+4:58
+So delete list all you're telling me to delete and list everything you're telling me to delete delete everything.
+5:03
+It's unclear. However, if I was performing a delete on here, I know I'm deleting all which are horror, which is a genre of films.
+5:09
+It's much clearer when you're using nouns. Yeah. What do you have?
+5:17
+Like would you necessarily have or would it not be enough to just say you've got some genre horror?
+5:22
+So, you know, it's all of the horror films in? Sure.
+5:27
+You could do that in a different design. There's no one way to do this.
+5:30
+So you could, for example, say, I'm satisfied saying, get all films for genre horror.
+5:33
+Yeah. And that's going to get me all of them. Sure. Yeah. Good.
+5:38
+Okay. Now in an e-commerce e-commerce system, we can have things like the customers orders, line items, products.
+5:44
+We can have all of these things being a part of the system.
+5:54
+Now, if we want to create a customer on the system, it is sufficient to make a Post request to the endpoint called customers.
+5:57
+This endpoint is responsible for dealing with everything customers. I'm going to make a post.
+6:05
+I'm going to provide details and I'm going to make a customer there. Now using that endpoint I can also provide it what we call parameters.
+6:09
+And the parameter can come after the resource like this. So here I'm saying let's say yet from the customers the customer buy that ID.
+6:18
+And I expect this to return a single customer who is identified by this ID.
+6:27
+It's again an intuitive way to look at it. If you're looking at this, you can kind of make sense of what's happening.
+6:33
+You're getting that's a verb. You're getting something from customers and specifically you're getting rates from customers.
+6:38
+That's what we want. Intuitiveness. Um, the same can go for other methods.
+6:45
+So for example, if I was to take this to be the product URL for the same system, then if I want to create a product,
+6:51
+I just make a post to product, just like I did a post to customers to make a customer.
+6:59
+And then if I want to interact with a product, the product is again identified by some ID.
+7:04
+In that case six x, blah blah blah. And then I can perform different methods on that.
+7:11
+I can get the product, I can delete the product, I can also update the product.
+7:14
+So this sort of naming scheme goes a long way when we're identifying things.
+7:19
+And remember the principles we said before. We want the resources to be identified by one view arrive.
+7:23
+We don't want to have individual URIs for everything.
+7:29
+So for example, I wouldn't have forward slash product 664232 as a different resource to product dash 66433.
+7:32
+I don't want to have a different endpoint for each of those.
+7:44
+So I want to put a category, so to speak, which is my resource, and then follow it up with a parameter which identifies a specific resource within it.
+7:47
+Okay. Now I'm not going to go through that because we need to get to the demo.
+7:57
+So when creating a customer or what was it an order?
+8:02
+Yeah. So when creating an order for a customer, we might be tempted to do it like this.
+8:07
+So follow the same style that we've seen before. Post to the endpoint that identifies the thing we're creating.
+8:11
+Now this is where things get a little bit tricky because this is okay in terms of rest, but in terms of a design choice it's not the best.
+8:17
+Because what this is saying is that I can create an order without any link to a customer.
+8:27
+This is not typical of a system. Maybe it is in some, but in the general case of an e-commerce system, eBay,
+8:35
+you cannot have an order that is created as a standalone thing which may or may not be tied to a customer,
+8:41
+so you wouldn't make an endpoint that allows you to create all this as standalone things.
+8:47
+What you would instead is you would create a sub endpoint, a sub resource to customers for a specific customer called orders.
+8:52
+And then now it is clear that when you're posting to orders here,
+9:01
+what you're doing is creating an order in this ID which identifies a customer in their system.
+9:05
+Again, think of the most intuitive way of doing things. If I look at this, I have very limited information about what's happening.
+9:11
+I'm just making a generic ordering. If I look at this, I know that I'm making an order for a specific customer identified by an ID.
+9:17
+Cool. Okay. And the last thing before we get to actual code is talking about the two approaches of implementing web services.
+9:26
+I mentioned at the start that we can either have a contract first or code first approach.
+9:35
+The contract first is an approach where you define a contract file.
+9:40
+We'll see what that is in a second. And you specify everything on the web server should be capable of doing and how it's going to happen.
+9:44
+And all of these details kind of like writing the docs for your code before you start coding.
+9:50
+Um, and a contract last or code first is when you write the actual code and then you come back to do your contract later,
+9:56
+or you derive it from the code. Now, a contract which I just mentioned typically describes the interface of a web service.
+10:05
+It describes the support, the operations, the parameters for each of those operations, and the transmission protocol.
+10:16
+Some of these are kind of ironed out because we're using Rest, but the rest we have to provide.
+10:21
+In any case when you're making it. There are standardised format of writing these contracts.
+10:26
+And you might remember that hideous file that I showed you when we're talking about soap, which was that massive XML,
+10:32
+which was a wisdom file, which is the Web Service Description Language just as conveniently on the title.
+10:38
+Um, but yeah, so that was an example of something that defines everything that web service can do.
+10:49
+It has all the endpoints. It talks about what they can return and so on.
+10:54
+This is a Soap thing. It's quite outdated. Rest. Being an open standard has a lot of different ways,
+10:58
+a lot of different types of communicating that namely to here are open API and Ramlal, I'll show you open API very briefly.
+11:04
+Of what that file might look like. So that file is an open API file that describes the service.
+11:16
+So it gives you the path slash URL here. When you perform a get you do something that is the following responses that you might get.
+11:23
+You might get a 4 or 4. That means that that resource doesn't exist.
+11:31
+The content you're going to get back in that 404 is an application JSON and so on and so forth.
+11:35
+This is much clearer. And this is the open API specification. And the good thing with all of these is that when you're writing in modern tools,
+11:40
+like we will be doing, um, then you don't necessarily need to worry about that.
+11:48
+If you're going in the code first approach, you start writing the code.
+11:53
+You annotate your code with things that look like Javadoc in a similar fashion,
+11:56
+and then you press a magic button and that file is generated for you by your editor.
+12:00
+So this is why typically people start with writing the code after having a vague idea of the requirements.
+12:07
+Do not keep requirement analysis. This is not an excuse,
+12:16
+but if you do not necessarily need to document everything that your website is going to do meticulously before you start writing any code,
+12:19
+and that's the strategy we're going to follow. Um, we've been through that.
+12:26
+And the final thing is just to make you feel lucky about this module in its present state.
+12:32
+There's two ways of making web services in RESTful Web services.
+12:37
+In Java there is, Jack says, which was last years sorry.
+12:41
+The year before had suffered with that very complicated enterprise development design thing.
+12:46
+We now need to worry about it and just know of its very existence.
+12:51
+And there is Spring Boot, and this is what we're going to be doing for the rest of today and the rest of the module.
+12:55
+Funny enough. Now, before we move on to code, first of all, any questions on this stuff?
+13:02
+Theoretical and boring? Yes. Very dry.
+13:08
+Yeah, I'm hoping from this week it changes. Yeah okay.
+13:13
+And then the rest here is just general information that we're just going to cover on the live demo.
+13:17
+They're there for your notes. So we're going to do that now. Perfect.
+13:22
+Let's write some code. Ah. Can someone draw the blinds at the back.
+13:26
+Because do the curtains rather um thank you. Okay.
+13:31
+So we're going to be using intelligently Now, every modern ID has some version of support for writing web services in Spring Boot,
+13:36
+which is the technology we're going to be using. However, I'm going to be using IntelliJ like I have all along.
+13:44
+If you're using something else, like what would people use these days vs code?
+13:50
+You're alone. Don't ask for help. Now with IntelliJ there is two versions.
+13:54
+There is the Community edition, which is free, and there is the Ultimate Edition,
+14:00
+which you can get as a student, but otherwise paid as a student is free.
+14:03
+I'm using the Ultimate Edition here, and that gives me this generator, which will automatically create a spring boot project for me.
+14:07
+So by clicking that, I get a nice configuration dialogue where I specify the information and voila!
+14:16
+I have a ready to run project. If you're using the Community Edition or some other IDE, then you have the ability to go to spring's initializer page,
+14:22
+which allows you to do exactly what I'm able to do through my graphical user interface in IntelliJ, but you can do it online and select that.
+14:33
+You want it to be a maven project in Java with Spring Boot 4.1.
+14:41
+Doesn't matter. Provide some details here and then you want the jar file you want properties Java 17 generate.
+14:45
+And when you do that, it's going to spit out a readymade project for your ID, which you can import and it has all the required files in it.
+14:53
+But if you're using there's instructions on how to do this on your lab if you're using Community Edition,
+15:01
+but if you're using the Ultimate Edition, you should be able to have all of that stuff here for you, right?
+15:07
+So let's see what this dialogue is telling us to do. So we have a name for our project I'm going to call it Electra Boot.
+15:14
+Uh. Um, this is the name of that I've chosen for my project I'm going to develop in.
+15:22
+Ignore the locations where it goes on your computer. I'm going to develop in Java.
+15:29
+I'm going to be using Maven. So let's get rid of Gradle.
+15:33
+Have you guys had the misfortune of working with Gradle? Yes. I'm so sorry.
+15:37
+Jack did it right. Yes. Yeah. Very sorry. I hate that now.
+15:42
+Everyone knows Jack Ruby. I'm sorry. Gradle. Right.
+15:46
+And then we get to this stuff now. Do you remember talking about packages at the end?
+15:50
+Well, at the end of programming two briefly mentioned what packages are.
+15:54
+We follow the reverse domain naming here as well. So because we're developing on this once a university um they reverse domain.
+15:58
+You would be UK, AC Swansea. And this is a way to kind of deconvolution the project because everyone is making projects that may have the same name,
+16:07
+but if you put them under a different namespace then it's clear which one is which.
+16:16
+So this is an identifier for the project that the place where you're developing for doesn't really change what this is.
+16:21
+It's just a unique, so to speak, stream. And then under the group that you're developing under.
+16:28
+Before you have the artefact, which is the name of what you're about to develop.
+16:33
+So I'm about to develop the project called Lecture Boot.
+16:38
+And this is going to automatically create a package that starts with the group and then has the name of the project tagged to the end of it.
+16:41
+We don't change that. We only change the group and the name of the project.
+16:50
+Now JDK you're going to have to use whichever one you have installed.
+16:55
+Java version 17 is perfectly fine. The packaging I suggest you use jar.
+16:59
+Don't worry about why, which is the web archive makes no difference to us.
+17:05
+And then configuration keep it to properties. So this is the standard configuration that we're going to use to create a project.
+17:11
+So let's press next. Now we get on to the place where it is configuring the project that we're going to use.
+17:19
+And what you need to remember is that Spring boot and the spring framework are massive.
+17:26
+There's entire books to learn the framework. It's kind of like a meta language built on top of Java.
+17:30
+So there is a lot of stuff that you can enable to use in your project.
+17:36
+Now, from this, we're only going to need for the moment one thing and one thing only, which is spring web.
+17:41
+So expand that thick spring web and then that is that.
+17:48
+So let's hit create and please hold it open in the wrong screen.
+17:53
+Ta da! We have a spring boot project. It looks nothing different to any other project we've had before, which is great.
+18:00
+Um, but trust me, this is a spring boot project. And if we open the src folder, we look at the main Java, we'll see the package it created,
+18:08
+and we'll see the lecture boot application which is highlighted in red.
+18:16
+Please hold. My editor is having a moment. Oh Please continue to hold.
+18:23
+I need to restart my editor. This is going well. Invalidate and restart.
+18:34
+Now we're going to hold. Aha!
+18:42
+As if by magic. Ta da!
+18:48
+Right. So now. I'm going to pretend I did not see that.
+18:54
+Oh, okay. Technology is not my friend today, guys.
+19:03
+We're going to revert into the backup plan. No, you're alone for that.
+19:07
+Go away. Cause people, um, we are going to revert to this backup plan, which is a project I've got setup already.
+19:15
+Conveniently. Um. One moment.
+19:27
+Now, I promise, when you do this in the labs, it's going to work for some of you.
+19:33
+And that into here and then delete.
+19:39
+Now you will see a different package for this one, because this was meant to be the fallback that never gets used.
+19:46
+But. Aha!
+19:51
+Magic. Watch this. Not from now. Ah. Beautiful. So this is a graduate string book project.
+19:57
+Spring boot is an extension of the spring framework.
+20:04
+Not that I expect you to remember this, but it is the spring framework that we are using via Spring Boot.
+20:07
+And at the moment, what I have started is the package containing a class that matches the name of my application,
+20:12
+and it has that funny annotation of which we're going to see very many. So this is ready to run.
+20:18
+And if I give it a run, Something has happened here.
+20:24
+Now, briefly, what's happened is that this is a web service already.
+20:28
+And internally, the spring boot framework comes with a built in web server that is serving my application.
+20:34
+So I have configured this to run on localhost 8181.
+20:42
+And as soon as I press enter we get a response from something.
+20:52
+And that response has come from the server. I probably need to move that.
+20:56
+Please hold. That response has come from this server right here.
+21:01
+What it's telling me at the moment is that I have not configured anything.
+21:07
+Which sounds about right, because I just have a blank project with nothing in it.
+21:10
+So let's now start to make this a proper web service.
+21:14
+So if I have one of those. Yes. So if you see here, um, the initialisation was triggered as a result of my request.
+21:17
+Now it's not configured to log every request. So if I keep refreshing this, you're not going to see any more things up here.
+21:26
+Because this is designed to actually be a web service. So you don't want to log every single request that you get.
+21:32
+Um, but you can configure it if you want to have more verbose logging. We don't need it at the moment.
+21:38
+So we're going to leave it. Right.
+21:43
+So typically speaking for now we're going to leave the main class where the main method is exactly as it is without touching it.
+21:45
+What we're going to do is we're going to start building other packages where we put our classes.
+21:53
+Now do you guys have Randall taught you the model view controller pattern?
+21:58
+We haven't done patterns. You haven't done patterns. When you do patterns this is going to be perfect.
+22:03
+So in generally speaking in this framework we try to separate the objects which are acting as Rest controllers as in the things
+22:08
+that handle communications in rest versus the other objects that we need in order to make things happen behind the scenes.
+22:16
+So I'm going to make a package and I suggest you do the same when you do this called model.
+22:23
+So in my models file I'm going to start making classes.
+22:30
+And I think I'm going to make this application a dock application because why not.
+22:33
+So I'm going to need a duck to exist its standard Java object called duck.
+22:38
+Didn't misspell that. That's good. And let's think quickly. What does a duck have in my example?
+22:43
+A duck is going to have private string name.
+22:49
+And I said I was fine with typing and I take it back private int age.
+22:55
+So this is the duck I've created. And now I'm going to be very cheeky generate getters and setters blah.
+23:03
+And also I'm going to make a constructor. So what I've done is I've made a just regular Java object.
+23:14
+That was near enough. Bad typo. Oh, I should have generated the constructor.
+23:23
+It's too late. Pardon? Moving on.
+23:31
+They're not supposed to happen when I'm in the lecture. I don't mind them happening any other time.
+23:41
+And I've never seen my editor do what I did before the moment you start.
+23:44
+Except for the moment, I needed not to do it. I can't type from this angle.
+23:49
+It's not helping me. Excellent.
+23:56
+We have a standard class. Everyone, right? So we have in our code a just like standard object in Java.
+24:00
+And most of the time you're writing standard Java code. You're not changing anything about the code, you know, or anything you've learned so far.
+24:06
+So we're going to leave the dock now. At the moment, this dock is not being used anywhere.
+24:12
+That's because I haven't created a controller.
+24:17
+I nearly broke my rule there. So I'm going to make a new package, which is going to be called controllers.
+24:22
+And in my controllers I'm going to create a class called um, Duck Controller.
+24:32
+I may have misspelled controller, but we're going to pretend I didn't do that for the moment.
+24:43
+Okay. So at the moment this class is going to have a special function which is to handle
+24:49
+requests coming to the rest API and to tell Spring Boot that this is what the class does.
+24:54
+I need to put two annotations. Annotations are not something we've seen much of.
+24:59
+We can anyone think of an annotation? We have seen override. Yeah, override is one.
+25:03
+Have we seen any others? No, we have in fact here spring boot application, but we're going to pretend we didn't see that, right?
+25:09
+Okay, so in order for me to tell that this is a Rest controller, I need to annotate it with Rest controller first and foremost.
+25:21
+So now Spring Boot knows this is meant to run rest stuff.
+25:29
+And I also need to tie it to an endpoint. So any requests that come to something to a resource are going to be hitting this class.
+25:33
+So in my case I'm going to put the request mapping to be slash ducks.
+25:43
+Okay. So any request coming to the authority slash ducks is going to be sent to this class to deal with.
+25:54
+Right. Let's save restart and see what this has done.
+26:02
+It starts fine. If I go here I run this, I get the same thing.
+26:09
+If I do slash test, I get the same thing if I do slash duck.
+26:13
+I get the same thing. So why is that not working? That's it.
+26:22
+So I have a controller. It deals with the request, but it doesn't do anything with any method that comes to it.
+26:31
+I just issued a what type of request? What was the method that I was using when I was putting it in my browser?
+26:37
+It is a get. So I made a Get request to this resource.
+26:46
+It got routed potentially internally, but nothing really happened.
+26:50
+So for this I need to have some sort of method to handle get requests.
+26:54
+So public string um get some duck but nearly failed again.
+27:00
+Okay, so to annotate that I need to say this handles this is a get mapping and as soon as I get request this happens it's going to hit this method.
+27:12
+And that method is going to return hello from the ducks.
+27:20
+Okay let's restart that. And ta da.
+27:28
+Now why did this work any differently. And it says the message because I told this platform spring.
+27:38
+Whenever you get a Get request to this resource, call this method.
+27:47
+Take what the method returns to you and send it back to the client.
+27:52
+And that's what it did. So this told it to return a string, but it could have said return an int and it could in that case have returned 123.
+27:56
+Let's rerun that and see what spring does in that case. Go back refresh and we get 1 to 3, so it doesn't really matter what you put there.
+28:07
+Now, this is not a terribly exciting mapping for Gatx.
+28:18
+Maybe I want to make it return something more complex, maybe a duck.
+28:22
+Because remember, we made the duck class for a reason. So instead of that, I'm going to return a new duck object which has the name.
+28:26
+Give me a name. Wilfred.
+28:36
+I hope I spelled that right, but if I didn't, please don't tell me.
+28:42
+And Wilfred is going to be ten years old. Restart that.
+28:46
+Go back. What do we expect to see now? A hash or attached hash?
+28:54
+Hash? Any more optimistic views here?
+29:02
+So what? We're returning a duck object.
+29:07
+What can I get my thing to get? Mapping says if you get a if you receive a get call to this endpoint, give it to this method to handle it.
+29:13
+And how it handles it is very, very broad. But my memory everyone seems to resonate with hash.
+29:22
+Have some faith guys. It serialise the JSON.
+29:28
+Whew! And then I'm going to enable this. Is my browser doing the 3D printing.
+29:33
+It's not the actual response, but if you look here, uh, if you look here to da, um,
+29:37
+the dot object that I send to return to the client has now been translated into something the client can understand automagically.
+29:46
+So this is an example of data conversions done automatically for us.
+29:54
+So if you send back a string that you said namely line age, it would look the same without the curve bracket.
+29:59
+Yeah. I can literally choose to send any data type,
+30:05
+but the moment I send an object it automatically gets translated into this for me without any intervention.
+30:08
+Fantastic, I love this. Okay, let's add some complexity then.
+30:13
+Let's pretend that, well, I mean, we're in the endpoint in the resource ducks.
+30:17
+It doesn't make sense to just always return one duck. So I'm going to have a list private static for the moment.
+30:21
+List of duck which is the ducks not nearly went from is a new ArrayList.
+30:29
+And I'm gonna change the get endpoint so that when someone gets the slash ducks, they get return.
+30:40
+A list of duck are a list of duck.
+30:48
+Okay. Please hold. Okay.
+30:56
+There we are. Right. So now here I'm gonna remove that yeet it and I'm going to return the Verdicts like this.
+31:02
+Okay, rerun. What do we expect to see now? A square bracket.
+31:12
+Nothing. Square bracket. Yeah. Square bracket and square bracket.
+31:20
+One way to find out 111. This is a Jason list.
+31:24
+So that's a correct translation of a list to Jason but is empty. So I think we need to make our web service have a way of adding ducks to the list.
+31:30
+What method should I use for that. And I don't mean Java method, I mean HTML method, HTTP method.
+31:38
+But but that's update post I want to create.
+31:44
+The records don't exist. So how do I make something that handles a post request?
+31:48
+Add post mapping, then create a method. The method doesn't matter.
+31:57
+Could be called anything public. Um, let's call it void for now called Create it.
+32:01
+Create. Duck! Great, duck.
+32:09
+I'm gonna leave it like that. A great duck.
+32:14
+Okay, so how do we normally get told what information we need in post?
+32:17
+Where does the information come from? The client. If the client issues a Post request.
+32:31
+Where do they put the information? Hmm.
+32:35
+Oh, not in this case, but in the general sense when I'm making when remember when we created the phone record we use post.
+32:39
+Why did we put the information off that phone that we were creating?
+32:47
+Put it in the body. That's it. So the request is going to have a body which is going to contain information.
+32:52
+Now that means that this method that I'm creating is going to magically receive information from the request body,
+32:59
+and the information that's going to be found in that request body is going to be a duck object.
+33:08
+Okay. So when someone makes a post to this end point, the method create duck is going to get cold.
+33:18
+And that method is going to expect that the request body that they issued contains a duck object.
+33:26
+Okay. So when I receive that duck object on the server, magically what I'm going to do is I'm going to go to the ducks and I'm gonna add some duck.
+33:33
+Right. Restart this. Still works fine.
+33:44
+And now we're going to need a way to test that the post works. The way to test the post works is by using our favourite friend postman.
+33:51
+Go here, go here. Try again.
+33:59
+Go here and we're going to create a request. The request is going to go to http localhost 8181 and slash dot the docs.
+34:05
+And this is going to be a Post request. And it's going to contain some sort of body.
+34:20
+Now the body I'm going to say is raw, but I want it visualised as JSON for my own eyes.
+34:26
+And the body is going to be an object that looks like a duck.
+34:31
+We know that the duck has the name field, which in my case is going to be Will.
+34:36
+Thank you, thank you. And it has an age which is going to be 12 like that.
+34:44
+Right. So let's send this and hope for the best.
+34:52
+So we got an empty body. Why did we get an empty body.
+34:56
+Are we not returning it? Aha! Very good, because I designed it.
+35:03
+Such. This returns nothing. How can I now check if the duck was indeed added?
+35:06
+Very good. I got a successful code, which means the method runs successfully. And how do I see which ducks are in the system?
+35:14
+I make it yet, so copy that. Make a new request, which is a get to that URL, send it and voila!
+35:21
+We have Wilfred in the list. Now let's go back to post.
+35:30
+I'm going to call this one Annabel. Whatever Annabel is going to be nine send Annabel across.
+35:34
+Go back here. Get all the ducks. Voila. So this is now working with the two taps.
+35:46
+Yeah yeah yeah yeah yeah. You can do this with as many times as you want in postman.
+35:53
+It's very convenient. So this is all good.
+35:59
+What we haven't done, though, is let's say I want to delete a duck. How would you see me deleting a duck here?
+36:02
+What would I need to do to my API to enable deletion of ducks from the list?
+36:09
+Either way of taking the duck out of the list. So?
+36:18
+So what would I do in code in Java? Yeah, it would be called remove.
+36:21
+Right. But how do I handle the request? What sort of HTTP method I'm targeting here.
+36:28
+Is it delete. Yeah. So I need to make a new mapping here for when someone makes a delete call.
+36:33
+When they make a delete. I'm going to call the public void delete duck method.
+36:40
+And the next question we have to answer to ourselves is how does a duck get identified?
+36:47
+Because at the moment we have no unique identifier for our ducks.
+36:52
+You could say delete the duck by name. Sure. Trouble is, you can have ducks with the same name.
+36:57
+Delete by age. You can have two ducks which are different to one another with the same age.
+37:03
+So we don't have a unique identifier. This is something that happens with APIs.
+37:07
+We need a way to have to identify things uniquely. And I'm going to show you a way of doing it here.
+37:12
+Now I'm going to create a variable which is called pyruvate.
+37:18
+It's a private integer which is going to be called ID.
+37:24
+Now the constructor is going to take some integer. Oh no we're not going to use it.
+37:29
+We're not going to complicate it that much. We're just going to make a getter and setter for the ID, get the ID, set the ID right.
+37:34
+There's a reason why I chose integer and not int. We'll see that in a moment.
+37:45
+Now if I go back to my duck controller, we see that when someone makes a post they create a duck.
+37:49
+Now I wouldn't expect my clients to decide on what the ID should be.
+37:57
+So I do not want to assume that the dark I've received here from the client has the ID specified.
+38:01
+That would be a problem for me. So what I would do instead is, before I add it to the list of ducks, I'm going to work out the ID for this duck int.
+38:07
+Duck ID is the same as the ducks dot size.
+38:17
+No, that's not a good idea. A duck ID counter, which is going to be a variable I create up here.
+38:22
+Private static int I duck id counter which starts from zero.
+38:30
+So anytime someone creates a duck I work out the duck ID.
+38:37
+I go to the duck they gave me through the request. I set the ID to the duck duck ID, I increment the global ID counter and then I add it to the list.
+38:41
+So every time you create a new doc, it will have the next ID.
+38:55
+That's it. So if I give it a run now. And I go back here, let's go.
+39:01
+First of all, since I restarted the program, the list is cleared. So now it's empty.
+39:09
+So if I go back here and I post Annabelle, we still get a 200.
+39:14
+So that was successful. And if I get now, we will see that Annabelle has been assigned an ID.
+39:19
+Even though when I created Annabelle, I did not have the ID in my request.
+39:25
+Had I specified it, nothing wrong would have happened here, but I could put ID and make it one two, three, four.
+39:31
+It doesn't really matter because as soon as I send, the server is going to override the ID I specified in my request,
+39:39
+and it's going to replace it with what it should be on the server side. Okay, so now I have a way of identifying a duck to delete.
+39:46
+Let's go back here and work on our duck mapping.
+39:53
+So second question to you. When identifying a resource in any method.
+39:57
+What did we see used on the slides. Where was the ID typically found.
+40:05
+The first value. Hmm. What was that at the end.
+40:12
+At the end of where you are. That's it.
+40:18
+So unlike post where we typically have a body when we're making delete calls, we don't necessarily have a body in the request.
+40:20
+When we're making delete, we are deleting a resource which is identified by the URI.
+40:27
+So we make delete on a URI. And that means go and delete that specific resource.
+40:33
+So now we need something different. We do not want to have information coming from the request body.
+40:38
+We want information coming from the endpoint.
+40:44
+So delete mapping and all the other mappings that we've seen Have parameters where I can say that this delete mapping applies to ID.
+40:47
+Now this is a bit of a simplification because what this says is we are within the dot controller which acts on slash ducks.
+41:00
+But then in order for the delete mapping to work, someone needs to provide it an ID.
+41:10
+So essentially what this says is someone is going to make a delete call to a slash duck's slash some ID number.
+41:15
+And that is what is being encoded here. Curly brackets in that string body.
+41:27
+To say that this is a variable defined in an object. Yeah.
+41:32
+So the curly brackets here mean that this is not the literal word ID.
+41:35
+It is a variable which I'm going to name ID. And then in my method underneath that I'm going to say that I am taking a.
+41:39
+At path variable, which is going to be called ID and it is an int, right.
+41:51
+So when someone makes a call here, they must specify an ID at the end of slash docs.
+42:00
+And then this ID is going to magically be put into this variable.
+42:06
+Just because the name of these things that I chose matches up.
+42:10
+So that means that the delete call is going to get me an ID, and by that what I'm going to do.
+42:14
+Do you mind if I do the shorthand syntax now? Huh.
+42:21
+Excellent. Because that saves us a bit of time. Then using iterators that docs remove, if a duck A has an ID equal to that ID.
+42:26
+So with that call I'm going to go to the list. Remove an element.
+42:39
+If that element id is equal to this id we can talk about this at a separate event.
+42:43
+Take my word for now. It deletes. Right? Let's restart this and see if it works.
+42:51
+Okay, let's go back here. Create Annabelle again.
+42:59
+Hi, Annabelle. Get all the ducks. Make sure Annabelle is there.
+43:03
+Annabelle is there. And then let's now delete Annabelle. So I want to post two.
+43:07
+No, I don't want to post. I want to delete.
+43:12
+And then how do I delete Annabelle? Oh that's it.
+43:17
+Ducks ID is zero. Send 200.
+43:24
+Success! Go back here. Get the ducks. There's nothing.
+43:30
+So our delete call has been implemented successfully. Now let's suppose that other than getting the list with a Get request,
+43:34
+I also want to get the size of the possibility for someone to get the number of ducks in the system without getting the whole list.
+43:43
+How would I do that? You would return the length of the list.
+43:50
+Okay, so that's what I want to do. Let's make a method for that.
+43:59
+Yeah yeah yeah. So public int I'm returning an int get num auth ducks.
+44:05
+And that I don't need anyone to give me parameters for this. I can do it without parameters.
+44:14
+And that returns the ducks the size like that.
+44:18
+Happy. Okay. Is this wired in to my controller?
+44:27
+What do I need to do to wire it in the gate? Okay, so I need to put it in the get path.
+44:33
+So this is a get mapping. Let's see what happens. Problem.
+44:40
+Big problem. Why? Big problem. It's empty.
+44:49
+It's not empty. I got code that's. On the bus.
+44:58
+It's not a bad box. Ah, someone said it. I need another path.
+45:04
+Because at the moment I'm saying this controller, when it receives a get, it's going to return the list of dogs.
+45:08
+And when it receives the gate, it's also going to return an int. So which one is it?
+45:13
+Is it the list of ducks that it returns when the get request is fired, or is it the list?
+45:16
+Is the number conflict? So what we do is we're able to say that this get mapping will apply to the path slash count or just count in fact.
+45:20
+So now this says if someone is going to slash ducks slash count then that's going to get them the size.
+45:33
+If someone is making a Get request to slash ducks with nothing at the end, This is going to get them the list of all ducks happy.
+45:40
+And you told me this last week how no income is derived from the one from the game.
+45:49
+Yeah. So as we'll see now this is working much easier, much better.
+45:56
+So let's duplicate that and make a get not just slash ducks, but we also want slash count at the end of that.
+46:00
+So there's a different resource. If I get that I get zero.
+46:09
+And you don't need the slash in the JavaScript you have because it just looks for the yeah it knows how to match it.
+46:14
+You can yeah, you can provide the slash if you want, but it won't make a difference unduly.
+46:21
+When you did delay, you did the user. Why couldn't you just use the size of the list and the positioning of this thing.
+46:27
+Oh, to instead of taking the parameter, you mean. Yeah.
+46:34
+So instead of creating user ID because it's within the list, could you just use the size that at least minus one that would delete the last one.
+46:36
+But what if I want to delete the middle element? Yeah, at the moment.
+46:46
+So you need to know what the IDs were so you'd know what the position was. You could just I could use the index position.
+46:50
+But index is shift.
+46:56
+So if you have Anabel be the third and then someone deletes Anabel between your request where you got that Anabel is the third and the next request.
+46:57
+And the builds position has changed.
+47:06
+And that would be state on the server, which means that the outcome of your request would require that the state hasn't changed, which we don't want.
+47:08
+So always just go for a little bit of extra information. It doesn't really hurt.
+47:17
+Now, the reason why I told you that this has to be an integer.
+47:21
+Let's get back to that for a moment. So this must be an integer. Why?
+47:24
+Well, this is a little technicality. So if I take this and make it an int, my code here is going to work exactly the same.
+47:29
+We start. Fine.
+47:39
+The trouble is, if I go to create a new doc take and I send it with an ID.
+47:44
+Things are fine. 200 and the duck has been created.
+47:51
+However, if I was to make a request where I don't specify the ID because as a client making the request, it doesn't make sense for me to give the ID.
+47:56
+The server is going to work on that. Let's call this. So if I was to make a request like I should without specifying a dummy ID.
+48:05
+Well, that wasn't supposed to happen like that. Don't look at me like that.
+48:19
+No, um, that wasn't supposed. Normally you would get an error because that field has no mapping to a value.
+48:26
+However, for some reason, we're not getting an error here. Hmm.
+48:34
+Take my word. Stick to integer. Any field that is optional in the clients request should be a type that can be null,
+48:39
+because when the client makes that request, in fact we can actually see that.
+48:46
+So put this back to integer. And let's go back to my duck controller.
+48:50
+And when I go to the creation of a duck here I'm going to put a debugger point right there.
+48:57
+And I'm going to debug this application. You can do you can use the debugger like normal.
+49:03
+It works just fine right. So we are in debug mode.
+49:08
+And then I'm going to send a post to create the same duck without an ID.
+49:11
+Now let's read the information of the object that has been that came into our server.
+49:15
+You'll notice that the name that the client specified is there, the age is there, but the ID, which wasn't specified by the client is null.
+49:22
+And you try to avoid having situations where this automatic population of of fields risks causing an error.
+49:29
+So we chose a type in doc which was nullable can be null, so that we can detect when the client has chosen the absence of this information.
+49:36
+Now I'm going to let this request go through and I'm going to show you something else.
+49:46
+Now the client could say I am naughty. I'm not going to provide the name.
+49:52
+I'm just going to make a duck with no name and the age of nine. So now the object that has come in does indeed not have a name.
+49:56
+The name is. Now, what this means at the moment is that my server is going to accept the duck with the null name.
+50:07
+Not good. We don't want that. So what I should be doing here is building some sort of validation.
+50:13
+Stop that and let's start building validation.
+50:20
+So before I accept the duck that was provided, I'm going to have an if statement to say if some duck dot name is null.
+50:23
+Then I'm going to throw a new illegal argument exception.
+50:38
+No name specified. So let's replay that example we had before where the client doesn't specify the name and see what happens.
+50:44
+Uh, internal server error. This is kind of expected.
+50:55
+You would normally build it such that you get a code which tells the client what they did wrong,
+51:00
+but in this case, I chose to handle it with an exception for my own purposes.
+51:05
+There's two ways to deal with this. In Spring Boot, which we're going to see.
+51:10
+One of them is to tell Spring Boot that whenever I throw an exception inside of these methods,
+51:14
+I want you to translate it into the code 400, into the code 401 402, and so on.
+51:18
+The other way is to manually take control of the codes and write the code back ourselves.
+51:25
+Okay. We still do. You mind if we carry on with this for two minutes.
+51:32
+You don't need it for the lab, but might as well. So is that why you created your own null pointer package?
+51:35
+No, that's. That's my domain. Well, you know how I said you use the reverse domain names?
+51:42
+AC UK dot Swansea. My domain is null pointer dot click.
+51:47
+So I clicked on null pointer right. Yeah I chose a very quirky domain for my project.
+51:52
+Did you go back in? Postman is just a general thing.
+51:56
+Yeah, yeah.
+52:00
+So that is a generic message that says I detected an internal server error because whoever made the application hasn't told me what to do with it.
+52:01
+Yeah. You didn't need to make an error object. No no no, no, that was my choice, so to speak.
+52:09
+There is a mechanism for dealing with that. And for that I'm going to make this.
+52:15
+And for the sake of simplicity, I'm going to make this endpoint return a duck.
+52:20
+Now you can, when you're posting, just return the duck you created. In fact, it's quite common, but I'm not going to make it.
+52:25
+Just return any duck. I'm going to make it a response. Return a response entity which returns a duck generic for the wing.
+52:30
+So now I'm going to return a response entity which contains a duck within it.
+52:40
+Response entity is a special object that Spring Boot provides which allows you to control stats,
+52:46
+codes, messages, all of that stuff, as well as the duck. So now if some duck that I was given is null, instead of throwing an exception,
+52:51
+what I'm going to do is I'm going to return a response entity which has the code.
+52:59
+What code should I go? Bad request. And then I also want to have the body of some duck.
+53:07
+So now what this will do is it's going to return a response entity which has the code of bad request
+53:20
+400 and also contains the duck double supplied back to the client so they can see what they did wrong.
+53:25
+In all other cases, I'm going to go down here and return a response entity, which is okay, and contains some duck that the user gave me.
+53:33
+So now let's restart this and see the different modes.
+53:45
+And this is quite useful for your design in workspace portfolio because with this you can control the codes.
+53:48
+You're returning back. So let's go and create a duck without a name.
+53:53
+And now we get a different code. We get the bad request code that I told you to return in that case.
+53:59
+And at the same time, we get reflected back the duck that we tried to create.
+54:05
+If that was well-formed, though, we should hit the other endpoint, which is a 200 code and has the correct duck in response.
+54:10
+Notice that now we get the duck in response. Essentially, that's all there is to spring boot, and you can do all sorts of crazy things.
+54:18
+You can have a post that takes something from the request body and something else from the path variables.
+54:28
+You can have a post that goes to a specific endpoint, which is starting with an ID note, which is starting with an ID followed by slash create.
+54:34
+You can do all sorts of magical things that work very similar to what we've seen.
+54:46
+The only way through this is the same as Java exploration.
+54:51
+So to that effect for this task today, you're going to have to create a slightly simplified version of this as a web service in your labs.
+54:54
+And I'm going to be floating about in case you have setup issues.
+55:02
+But don't ask me if you're using anything other than IntelliJ, because I'm going to cry. So is this what we should be doing for our base portfolio?
+55:05
+Something along those lines in your work base portfolio.
+55:13
+Obviously I can't tell for everyone, but in your work base portfolio, you're thinking about the endpoints that you have because your design needs.
+55:15
+And when you get to your implementation, you're implementing the different types of request issues that you might encounter.
+55:22
+for. I do want to see some validation. And when you're doing your screenshots, I would like you to show me a successful one.
+55:28
+Look, this got 200 and gave me that. And I also want to see an unsuccessful one.
+55:35
+No. Why is that bell unsuccessful? That's bad. An unsuccessful one where you try to do something.
+55:41
+Validation. Thought you gave you a bad request and perhaps told you a different message to this.
+55:47
+At the moment, we're not quite at the stage where I can give you messages here.
+55:52
+So this is not the definitive way to do everything, but we're going to get to that down the line at any point.
+55:56
+Oh, an endpoint is I keep saying endpoint is kind of like a resource or the same as a resource.
+56:03
+Is that as an endpoint in my API there is the endpoint called duck or ducks.
+56:08
+I'm just trying to think what my work based portfolio is going to be.
+56:14
+And I think you want to play for ten endpoints. Yes.
+56:21
+Or resources like that. Same thing. How do we use pattern?
+56:25
+Which we use. We use which will be generated in our workplace.
+56:33
+And yes, any system, the system as a whole needs to be useful to your business.
+56:37
+But the system can have very many different resources within it.
+56:42
+So yeah, anything that can apply to the system can have all sorts of different resources which are on which are on the web, on the web service.
+56:48
+Yeah. Be a web service. Yep. Good.
+56:57
+Any questions before we call it a late end? We have course ready.
+57:03
+Yes. Good point. Your coursework should be out. Your coursework is out.
+57:08
+Hey. Thank you. Yeah. No waiting for it.
+57:16
+Oh, you tell me.
+57:24
+
+Greetings. Unfortunate lot. You have the misfortune of having me again.
+0:01 
+0:01 3:00 6:00 8:47 9:00 12:00 13:08 15:00 18:00 21:00 21:38 24:00 27:00 30:00 31:02 33:00 36:00 39:00 40:20 42:00 45:00 45:04 48:00 49:22 51:00 53:53 54:00 57:00

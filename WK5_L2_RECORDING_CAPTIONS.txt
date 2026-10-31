@@ -1,0 +1,1097 @@
+	
+Powered by Panopto
+
+Lectures
+chevron_right
+Week 5 - Lecture 2
+volume_up
+
+Search this recording
+search
+Details
+AI Summary
+Contents
+Captions
+Discussion
+Notes
+Bookmarks
+Hide
+Auto-generated captions may contain errors.
+Very musical, right? So before we start, think about the tests tomorrow.
+0:00
+Obviously, you guys have been here long enough to know that we've moved all about campus in the last year and this year,
+0:06
+and that included our test rooms. So if you're ever in doubt about where we're going to be, our activity should be showing on the timetable.
+0:12
+This is the university wide timetable. So if you go to my timetable dot Swansea, let's do it again then it doesn't.
+0:19
+You can't log in. It's going to show you your own stuff. But even if you don't log in you can still find the same information.
+0:30
+So I'm doing it as a guest. If you go to search by programme of study and in the search type apprenticeship.
+0:35
+You should see here one, two and three. Take any one of these or all of them and it should show you the locations.
+0:44
+So it has module codes. We don't necessarily do them in that order, but the rooms are correct.
+0:52
+This is this week. Let's skip to next week, and this is next week's timetable where you can see when we have the tests.
+0:57
+So if you click on one of these it should say on the right. Oh no.
+1:05
+These are the lectures. The tests are these ones it should say on the right.
+1:09
+This is going to be in one of those rooms. Talbert that, Talbert that.
+1:12
+So the activity is going to be in one of these rooms. If you're in the vicinity of the Talbert rooms, you'll find us there.
+1:17
+We'll also post an announcement to clarify which specific room you need to go to, but they're going to be out about next week.
+1:23
+By the way, Talbert is the building we were in last year for the tests.
+1:30
+Good. Okay. And of course, as soon as we start this lecture, someone starts to do construction at 4:15.
+1:35
+Okay, so we're back again with our beloved ducks. I didn't realise Randall has ducks on the menu as well.
+1:44
+We have ducks on the menu in ways that's on the wrong. Um, okay, so we're going to continue with where we left.
+1:50
+Basically in the previous lecture we briefly mentioned the different kinds of ways of passing information to through a request.
+1:56
+We talked about path parameters, query parameters for parameters only briefly.
+2:04
+And then we also mention headers. But we didn't see them in body.
+2:08
+Now we've covered these. How do we feel about these in Spring Boot.
+2:12
+Hmm okay. We need to look at what was it.
+2:18
+Another example of this with multiple queries. Might as well do that.
+2:22
+We're not going to look at forms. I don't expect you to know form parameters or at least be able to implement them in spring boot headers.
+2:26
+We're going to see in this one body we've covered briefly last week and in this week.
+2:33
+So we're going to continue essentially from here. This is mostly for your information when you're studying.
+2:37
+But we're going to take it on with more stuff. Now for part two.
+2:42
+We're briefly and I mean it. We're going to talk about media types and server responses.
+2:47
+So we've talked about we've already talked about media types.
+2:53
+You remember seeing things like application JSON or application PNG or whatever, or image PNG rather.
+2:57
+So these are the types that define what sort of information or media we're communicating using our requests.
+3:05
+There can be so many different types of information that we send.
+3:13
+We've already seen how we're able to send Hodgson objects. We're also able to send just plain text.
+3:16
+And all of these things take some sort of meaning. The meaning that they take is based on the interpretation of the server.
+3:22
+So if I send JSON,
+3:29
+I expect the server to notice that I've sent JSON and then translate that JSON into an object like the duck object we saw in the previous lecture.
+3:30
+And all of that has to be happening somehow, magically for me to end up with that object.
+3:38
+Spring does all of this for us, so we don't have to worry about the marshalling of data ourselves.
+3:43
+But the way the spring does it is by using what is standard in the world of the in HTTP requests.
+3:47
+Which are these two headers? You may remember me talking about them several times.
+3:56
+Accept is the header that a client typically sends the server and says, I will accept any of the following types of data.
+4:01
+And we saw an example of this in the previous lecture which I've lost.
+4:09
+So I'm going to recreate. Please hold. Please continue to hold.
+4:13
+We saw an example when we went to any website. Google lets open our in developer tools, look at the network, take any requests that you see on here.
+4:19
+Maybe take that one. Uh oh dear. Um, and somewhere in there we're going to say accept followed by something.
+4:30
+Now star forward slash star means that my server, my client says I will accept anything, send me absolutely anything, and I will accept it.
+4:37
+Um, if you look at other responses, other types of requests, maybe.
+4:46
+Oh, no, that's not what I wanted. Let's refresh the page. Let's go to the first request.
+4:51
+That's usually better. Oh, please continue to hold.
+4:55
+There we are. Right. So my request down here, there was the accept header.
+5:00
+With all of these different types of things that are acceptable by my client.
+5:06
+And the server replied somewhere on here that it would.
+5:10
+Well these are not accept this accept character encodings raise it content type.
+5:18
+There we are. And the server replied to my get request by saying the content type of the response that I'm giving you is text,
+5:23
+HTML and some other extra information. So the accept and the content type go hand in hand in these requests.
+5:31
+And really, when I make a request myself and I am sending some sort of content to the server, I also specify content type.
+5:39
+You remember in postman, we're able to edit this ourselves and say the content that I've just sent is JSON.
+5:47
+The content ive just sent is XML and so on. Perfect.
+5:53
+So these are important to remember. What is content type, what is exact and what do they need?
+5:58
+These help the server and the client communicate somehow. Right now the something slash something format is what we call Mime types media types.
+6:03
+So you might have seen already something like this.
+6:14
+Just see it's not here. Text forward slash HTML. Another one.
+6:17
+You might have seen this application forward slash Jason. These are the kind of these are type versus subtype of content.
+6:22
+And these are standard. The Iana defines these. There's a very long list of standardised ones.
+6:30
+And there is also the possibility for extension to them. Now text forward slash plain.
+6:36
+What does this mean about the payload. If I send the request with text forward slash plane how should the server interpret it?
+6:40
+As a string. As a string, it can't make assumptions about the structure of the string.
+6:49
+It could be JSON, but it doesn't have to interpret it as JSON. I told it it's plain text.
+6:54
+It could meet no format. It could be hello.
+6:59
+If I send application JSON, what will the server be able to know then the JSON format that is the JSON format.
+7:01
+So if my request is indeed well-formed, it should receive JSON in my request as the body.
+7:09
+Anyone can tell me what the difference between application and text is. Because if you can, I'm giving you bonus marks.
+7:16
+I don't know what the university says, but.
+7:24
+Soon you can look at JSON in a structured way like Firefox is a way of looking at its size to other web browsers, right?
+7:28
+I suppose if you say that to just be a text file, you will have a text file in a JSON format.
+7:37
+But then surely.
+7:44
+But you can do it with either because the content you're communicating could either be application text application JSON or text Jason.
+7:45
+If you're saving to a file, it's very, very difficult to the point where I was chatting to another colleague yesterday for an hour,
+7:51
+looking through the standard that defines these and the two versions that superseded it,
+7:58
+and were still unable to find what the difference between application Jason and text Jason is.
+8:03
+Text Jason has been deprecated for quite a few years, so no one really uses this.
+8:07
+But if you look at the top level category of application and the top level category of text and how these are defined,
+8:12
+the text basically says anything that is readable by a human application says everything that is not text or anything else.
+8:18
+So you end up in a bit of a circular definition because Jason is readable by a human.
+8:25
+So you could say it is text, Jason, but at the same time it is also available by an application,
+8:30
+which is the secondary definition of the application category. So there goes Jason again.
+8:36
+So because this world of software engineering is this lovely bubble where we haven't thought everything out very well,
+8:40
+we just agreed to go with this from now on.
+8:46
+Don't ask me why it's been put down on the standard, that there was an argument in the committee that decides these things.
+8:50
+They started with taxation and now they've agreed it should be application JSON. So for our purposes, always use application JSON.
+8:56
+Bottom line, and if you have a question as to why, ask Ayana.
+9:03
+I can't answer that question. I'm really curious as well. Okay, right.
+9:07
+We've talked about this. I don't think we're going to spend any more time on these because we've already seen them in the demo.
+9:14
+Except, okay, maybe there's something to be said here. So Spring Boot does a lot of the accept and content type header looking well inspection for us.
+9:22
+So depending on what we accept header of the incoming request contains then spring boot will alter its behaviour.
+9:33
+We can also influence that we can take control of this handling ourselves in the code by reading the headers and responding differently if we want to,
+9:39
+but there's no real point to do that. Most of the time we just leave the framework, deal with it, because then the few responsibilities,
+9:48
+the few responsibilities we have as a programmer in the application, the less chance of it going wrong.
+9:55
+Or in the world of software engineering,
+10:01
+the least responsibility we as programmers take in our hands the least maintenance we have to do down the line when something breaks.
+10:03
+So bottom line is we don't worry about these things too much. Spring boot is magical and does all of these for us.
+10:12
+And now this is going to lead us on to our next demo. Uh, we can see all of these things.
+10:19
+Yes. Okay, let's go to the demo now and continue where we left off with some new things.
+10:25
+So we've got a few endpoints here which are all unguarded, meaning that anyone in the world can.
+10:31
+If I deploy this web service, go to the delete endpoint and ask me to delete a dock from the list.
+10:39
+Now in sensible web services like web applications and so on.
+10:45
+You have some sort of data control or access control. And usually this is done by rules.
+10:50
+So you have someone who is an admin, someone who is a system manager, someone who is just a user.
+10:56
+And all of these roles have different permissions. They can do different things.
+11:01
+They can access different endpoints. This is a bit too complicated to talk about here.
+11:05
+So what we're going to do is we're going to do we're going to try to introduce
+11:10
+some level of authentication of a user just when we're trying to delete a tag.
+11:13
+And we're going to do this in one way, which is fairly standard, which is by passing a token.
+11:19
+Now let's go back to our favourite, uh delete that.
+11:24
+Right. So usually postman supports what's called authorisation.
+11:32
+And you'll see here that it has a dropdown where I can choose what type of authorisation the web service expects.
+11:37
+And this is very many mechanisms. There's all of two, which is current.
+11:43
+We can talk about this down the line. JWT bearer those bearer tokens.
+11:46
+There's basic authentication. Not going to use this anymore. And then so many other ways.
+11:51
+Each of those methods of authentication changes the HTTP request in some way to put this authentication forward.
+11:56
+Now if I look here at bearer where is it token.
+12:04
+What this is doing. And I'm going to type some. Well that's not nice.
+12:09
+Um I'm going to type just 12345.
+12:14
+Whatever. Adding this token here. Should have altered my headers to have an authorisation header.
+12:18
+And that authorisation header has the value I just typed in there, which thankfully will just hide from me for whatever reason.
+12:27
+It's just one, two, three and so on. So whatever I put in the authorisation here and said this is a bearer token,
+12:33
+it literally just went and added an authorisation header and stuck that value in there.
+12:40
+So the authorisation header then what is this magical authorisation header.
+12:46
+It is a standard header which communicates some sort of token that dictates whether or not this request is authorised.
+12:51
+So in the authorisation header different implementations are going to expect different things.
+12:58
+You could say it's like a password but we don't like to use that word when we're sending stuff in plain text,
+13:04
+because password should never be associated with plain text. So what we call these typically is some sort of token that goes here.
+13:09
+That token is known to the server, it is known to the client. And if the token the client has the token is like having the key to perform the action.
+13:16
+So that's what we're going to try to implement. We're going to go back to authorisation disable bearer tokens.
+13:24
+Um yeah. And we are going to manually control the authorisation header just for the sake of example.
+13:30
+Okay. So at the moment if I say delete the duck two what happens I get 200.
+13:37
+The dock has been deleted. Perfect. So let's go to the delete doc endpoint and make it a little more visual.
+13:43
+So I'm going to make this return a boolean. And I'm going to say whenever someone deletes the doc.
+13:51
+It's just gonna what was that return true.
+13:58
+So now let's see what this translates to. Let's remind ourselves what this has done.
+14:03
+Go back here to delete Doc Zero again. And now we get true because the doc has been deleted.
+14:08
+Now let's enforce some checks. I want to make it so that whoever calls delete has to have the authorisation header where they specify their token.
+14:14
+And I'm going to have a token that I compare it to to see if they're allowed to do it.
+14:23
+So let's first of all decide what the token is going to be.
+14:28
+That was wrong. And I'm going to make it as just a constant.
+14:31
+So private static final string add Delete token and I'm going to call it I don't know duck delete.
+14:35
+Again, not a password. We do not use the word password when it comes to plain text.
+14:48
+Okay. It's raining with sun outside. I don't know what's happening.
+14:52
+Right. So I'm going to go down here then to my delete implementation.
+14:57
+And I'm going to say I want to check if whoever made that request has the authorisation header set to this value.
+15:01
+Now the way we obtain the header values depends. You can do it in a number of ways in spring.
+15:09
+But the one we're going to see here is very similar to what we see with any other parameters like path variables.
+15:14
+So I'm going to go here I'm going to add another parameter. And this is going to be a request header.
+15:20
+So I want to have a request header which is the authorisation header.
+15:29
+And it is American spelling I'm pretty sure. And then I want this value to go to a string, which is going to be called token.
+15:37
+Right. So whenever someone specifies the authorisation header, the value is going to be put in the variable token.
+15:45
+Right here and in my code I can first check before I do anything.
+15:51
+If the token equals the delete token that I know about, then I do all of that stuff, which is to delete.
+15:56
+Otherwise I return false because they can't do it.
+16:07
+Does this make sense? Yeah. Yeah.
+16:11
+Okay. Where's the authorisation string coming from? Are we going to see this just now?
+16:15
+So let's refresh. Restart that. It has restarted and let's go back here.
+16:20
+Now, I haven't changed anything about my request. What's going to happen if I send it?
+16:27
+It will be false because you're not providing the authorisation code.
+16:34
+Okay. And what status code am I going to get? Status code 212.
+16:39
+Okay, let's I've had three codes 400, 401, 200.
+16:48
+Something else 404 404 I have no clue.
+16:56
+I mean, yeah, but thank you. Excellent. Well, one way to find out.
+17:02
+But it may not be for the reasons you're thinking of. Something has gone wrong.
+17:09
+Let's see the required header. Authorisation for the method is not.
+17:14
+Parameter is not provided. So the reason why we got 400 bad request is because we didn't specify this.
+17:20
+It's not because our code did anything to return 400. It's because we're told spring.
+17:26
+You should expect to find the request header code authorisation in the request.
+17:31
+And you'll take that and put it here. But no such header was provided. That's why the request failed miserably.
+17:35
+Now, let's suppose that I don't want this to happen when someone leaves out the authorisation header.
+17:41
+I still want to process that request.
+17:46
+The way I do this in spring is by providing more parameters to this funky annotation, so I can have the or what is it called, value.
+17:49
+The value is what I had as authorisation. However, I'm able to provide things like a default value as well and say the default value is blank.
+18:01
+So when someone doesn't specify the authorisation header, which means I can't pull it from the request, I'm going to use the default value of blank.
+18:14
+Same as what we did before with the query parameter query parameter.
+18:22
+So now let's see the same request again and what that does. Switch back.
+18:27
+Nope. The add back. Okay. Same request goes again.
+18:33
+We get 200 because the request was successful. It was responded at.
+18:38
+But the response is actually you can't delete this.
+18:43
+Is that required to understand? It's a design choice now.
+18:47
+So it depends on how you want to deal with it. Normally, because I didn't do what I was requested that my request was not completed successfully.
+18:51
+So that is a lie. It shouldn't be 200 APIs that tells you 200 when they haven't done the desired action are lying to you.
+19:00
+So ideally what they should be is a 400 code and specifically for a one, which means unauthorised.
+19:07
+But we haven't gotten there. I'll implement this in a second to do the proper code.
+19:13
+So for now we're going to live with the little lie. The 200 is fine.
+19:17
+Okay, so false. That didn't work. Now the question becomes how on earth could I succeed with my request?
+19:22
+In other words, how do I specify this authorisation header?
+19:28
+Well, the way to do it is by editing the headers of the request that we're setting was sending and putting a new header down here.
+19:31
+Authorisation and the value for that is going to be delete duck.
+19:39
+Exclamation mark. Which I think was was that what I chose up here or no.
+19:45
+Duck. Delete. Please hold technical difficulties.
+19:49
+Duck delete. Exclamation mark. Okay so now I specified the header.
+19:55
+It is ticked, which means that it's going to go with this request.
+19:59
+And if I send it again now I get true because now the header matched and it all authorised me to do this action.
+20:03
+Does this make sense? Perfect.
+20:11
+It only works for that. Yes. So you'd have to put the authorisation in again.
+20:15
+That's it. So with the current thing that we've learned, any request that I want to have an authorisation I have to have.
+20:21
+What is it? Please hold this part and this logic within it.
+20:29
+Now this is not normal. This is our example to see request headers being pulled out like that.
+20:33
+But in the proper authentic authorisation world,
+20:39
+there is a framework by which you can authorise all requests to to all the endpoints or some endpoints in spring.
+20:43
+It would be very impractical to expect the developers to have this piece of
+20:48
+code and that piece of code embedded with every single method that they write.
+20:52
+We're going to see this down the line, but for now we're going to stick to that.
+20:57
+Now, does anyone here find it confusing that we can have both a path variable and the request header as method parameter variables?
+21:01
+Yes. Yeah. I don't blame you. So what I want you to remember here is this is a standard Java method.
+21:09
+So as far as Java is concerned when it sees this method it is the method called
+21:16
+delete doc that returns a boolean and takes two parameters an int and the string.
+21:21
+That's all the Java sees. The funky annotations is what we call dependency injection.
+21:26
+This means that there is something that runs within Java,
+21:32
+in this case string that is reading the code as it is being run and says whenever I find a request header coming before a variable in a method,
+21:36
+I'm going to replace this value with something that I can obtain from somewhere else.
+21:46
+So essentially the add annotations that we put here do not go to Java.
+21:52
+The method is a standard Java method like what we've learned. This annotation is being read by Spring Boot to know how to call this method.
+21:57
+In other words, what value do I expect to go here?
+22:04
+I expect the value to be a request header called authorisation, which has a default value if it doesn't exist.
+22:08
+And what value do I expect to go here? I expect that to be a path variable in order to be able to call the delete doc method.
+22:13
+So split. Who does what? Java still sees this with an int and a string.
+22:21
+Spring boot reads the code when it wants to call the direct method and identifies
+22:27
+this to tell it where to find the information to be able to call this method.
+22:33
+Does that clarify a little bit? Does the request had a part like in that practical value and you put default value?
+22:38
+Yeah. Do you have the calling value in default value or does it just mean.
+22:48
+Yes. Okay. So request header. I don't know if we'll be able to see it like that.
+22:52
+Request header has some I know this is very funky syntax and like nothing we've ever seen before, but it has some predefined things within it.
+22:56
+It has a value and name a required, which is true or false, whether or not this is required, and a default value.
+23:03
+These are documented to tell you what each of them mean, but anything you see here,
+23:10
+like required or default value, are parameters you can configure in the parentheses of the request header.
+23:14
+So in the request I could also say that this is required equals false.
+23:22
+In other words you don't need to have it. In what case it takes a default value of null or whatever it is.
+23:28
+But I didn't do that. I kept it to true.
+23:34
+Yeah, exactly. You can say it is definitely required to be in the request.
+23:37
+Otherwise it's an invalid request. But if the value is blank, then I'm going to default to something else, for example.
+23:42
+So all of this stuff is very configurable.
+23:49
+And by the way these name value, default value and so on apply to other things like path variable also has these provisions.
+23:51
+So I can say that a path variable is required which defaults to true.
+24:00
+But in some cases you might say this is false.
+24:05
+I don't want this path variable to be required, and if it is not provided then this is going to be null.
+24:08
+So I have to make sure that it can't be null. Does that make sense?
+24:14
+Only way to find this out. Play with these. And also these are well documented on the spring documentation.
+24:19
+Let's actually look at that while we're at it. Uh, so if I search spring boot docks and then I paste path variable.
+24:26
+Oh, gosh. Then I should be able to open the spring framework and look at what I can provide.
+24:35
+The name of the path, the path, whether or not is required and so on.
+24:41
+And then it should provide me with some insight on what this means.
+24:45
+Like if I say it's required, what is the difference between saying it's not required?
+24:48
+Well, normally it is true, which means that it's going to have an exception if the path variable is missing.
+24:54
+But if you set this to false, then there won't be an exception. You're just going to get null.
+24:59
+So worth whenever you're playing with annotations like that worth looking into the spring documentation.
+25:04
+This is a Javadoc page essentially. Okay, now that leads us swiftly on to something that we glanced at before.
+25:10
+Okay. Before we move on to that, are we happy with delete for the moment and the authorisation we've done?
+25:20
+Yeah. Okay, so this leads me back to what we were saying about request parameters.
+25:26
+So request parameters like path parameters and so on are also configurable in the same way.
+25:31
+So in this example we said we said I want to get ducks and be able to provide a character for the duck.
+25:36
+You'll notice though that in this example I didn't say the request parameters name.
+25:45
+So I didn't say that the name of the request parameter is character. How does string work this out?
+25:51
+Just like anything you said. Okay, let's try that.
+25:59
+So it could be that spring doesn't care what parameter it is, it just takes anything.
+26:04
+So if I type anything here and then I set this to be spicy, I should get all ducks which are spicy.
+26:09
+However, I don't I get lazy, stubborn and so on.
+26:16
+Now if I put this as character, which is what we were using before.
+26:21
+And run it again. Then it does work. So now it is spicy, spicy, spicy and so on.
+26:27
+So if this if this does pick up the word character from somewhere in this code, where does it pick it up from?
+26:33
+Jason. But I'm not sending a Jason with this request.
+26:42
+I'm only sending remember what I'm sending in this request? I'm sending a Get request.
+26:47
+So nobody with this part here.
+26:51
+My key value pair is in the URI and the key is character.
+26:54
+Where does this character come from. The object itself. So that means I could be providing something like age is one but we're not seeing it.
+26:58
+Filter by age is one, even though that is also an attribute. Let's put that back.
+27:11
+Oh no, where is this character coming from?
+27:17
+It's from the ball. This is a string, isn't it?
+27:22
+Aha! That's the way it is thinking out. That's it. So let's test if that is indeed what it's looking at.
+27:26
+I'm going to change the name of this variable for the sake of example. Oh is that rename?
+27:31
+Yes. I'm going to change this to Philippos. So now if I restart this application.
+27:38
+Question number one does character still work. Send that.
+27:46
+Nope. Spicy. Lazy. So that doesn't work.
+27:51
+Question number two if I put this as Philippos, will that work?
+27:55
+Ta da! Okay, so spring is a bit smarter than I thought.
+28:02
+So if you don't explicitly name the request parameter in these brackets, because in this example I haven't told it what name to look for,
+28:06
+then spring is looking at the variable name and tries to match that to the name of the request parameter.
+28:16
+So in this example you don't have to. In this example, you don't have to specify the name or the value.
+28:21
+I think it's value, but if you do, you can control what the key is versus what the variable is.
+28:35
+So I'm going to leave the name, be the variable name, be Philippos. But I'm going to change this to be the character.
+28:43
+And I'm going to make it c h just c h. So if I restart that and I go back to my postman, if I send Philippos equal spicy, that's something weird.
+28:49
+You'll see that I'm getting things which are not spicy. So that's not working anymore.
+29:02
+But if I use the name I told spring to look out for c, h equals by C.
+29:07
+Now it works and everything comes back as spicy. So then when you do it that way, the Philippos is only being used in the body of that.
+29:12
+That's it? Yeah. So if I don't specify an explicit value for this request parameter,
+29:24
+spring is going to look at the variable name and use that as the name of the request character.
+29:31
+If I do specify a value, whatever that is spring is going to ignore.
+29:36
+The variable name is just going to find this value and map it into this variable.
+29:40
+So either way, there is no right or wrong here. You can do either whichever you prefer, but in some situations you have a distinction where the um,
+29:45
+the query parameter has a name that doesn't map to Java. For example.
+29:55
+Um, if I was to call this duck underscore character, it would not be a good idea to name a Java variable duck underscore character,
+30:00
+because that destroys defeats the naming conventions that we've learned.
+30:09
+So in that case, you say the name I'm expecting for the query parameter is duck underscore character,
+30:12
+but then the variable it goes to is called something proper in Java.
+30:18
+Happy with that? Sounds like it could get quite nice. Yes, very on the string.
+30:23
+Pardon? Is it left off on the string of default?
+30:29
+Yep. Again. And if it looks dreadfully Poisson, would it still write.
+30:34
+Ah. If I took this out? No. You defined it as the get character anyway.
+30:40
+Yeah. So now you'll notice this is not compiling here. Yeah.
+30:46
+So you need a variable to capture the value.
+30:51
+But if you don't specify a variable associated with this request parameter, the compiler is going to stop you from compiling.
+30:53
+Because it's been told this annotation has to come back before a variable is defined.
+30:59
+So that needs to exist here. Okay.
+31:05
+So this was a brief tangent on request parameters.
+31:09
+Now the other thing we haven't played with is request parameters which are compulsory and request parameters which are not compulsory.
+31:12
+So in the previous example we talked about things like, um, different filtering.
+31:19
+Uh, let's do okay. We're going to keep this request parameter for Philippos.
+31:24
+And we're going to say that it defaults to blank because that's already built this way.
+31:29
+And we're going to support some more request parameters. Namely I'm going to support the request parameter.
+31:32
+And of course we're drilling now um, the request parameter which is going to be um have the name.
+31:42
+Mean underscore age. And this one is not required.
+31:52
+Or let's just do the default. This one defaults to zero and it is going into an int min age variable.
+31:58
+And I'm also going to have a request parameter. Which is going to have be called oh no.
+32:07
+Ah. Which is going to be called max age.
+32:16
+And this is going to go into a int max age variable.
+32:23
+Now notice I specified a default value for min age, but I didn't specify a default value for max age.
+32:30
+I'm going to ignore this for now. I'm just going to restart this so we see what happens.
+32:37
+My code doesn't use this at the moment, but Spring Boot should still be able to work around them.
+32:42
+So I now have three possible query parameters.
+32:47
+We already know that if I don't specify this one it's going to default to blank right?
+32:51
+What's going to happen if I don't specify min underscore age.
+32:58
+It will default to zero. So when this method gets called the value of min age is going to be zero.
+33:05
+And what's going to happen. Do we think if I don't specify max age that not surprised.
+33:10
+Nothing. Nothing but request.
+33:17
+Yeah. If you don't know. Zero. Defaults to zero. Yeah.
+33:22
+If you don't declare the value. Right. Well, there's a very reliable way of finding out.
+33:25
+I'm going to make a good request with no query parameters. But why?
+33:31
+Let's understand this. Looking at the error, it says the required request parameter max age was not specified,
+33:37
+so I didn't specify that this has a default value so it couldn't fall back to it.
+33:45
+And also that implies it is required for the user to specify this.
+33:51
+Otherwise there's no way to call the method because nothing can go here.
+33:54
+So in my request, if I wanted to actually make it complete, I have to specify max age to be equal to something.
+33:58
+And now it works. Are we happy with this?
+34:07
+Okay, so now let's go back to our logic.
+34:14
+Because at the moment I get these values but I'm not using them. So here I specified the max age to be one.
+34:17
+But then I got back dux with age five. Let's now make use of these into our code.
+34:23
+As far as our Java code is concerned.
+34:28
+We only care that we have the variable min age and the variable max age, and we're going to build them into the logic here.
+34:30
+So we're going to say if Philippos the Philippos flag, which I should probably rename to character because this is getting very confusing.
+34:36
+So if the character specified in the request is empty or it is not empty and the character of the duck matches, then we add it.
+34:45
+So we need a secondary check here if.
+34:53
+Min age is defined, how do I know if min age is defined?
+35:00
+As. An age is not empty.
+35:09
+Yep. Is there. Is there a venue for an end which is empty?
+35:13
+It defaults to zero. Which coincidentally is the default value of chosen.
+35:19
+So don't need to check if that value is specified or not because it will forever exist.
+35:23
+All I need to do is just integrate it into logic like I would in any other search by saying if the duck's age.
+35:28
+Is more than or equal to the minute and then oh, minimum.
+35:37
+Yes. So this is the confusing part. Min underscore age is what the clients see, and min age is what we see.
+35:46
+So the min age we know is provided is going to default to zero. The max age we haven't set a default for.
+35:55
+But we're going to assume that it's always provided. So all I need to do down here is just build the logic like I would anyway.
+36:00
+If get dot get age is more than or equal min age and.
+36:07
+DJ. Age is less than or equal to max age.
+36:13
+Then we're going to add it to the results list.
+36:18
+Are we happy with this so far? Yeah. Time to test it.
+36:23
+So I'm going to take this out. We remember what happens if I don't specify any of these.
+36:28
+It's a bad request. We don't really mind that. If I specify max age to be.
+36:32
+Let's do something more generous. Two. Does that work? It does.
+36:38
+None of the ducks that were returned have an age more than two. Now, let's be a bit more specific.
+36:44
+How do I also specify that the minimum age is one? Or let's do something more intricate.
+36:50
+Minimum age is also two. I only want the ducks which have an age of two.
+36:56
+You also have to provide it in the version of the montage.
+37:01
+Okay, tell me what to write at min age.
+37:05
+What was that? What was that? What was that ampersand.
+37:09
+Yeah, yeah, I. Like that.
+37:14
+Is he automata or. Oh. Good question. I don't think so.
+37:20
+We're going to try both ways and see if we get different results. Yep.
+37:25
+There we go. The docs that were returned have only got the age of two, because two is the only value between 2 and 2 inclusive.
+37:30
+So that worked.
+37:38
+Now the order the order doesn't really matter because what the way these are parsed is as key value pairs that are split out individually anyway.
+37:40
+So if you set one before the other shouldn't have an effect. Anyone who does expect order is breaking the standard.
+37:49
+So yeah, which is why we did need a slash accounts last week for each of those accounts.
+37:54
+Exactly. Yeah. And now I can also add my third query parameter which is what will the character equals spicy.
+38:00
+And now I've isolated the ducks, which are spicy and have an age of exactly two.
+38:12
+There's only one in my data set, which means all of these requirements.
+38:18
+But you see how you can create layered requirements.
+38:23
+As in, I can only get away with specifying max age as my only thing, but I could optionally include any neighbours and then filter them all.
+38:25
+I can also include another flag in another flag and filter and filter and filter.
+38:33
+That's the idea of query parameters. That's why we want them. Okay, so this is as far as query query parameters go.
+38:37
+Let me see what else I've got in my list. Any questions in the meantime?
+38:46
+What happens if you put the manage of the maximum range? Ah, is it just the 200?
+38:50
+That leads me to my to my next point as well. So let's try it. So I want ducks with the maximum age of one and the minimum age of two.
+38:56
+Can this requirement be satisfied? Nope. But at the same time, I've got a violent response because the filter doesn't make sense.
+39:05
+But at the same time there is the response is what was filtered out of it.
+39:13
+An empty list. So the 200 that we get here is not necessarily wrong,
+39:17
+but we could make it better by guarding against these situations and returning an appropriate code.
+39:23
+Namely, what kind of code would we see being appropriate here? 400 400, which means bad request.
+39:29
+We've seen it all over the place. Yeah, I would go with 400. Remember, the tiers of code that we have?
+39:41
+200 is success. 400 is. You've done something wrong.
+39:46
+500 is the server has done something wrong. This is a case where the client has done something wrong.
+39:50
+So it would be a 400 code. And then we'll look into the 400 codes.
+39:55
+Which one is the most appropriate? I would say 450. Most appropriate here.
+39:58
+Anyway. I wish that would stop.
+40:05
+Anyway, we're going to move on. So let's now implement this so that we are checking for situations like this and we produce an error.
+40:11
+Can you hear me? At the back of the door might help.
+40:21
+You're gonna have to talk this way. There's a lot more than I was expecting.
+40:27
+Right? Every time.
+40:31
+Right. Someone is out against me today.
+40:36
+Okay, perfect. So the next thing we want to do is do some sort of validation of what the user gives us.
+40:40
+Same as all the validation we've done all along. Like with consoles and stuff, we can do the same.
+40:47
+Here is just the way we tell the user of the changes.
+40:51
+So what we're going to do is we're going to go back here and we're going to use what we learned last week.
+40:55
+Do you remember what we used to return different codes to the user.
+41:00
+Yeah. So our request was very close.
+41:05
+Do you remember what the object was called? I forgot my laptop, but that's fine.
+41:09
+It was response entity. So we can make our endpoints rather than returning the item that they're supposed to produce.
+41:14
+In this case, a list of docs. We can make them return a box containing that item.
+41:22
+So a response entity which contains a list of docs like this.
+41:27
+So now this is a response entity. Think of it kind of like a box.
+41:33
+Do you remember the boxes we've seen with generics in year one?
+41:38
+A box that contains one thing. It's exactly the same principle. It can contain a list of doc or not.
+41:42
+That's what this is saying. A response entity which may or may not contain a list of docs.
+41:48
+So that now changes what I'm supposed to return.
+41:53
+And it expects me to return a response entity with or without a list of docs.
+41:57
+Now, response entity is a very customisable object. So I can say here I want to return a response entity which is going to be okay.
+42:02
+Do you remember the code for okay 200 success.
+42:14
+So the response entity with okay and the okay method expects me to tell it since the request was successful,
+42:18
+what value am I supposed to give back to the client?
+42:26
+Because if the request is successful with setting that, this should have a list of that return as well.
+42:28
+So okay says fine, what should I really giving the client?
+42:34
+The answer would be the result. So if I restart this from the client's perspective, nothing has changed.
+42:38
+In fact, even with the weird funky we had up here, if I send the request, I still get 200 and then a list of ducks or no ducks in this case.
+42:50
+Now though, we have the flexibility of validating what the user has provided in changing the code,
+43:00
+which is important for your design of web services for the work based and otherwise.
+43:06
+So let's now add some logic. Before I get into producing a list, I want to check that the requirements make sense.
+43:10
+For example, if the min age is less than zero, or the min age is greater than the max age, then both of these iterations are bad.
+43:17
+I cannot have ducks with negative ages, first of all. And secondly, I cannot expect the minimum age to be bigger than the maximum age.
+43:34
+So if either of those things happen much better, I want to return a problem, so to speak.
+43:43
+So what I can do is if it still return a response entity.
+43:51
+But now I have to select from here what I think is the most appropriate thing to return.
+43:56
+Not found. Is this an appropriate response? No.
+44:02
+Because this it's not an issue of not finding something. It is an issue of there being nothing to find.
+44:06
+No content. No, no content is a success code.
+44:13
+You can have successful requests with no content created, accepted.
+44:17
+None of these seem appropriate but request and I can just send that now.
+44:22
+Java is complaining here because by request,
+44:30
+what we're seeing here is something you're going to learn with Randall, which is called the builder pattern.
+44:33
+We have a class providing a static method, and that static method can have more methods chained onto the end of it,
+44:37
+because even though the request is bad, I could potentially have a body to it.
+44:43
+And in that body I could provide some list.
+44:50
+So a bad request can still have a body with some data, and this could be an error message or something else.
+44:53
+But in this case, I don't want it to have a body.
+44:59
+I just want it to be a bad request with nothing in it.
+45:03
+So after I told the response entity to give me a bad request response entity, I then told it.
+45:06
+That's it. I'm done configuring the response. Just send it.
+45:12
+So what this will send is a bad request code with no body.
+45:16
+Let's see this in action. Go back here.
+45:20
+Send this and you see we have a bad request. Come back and there is no body.
+45:27
+Does that make sense? So if you use body instead of building instead.
+45:34
+This is a bad request. You see, this is a bad request. Yeah.
+45:39
+Basically there is ways because nowadays, nowadays with any sensible API,
+45:43
+you don't only send the code, you also want to be sending some sort of message.
+45:48
+So typically you don't make these methods return primitives, more primitives,
+45:52
+standard Java objects like yeast, you make them return a custom message object.
+45:56
+The message object can contain the list, but it can not. It may not contain the list, and it also contains things like.
+46:01
+Was the successful. Is there additional information? That's why these APIs typically have more than one response time.
+46:07
+We can see this. I'm not going to I'm not going to do it in this one because it gets a bit complicated.
+46:13
+But we can see this next week or some other time. Um, okay.
+46:18
+Now there's one final thing I want to show you.
+46:23
+Again, this is not something I expect you to remember, but it's convenient sometimes because, for example, looking at the delete duck method,
+46:25
+this method, assuming that there is no reason for you to return anything, doesn't have to provide a body.
+46:33
+Because when you when you're sending a delete request, your tell of whether or not it happened should be the response.
+46:39
+That's the only thing you care about. If you get 200 success, if you get 400, 401 or something else problem.
+46:48
+Now, if you ever have a method like this which Doesn't have a reason to return anything, and you don't want to make it.
+46:54
+Return a request entity and then return a request entity all the time.
+47:02
+You can also configure it by putting another annotation here, which is going to be the response status.
+47:06
+If I could spell that the response status and then the response status, you can specify what this method always returns.
+47:15
+In this case it's going to be an HTTP status of no content.
+47:22
+So whenever someone calls delete in the spring, boot knows that the delete will always return this response to them.
+47:29
+Let's see it in action. Let's go back here.
+47:38
+Where's my delete? If I send the same request to delete doc zero, I do have the correct authorisation.
+47:45
+Send two, 2 or 4. No content. 2 or 4 is a success code.
+47:53
+It means that the request did successfully happen, but the server has nothing to tell you.
+47:58
+There is no body that the server can feasibly give me a delete request. It is valid to implement APIs like this.
+48:03
+If you say a delete action, a delete action has no response, and as long as you do it consistently across your API, that's all that matters.
+48:09
+In another design, you might say no, I do want to return 200 and include a body that tells the client what happened.
+48:16
+Maybe with the record that was deleted. Another valid design. The bottom line is there is no rule here.
+48:24
+You're designing it for yourself. Does this make sense?
+48:29
+It is a lot. It's we're basically going to continue with this stuff again next week.
+48:38
+We're going to recap it a bit. Um, so yeah.
+48:42
+Any questions on what we've seen so far. You know when you put the C.
+48:45
+Yeah that was, that was looking for something beginning with C, H in your head does what they are right.
+48:50
+So if we go back to that, that was up here.
+48:55
+So for character I could specify this to be called uh value of C-H.
+48:59
+Now what this is telling. Well spring is that whenever you get a request to this endpoint, the get docs endpoint,
+49:07
+you should look in the parameters of the request and look for C-H in there.
+49:15
+But it's going to look exactly for those two characters. If you specify C-H, a it's not going to match.
+49:20
+If you specify as you see, it's still not going to match. So it's looking exactly for C-H in the parameters.
+49:25
+But then what was it returning are. So if I had or if I didn't have C-H right.
+49:32
+Let's go back to that request. So here you'll see I need to now change this to C-H because that's what I named it.
+49:38
+And I specify the value for spicy. Now if I send this bad request, why did that get me a bad request?
+49:46
+Ah yes. Because this is what I've configured it to do.
+49:53
+So that should be let's say three. So if I send this, I do indeed get other things other than spicy.
+49:56
+That's not right. That's why I always forget to restart.
+50:03
+Send that again. And now I'm just getting spicy, right?
+50:10
+C-H is a value that I specified in my request, which got fed into here.
+50:15
+And that's essentially me telling Spring Boot. In the request you'll see C-H copy whatever value is associated with it into this variable.
+50:20
+For me, if I don't specify C-H. What do we think is going to happen?
+50:27
+Bring up all the docs okay. It's going to bring up all the ducks.
+50:33
+And the reason why it does that is because I told it.
+50:37
+If you do not find C-H, use the default value of blank, which means that the character variable will then have this value.
+50:40
+Does that make sense? I think my thick head is coming off now. So.
+50:49
+So when your web service there because that's effectively what you're running isn't it.
+50:59
+Yeah. Yeah. So when it's, you see in the header, the URI in the JSON for as in character are no, no.
+51:04
+So this is a custom name. It could be anything. And it's looking at the URI because remember this is a request param.
+51:13
+So it comes time in the room. Perfect.
+51:20
+Cool. Anything else? No.
+51:26
+You know you. Yes. I had a question. Wait, what? No, you're not requesting.
+51:32
+Oh, yes. Right here. Yeah.
+51:37
+The other request calls that are available on HTTP.
+51:43
+Mhm. Do they have a specific. Yes and no.
+51:47
+Because they're called. They're called at the request. Yeah. Whisper request is 400, 401, for example.
+51:53
+How you would get that? 404. Let's do that.
+52:00
+Um, response entity you can configure in many ways it doesn't necessarily have a method for every single code, but you can.
+52:03
+Where is the method that don't remember what it's called? Uh, please hold no content phone status.
+52:11
+Right. So you can call the status method and say the status was an HTTP code.
+52:17
+Good code. What's that? Uh, a is to be status of not found and then build that will put that code in instead of.
+52:24
+Yeah, you could have also done it with 400 like that. The fact that it's a convenience method doesn't mean you can't do it like this.
+52:35
+Or you could change this to bad, uh, request. And that has the same effect as the code we had previously, but again, very configurable.
+52:42
+Cool. Okay, now, funnily enough, this will be your lab for later.
+52:53
+Slightly different. Cool. Okay, that's all for now. And remember, you have midterms next week, not mine.
+52:57
+It's going to be randos. When mine comes along, we'll do a bit of a revision ahead of time.
+53:03
+So prepare your questions for next week for me, please. What weeks is your time?
+53:07
+It's going to be, I believe, up to and including this one.
+53:11
+Yeah. So next week's content which is going to be a revision anyway. It's not included in 26 months.
+53:16
+Yes. We didn't go through the slides, but we covered them in demo.
+53:23
+So all of the stuff with well, not all of the stuff, but most of what we've covered is going to be documented.
+53:26
+And I'm sure this is you right now. I was there when I was learning this, so don't be too hard on yourselves.
+53:31
+It's a lot to take in. Practice makes perfect. Cool.
+53:39
+That's all for me, guys. I'll see you in the labs.
+53:42
+
+and that included our test rooms. So if you're ever in doubt about where we're going to be, our activity should be showing on the timetable.
+0:00 
+0:01 3:00 6:00 9:00 9:55 12:00 14:48 15:00 18:00 19:49 21:00 24:00 27:00 29:40 30:00 33:00 36:00 39:00 39:23 42:00 44:22 45:00 48:00 48:59 51:00

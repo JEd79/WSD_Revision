@@ -1,0 +1,1065 @@
+	
+Powered by Panopto
+
+Lectures
+chevron_right
+Week 4 - Lecture 1
+volume_up
+
+Search this recording
+search
+Details
+AI Summary
+Contents
+Captions
+Discussion
+Notes
+Bookmarks
+Hide
+Auto-generated captions may contain errors.
+I'm going to start recording. Greetings. As no surprise to anybody in this room, we're back to do web service development.
+0:00
+Yay! Thank you. That was an extra 10% for the coursework anyway, right?
+0:09
+So we are starting to get into the interesting stuff. I know I've tortured you with theory in the past few weeks.
+0:14
+I mean, concurrency was nice for me. Um, then sockets were also nice, but there was a lot of theory in there.
+0:20
+So today is the day we start with the rest, which is going to ironically occupy the rest of this module.
+0:26
+Haha. So sorry. Um, but we're going to start again with some theory for the first part a little bit less.
+0:32
+It's a bit more applied, and then the next lecture is going to spend predominantly making a web service together in rest from scratch.
+0:39
+Hint is going to be about ducks and the boat is moving good.
+0:47
+Okay. So we're going to talk about some Rest principles and some best practices.
+0:52
+Now we've talked about what rest is a little bit.
+0:56
+We're going to recap that, and we're going to see some best practices on the development of RESTful web services and APIs.
+0:59
+We're going to talk about the challenges to flexibility that design choices pose when you're designing your own web service,
+1:07
+which I also is going to be part of your coursework.
+1:13
+And we're also going to briefly talk about the code first approach to the web service development,
+1:17
+which is something that historically I've told you is a bad idea, as in starting to code without having a concrete idea of what you're doing.
+1:21
+But it's actually a respected way of starting a web service. Not the best.
+1:29
+But anyway, okay. And we're also going to see how we develop RESTful web services using Spring Boot,
+1:33
+which is going to be our weapon of choice for the rest of the module. In the labs you're going to have.
+1:39
+I'm not going to spoil the fun too much, but you're going to be designing a set of Rest endpoints,
+1:44
+and you're also going to implement your own variant of the web service using Spring Boot.
+1:48
+Cool. Okay. So we talked about someone by the name of Roy Fielding, which is a person who wrote a dissertation that described what rest is.
+1:55
+In fact, he defined the so-called RESTful architecture style.
+2:06
+Now, rest is a description that we use for a architecture style.
+2:10
+The rest on its own is nothing. It's not a tool. It's not a web service.
+2:15
+It's not an API. Rest just describes the architecture of some APIs, generally web services,
+2:19
+and how we make them follow the principles that we set out to make them scalable, flexible, and many other things.
+2:25
+Now, as part of this, there are six basic or foundational constraints that we're going to talk about today, which is how do I design a Rest API?
+2:32
+Well, to do that you have to meet these six constraints. Well, sort of meet these six constraints.
+2:41
+So first and foremost, when you're designing a web service that is RESTful, then you have to have a uniform interface.
+2:47
+And remember the word interface is something that we come back to a lot.
+2:55
+When we say interface, we can mean very many things. We said that in Java we have interfaces which describe a contract.
+2:59
+It's a similar principle when you're talking about web services.
+3:06
+But in the land of web services, the interface defines how a client and server communicate.
+3:10
+So we need to have some sort of common language that a client and server is talking.
+3:16
+And in the land of rest, this is kind of defined as a broad set of technologies that we use to implement it,
+3:21
+so that it is a consistent across different services. So the idea here is that we want to decouple the architecture we use.
+3:28
+We make architectural choices when we're designing applications that communicate with service to the rest,
+3:36
+and we're trying to decouple it as much as possible. So we have flexibility to expand in the future.
+3:40
+In general, the principle of coupling in software engineering is something that's going to come up over and over.
+3:46
+Usually there is a dichotomy between the coupling that you use, loose coupling or tight coupling, and the scalability of an application.
+3:51
+In general terms, a tightly coupled application that is,
+3:59
+an application where the components depend upon each other to exist is one where the scalability is very difficult to achieve.
+4:03
+You come in, you need to expand this application to make it more scalable, to make it support more users, and so on.
+4:10
+But because everything is so intertwined, there is no single point you can start to achieve your ultimate target.
+4:15
+In a loosely coupled application. And again this is general in software engineering.
+4:21
+You have the ability to scale individual services and in the end collectively have a more scalable application altogether.
+4:26
+Okay. Yes. Right. So when we're talking about a uniform interface,
+4:34
+then in the land of what services we have for principles that we need to remember, first of all, we want it to be resource based.
+4:39
+You remember what a resource is from last week.
+4:47
+We looked at the funny things called URIs and URLs, Uniform Resource Identifiers, and Uniform resource.
+4:50
+What does L stand for? Locators.
+4:57
+That's it. So URI defines a identifies a resource but doesn't necessarily locate it.
+5:01
+A URL identifies a location a resource and locates it.
+5:08
+So a URL is an instance of URI. But speaking more broadly, a URI should be designed in such a way that it identifies a single resource.
+5:12
+It's important that the URI just refers to one resource and one resource only in the system.
+5:23
+Okay, then we want to be manipulating resources through representations. We have what we talked about as methods.
+5:29
+Does anyone remember what that method means in the context of web services? Let me rephrase the question.
+5:36
+What do we use in order to communicate between a client and a server?
+5:44
+What technology do we use? We're building on top of an existing technology.
+5:48
+What is that technology? Okay post.
+5:52
+So post is a method is an example of a method. And what is it that defines post on the on what technology does Post exist has to be?
+6:00
+So we're using HTTP to communicate between client and server.
+6:09
+And HTTP defines some verbs. We're going to see why they're called verbs in a second.
+6:13
+We also know these as methods. So the methods that we use can you name some other methods other than post connect get anything else?
+6:18
+But head head. Options, options.
+6:31
+We didn't look into that delete patch okay.
+6:38
+These are pretty much all the methods we have talked about and some more. So these are the methods we talk about.
+6:43
+And the idea here is that we have methods to describe what we want to do with the resource representations.
+6:48
+We're going to see in a minute, which provides information about what we're doing in the resource.
+6:54
+And combining these two together, we'll achieve a change of the resource on our behalf.
+6:58
+Okay. We also need to have self descriptive messages. So when we are sending a message between a client and server,
+7:03
+in either way that message should contain all the information that's required to be understood by either side.
+7:09
+You don't want to have fragments being requested from different locations and being stitched back together.
+7:14
+That's a nightmare. Now, there's a needlessly complicated principle that we're also going to see, which is called hey tolls.
+7:19
+I don't know how to pronounce this properly, but does anyone know what hate hos means?
+7:27
+Anyone heard it before? It means yeah, but what does it actually mean?
+7:33
+Because there's the abbreviation. Anyone had the misfortune of designing something under the principles of hate hos?
+7:39
+No. You're lucky. And. Yeah, so it means hypermedia as the initial application state.
+7:49
+Makes no sense as it is if you look at it face value. But what it essentially means is that when you're providing a response, maybe from the server,
+7:55
+any future information that you need on a resource is provided in the response.
+8:03
+So to give you an example, if you have a web service that's responsible for creating student profiles, you post to it to create the student profile.
+8:07
+And the response the server gives you back is, yes, I've created your student profile.
+8:15
+This is what it looks like.
+8:19
+And here are some links to other parts of this web service, where you can do more things with the student profile to edit the profile.
+8:21
+This is the URL uri to get the name.
+8:27
+This is the URI. So in the response you capture information about how to do other actions.
+8:32
+That's the idea. We're going to see an example of this okay.
+8:37
+Now it's important to decouple the resource versus its representation because the two things can go separately.
+8:42
+So we know that the resource is nothing at the top. In fact, can anyone tell me what the resource is?
+8:48
+What exactly is the resource here? Which resource am I accessing?
+8:53
+No. No. Okay. Two answers.
+9:00
+Hands up for books. Hands up for localhost.
+9:04
+Even split. Hands up for something else. Hands up from here.
+9:12
+With or against my will. Okay. I'm glad.
+9:18
+Right. So, for those of you who said books, that is the resource. Remember?
+9:21
+I'm accessing a resource called books, which is found within a bookstore, which is found within the context of a Rest application,
+9:25
+which is found within the context of the book Rest application,
+9:34
+which is located in this place on the authority of the authority's localhost, and I'm accessing it via the protocol of the week.
+9:37
+Remember, we read backwards, so you read from the end that tells you what the resource you're currently manipulating and going backwards.
+9:46
+You become coming out and out and out and out. So the resource box, the location of the resource is in a bookstore, which itself is in red,
+9:53
+which itself is not, which itself can be found under the authority of local host.
+10:01
+So read them from right to left essentially. Cool. So that is our resource.
+10:07
+Now the representation of this resource can be seen here.
+10:11
+We know that we have various ways of representing data. So this is an example of JSON.
+10:16
+And what is important to remember is that well we could have done it in plain text or something else.
+10:20
+But what we should remember is that the resource and its representation are two decoupled things.
+10:25
+So whenever you do using some sort of method to speak to the server about the resource,
+10:30
+it is not necessarily the case that you need to also have a representation in your in your request.
+10:36
+Can you think of a request I can make about a resource that does not require me to have a body or a representation attached to if.
+10:41
+You repeat the question, can anyone think of an example of something I can do with a web service that I issue a request,
+10:54
+but I do not necessarily have to provide a body to that request which contains a resource button, a handshake.
+11:02
+We're not really doing that ourselves. So the handshake happens as part of HTTP, which we like to do for us.
+11:09
+Would that be post post? Okay. So what could you do, for example, to the resource box with post that does not require a body?
+11:15
+Hey head, what was that?
+11:24
+Ah right. So that is an example of a request I can make that doesn't require a body.
+11:28
+What information would I need to provide to the server to the head request? I don't need to provide anything.
+11:32
+Likewise yet. So if I get this resource, I get information about it.
+11:38
+I don't supply any information about it. It would be foolish of me to tell the server I want to get this resource here.
+11:43
+Take the resource. Why are you getting it? You have it. Um, likewise.
+11:49
+There is some other ones. Hey, there's another one. Give me information about the resource.
+11:53
+But without actually fetching the resource, the server is responsible for dealing with that request.
+11:56
+And then there is others that I control, like put where I have to give the record to be put on the server.
+12:00
+There is other requests like delete where perhaps not necessarily.
+12:07
+I need to provide a body to specify information about the resource I'm deleting.
+12:12
+Although that becomes implementation defined then are we relatively happy with this?
+12:16
+Yes. So with the head just bring you the headers. Yeah.
+12:22
+So it's going to get the information that the server beams is useful to you about the resource or anything that is willing to provide.
+12:26
+So yeah. Good. Okay.
+12:32
+Now we've also seen JSON, which was perhaps new to some or less explored let's say, because I think we've seen it somewhat before.
+12:37
+Remind me what mod you have we seen Jason?
+12:44
+We saw a bit of Jason in the data.
+12:51
+Oh. Data analytics. A data analysis are cool. Okay, well, brief recap, please hold.
+12:56
+Right. So, seriously, please continue to hold.
+13:06
+Much better. We're going to save this as a document.
+13:12
+Super organised code test of Jason right.
+13:18
+So Jason is a representation of data which is object orientated.
+13:23
+So I can represent objects in it. Now this is a valid JSON object.
+13:28
+In fact this is capturing the object that contains nothing. So this is valid JSON syntax.
+13:34
+Now typically in an object to make it useful you have some sort of information.
+13:40
+It's not exactly the same object representation as we know from Java.
+13:44
+In Java. The objects are a bit more structurally defined. You have to have types.
+13:48
+You have to have information about those types. So this does not apply to Jason.
+13:53
+Jason is much more stripped down. And the idea is that it should be capable of representing objects that any object oriented language can accept.
+13:57
+So if you think, for example, Java, Java has variable types like int, double, and so on.
+14:06
+The same does not apply to places like JavaScript. You do not have control of the types.
+14:12
+You as a programmer do not define types. So it would be foolish for Jason to have actually type definitions in here.
+14:16
+So what they do is they strip away all of this information and leave just enough for the basics.
+14:23
+So in Jason Objects I have now defined an empty object.
+14:28
+I can go and define an attribute to this object, which I'm going to call um, some attribute in quotes.
+14:32
+And then I put a colon at the end and I specify the value of this attribute, let's say 12.
+14:42
+So now this is an object that contains an attribute called some attribute which has a value, and that value is the integer 12.
+14:48
+And JSON really accepts a variety of different, um resource resources types of data.
+14:56
+So this attribute could be associated with the number 12.
+15:03
+You could also be associated with the number 1.5. All of these are well defined in JSON.
+15:08
+JSON understands um decimals. It also understands integers.
+15:12
+Um it could also be a string. So some attribute could have the value.
+15:17
+Hello. This is another acceptable type. Or it could also be null because every object oriented language has some understanding of the term null.
+15:23
+Um, so this is the basic sort of, so to speak, primitive types that JSON supports.
+15:33
+Now of course we have some more in Java that we can't quite capture here, for example, in Java will have a date.
+15:39
+You cannot capture the notion of a date in JSON. You have to represent it as some other type, namely string.
+15:45
+For example, that is a valid date. It is represented as a string in JSON,
+15:55
+but the representation of the data in JSON does not necessarily have to map 1 to 1 with
+15:59
+the way it is presented within the context of the programming language that reads it.
+16:05
+So Java could take this object, translate it into a Java object, and in the process convert this into an actual date object as opposed to a string.
+16:08
+And all of that is typically nowadays happening automatically.
+16:19
+And we're going to see some of these marshalling and marshalling later on when we design our first application.
+16:22
+Okay. Now JSON itself is capable of representing pretty much any object under the sun.
+16:28
+So you could do things like have an array. So within my object I could make some attribute be an array like that.
+16:34
+Unlike what we've seen in Java, in JSON, an array doesn't have to have the same type of data within it.
+16:43
+So you could have an array which contains a string followed by the number one, followed by a decimal.
+16:49
+Maybe if you're feeling adventurous, you could also have an object within this array, which in turn contains some information as a key with a value.
+16:56
+And then maybe you could also have another array of objects that contain another value,
+17:05
+which is associated with an array of arrays, which contains another array of objects.
+17:14
+If you ever do this for an application stop programming, don't do it.
+17:23
+It's not worth it. There's no real justification why you would need this. Do not give me a reason.
+17:27
+I won't believe you, but it is possible. Jason is not there to restrict you from doing something, is there to allow you to do everything.
+17:32
+And then what? You work out how you translate that to your favourite object oriented language or not object oriented language.
+17:39
+I was going to ask why? Why does it do it that way? Unfortunately.
+17:46
+But because you don't want to restrict. Yeah. So unfortunately there is the generated languages where this is allowed.
+17:52
+Uh, for example, JavaScript, Python being some examples of this.
+17:59
+Sorry. For any Python or JavaScript developers, I have no respect for these languages. Um, so this is to allow the possibility.
+18:03
+Why should the format of the data representation stop you from it?
+18:10
+The format should allow you to do pretty much everything, and then whether or not that makes sense as a decision is up to you to manage.
+18:13
+So the idea here is that this is just a way to represent data.
+18:20
+What you do with this data subsequently is up to you to define.
+18:24
+And maybe some design choices basically do not make sense, but it will allow you to do them nonetheless.
+18:28
+Then in an object orientated language you have to then make a call, Make sure you get a list.
+18:35
+Yeah. You have to say, well,
+18:42
+I want to read this in value by value and then convert it to a format that I can put into an array so that the data types are consistent.
+18:43
+Yep. Interesting. So you, as a programmer would be the one to define that when you send me, let's think of the context of web services.
+18:50
+Again, as a programmer who is defining the web services messages, the way that the data is represented and communicated between client and server.
+19:00
+I would tell you that let's say I have, uh, let's call it a array of names, which are the aliases that someone may use.
+19:09
+And that is going to be an array of strictly strings.
+19:21
+If you send me anything else, it does not meet the specific format that I expect your message to have.
+19:24
+And that would be a well-formed example of that interaction. Um, and um, like that.
+19:28
+So this is now a use of JSON to communicate something to my program, which in turn interprets this data.
+19:37
+After kind of checking that it meets the contract it asked you to follow.
+19:43
+If you didn't follow the contract, then you also added the alias which is an object.
+19:47
+Then this could rightfully come back and say invalid data. Happy with that?
+19:52
+Yeah, you'd have to. You'd have to just read everything in a system train or something like that.
+19:59
+Because if you had a number of them, you can't then convert a string to maybe you could, but if you wanted to have a number in JSON,
+20:05
+for example, the field age could be associated with a value 12, which is different to the value 12.
+20:14
+Yeah. So there is a way to distinguish a number number from a string in JSON.
+20:21
+Okay. So then by doing this you are forcing the object orientated language to sort out on its end.
+20:26
+Yeah. But for languages like Python the JavaScript I'm assuming you wouldn't be using a list of mixed data types.
+20:34
+You can, but would. But would you?
+20:43
+You know, like, even then, you still have to on your side to convert that into a format that's at least somewhat consistent.
+20:45
+Yes, but there is possibilities. There's some very, very narrow cases where you do have a data of a list of different types.
+20:51
+I can give you an example later, which is to do with reflection, which we're going to touch in the third year.
+20:59
+But there are occasions where you can have a list that contains more than one types within it, which are distinct and disconnected from one another.
+21:03
+So the possibility is there. Now, whether or not this makes sense, it's basically up to the programmer.
+21:10
+The same can be said about other languages. For example, if I was making a bespoke configuration file, I define what makes sense.
+21:16
+But a user can just literally bash the keyboard and type nonsense all along it.
+21:23
+I'm not going to try to make sense of that, even though it's possible in my format.
+21:27
+I'm not going to try to say this is valid and make sense of it.
+21:31
+So the parsing is not something we will worry about too much now, maybe in the third year,
+21:34
+but for the moment, we just accept that JSON can allow us to do some silly things.
+21:39
+Okay, now speaking of Jason, we can see some more stuff. So maybe we have another field here, which is, um, what are we going to do, a dress.
+21:45
+A dress? I don't know how to spell a dress, but we're going to live with it.
+21:57
+And that is an object, because in a dress is made up of more pieces of information than one.
+22:03
+So an address is an object which contains the number.
+22:07
+Let's say that is the number, and it also contains the street.
+22:13
+Oh, okay. Uh, which is Text Street, and it also contains the postcode.
+22:20
+Which is. So an example here we have an object which contains a list of strings.
+22:33
+I'll remove that name as an integer and an address, which is another object that contains the number in the street and the bus route.
+22:44
+This could be represented in Java. You could have the class called let's say message, which has a list field a list of strings.
+22:52
+View here a int field for age and then another object of type address.
+23:01
+And the object of type address contains a number, a string, and a bus code within it, so that structure maps 1 to 1.
+23:06
+Yeah, if you have multiple objects in the place on, how do you remain the same?
+23:13
+Yeah. So this would be an example. So here this object is associated with address and refers to that are.
+23:20
+So these these are not objects. So this is a primitive number 12.
+23:27
+And then a list of strings. You might have more than one object.
+23:32
+Oh, I've seen more than one instance of this.
+23:38
+If you were reading through the JSON looking for some configuration changes, and you want to add a section.
+23:40
+Yes. So you could have a you would start with having the overarching object, which is kind of the only object you're looking at.
+23:47
+And then within it you would have fields like configuration file system configuration,
+23:55
+open object data, then another one network configuration open object data.
+24:00
+So again you would do a key value there. But it would look for a address.
+24:05
+Then specifically the key you would use that as your key to reference this object and then look into it to pull out the details.
+24:09
+Yeah. You can have an object with an object. Yes.
+24:17
+But you can't say, for example, then I have something which is an unnamed object here that is not valid JSON.
+24:22
+But like let's say, let's say you can make your poster as opposed to an that jacket.
+24:29
+Oh, yeah. Yes. So a postcode could have could itself be another object which has the first part portion which is the e in this example.
+24:34
+And it also has the second part which is I'm going to assume this is a string.
+24:45
+But here we are. So you can't. There is no restriction to have what you can build.
+24:53
+Anything you can build as an object in Java can be expressed into JSON, pretty much 1 to 1.
+24:57
+What you're missing here is types. So you would know for example, you wouldn't know what object this maps to in your code.
+25:02
+You would have to assume that and have it defined in such a way that it maps.
+25:10
+But again this is something that we don't need to worry about because Java does it for us.
+25:14
+Well, the frameworks we're going to be using it, do it for us. You didn't have a framework for doing it.
+25:17
+You'd have to look at a JSON to figure it out when you throw. Okay. You can kind of say put it in.
+25:22
+And then I look at it sometimes Python has that framework building. So all of these require a password.
+25:27
+We're not going to do puzzles yet,
+25:33
+but a puzzle is responsible for breaking this down into a programmatically accessible syntax and then translating it into an object,
+25:36
+which everyone's going to have to do. Um, very, very nice stuff.
+25:41
+If you're into compilers, interpreters and stuff. Yeah, you represent the object.
+25:45
+The the methods are. Right. So in JSON you cannot represent any code.
+25:49
+You can only represent data. So of the button. Yeah.
+25:54
+So it's only the variables you can represent. But you cannot necessarily have a method in here.
+25:59
+So you do not know what a language is going to interpret this.
+26:04
+What system. So you can't provide code for it to execute.
+26:07
+What you could do is know that you have a contract with whoever is receiving this and say there is.
+26:11
+I'm also and this is generally a bad idea, but we're going to cover it in a moment, uh, executable code and then provide it as a string.
+26:17
+Which in itself is going to have to be in some specific language,
+26:29
+and the client or the recipient of this needs to know that this is executable code like public static, void main, whatever.
+26:33
+But yeah, it's not designed to represent code. Yeah. Yeah I've seen stuff like this as well.
+26:43
+And there'll be a variable that will have a link to somewhere else.
+26:55
+So how does that what's going on there. It's a string.
+27:00
+You can represent that if I want to say the URL for this very fictitious object is well that's bad.
+27:06
+And why do that? The. Why do I have a link? Well, depends on what this is meant to capture or at the moment it's a very fictitious object.
+27:21
+But if I was to say you sent me a request to create a student record on my web service.
+27:30
+So I replied to you with information on the student record, and I also gave you the location of that, a specific record you just created,
+27:35
+because the record has an ID and you need to have the location of it with the ID built into it, so you know where to look next.
+27:42
+This is part of hiatus, so if you wanted other information, you know it's already somewhere else.
+27:48
+Why create a JSON thread? Just give them a link. Just give the link to the resource that you just created.
+27:54
+So for resource creation it makes sense.
+27:59
+You could also have a list of links that tells you different information, like this is where you get the name of the record.
+28:01
+This is where you get the surname of the record and it's just different URLs. URI is rather.
+28:06
+Yeah, okay. JSON is very interesting. There is a well-defined standard of JSON that tells you exactly what you can do with it, found here.
+28:11
+There's also a formal specification of the language which I do not wish upon anyone to read.
+28:19
+It's very formal. If you didn't like discrete math, you're going to hate this. But the good news is you do not have to know this.
+28:23
+And then there is also ways to define so-called JSON schemas that do not describe the data.
+28:30
+They describe the format of a JSON object or JSON in general. Not stuff we're going to look at.
+28:36
+So these are further resources for you. But you do not have to look into them at all.
+28:42
+Now JSON is very well established. So there's also tools online that helps you write it, do it visually,
+28:46
+create the objects visually and so on, and allow you to do validation of JSON and so on.
+28:52
+We already went over what forms part of JSON. I forgot to mention that you could also hold booleans.
+28:58
+True and false are also valid values, but that's about it. Um, and now we continue on with our Rest principles.
+29:04
+We move on to talk about statelessness. Does anyone here know what statelessness or state generally means in broader terms?
+29:12
+On or off? Yes, actually. So the state of a device could be on, could be off.
+29:24
+It describes the situation in which the device finds itself at the present moment.
+29:31
+The same can be said about anything. An application has a state.
+29:35
+An application holds variables. The values that are stored within those variables form the state of the application.
+29:39
+So if I change one of these variables, I change the state of the application and maybe it behaves differently to what it did before.
+29:45
+So statelessness means that information that is in the context of web services is
+29:52
+that we have all the information that we need within the requests themselves.
+29:57
+So you do not have to have the assumption that the client is going to have a session.
+30:02
+So let's say, for example, if I have an API, I make an API.
+30:08
+If someone sends me a request to create a student in that API from a client,
+30:12
+I will not base my decision making in the server on any previous information this client has provided me with.
+30:17
+It won't matter to me if that client has previously created a student record or not.
+30:25
+This is where I am stateless. I process each request that the client is sending me, as if it's a standalone thing.
+30:30
+That depends on nothing else that the client has ever done before. Yes.
+30:35
+So generally speaking, the client sends information about the resource or gets information about the resource,
+30:41
+and the server handles it as if that client is new. And it makes no difference if that client has interacted with the server before.
+30:47
+Now there's two kinds of statelessness. We can have statelessness in the application.
+30:54
+I struggle with this word very much in the application. And the application is usually what's communicated with the server.
+31:00
+And what this refers to that is that the applications state,
+31:06
+that state that the application finds itself in is not going to depend on what information the server provides and doesn't provide.
+31:11
+Obviously, there is a bit of a lie here because applications are designed to visualise or do stuff with the information they get from the server,
+31:17
+but what this could be interpreted as is,
+31:24
+the application does not expect the server to give it any specific kinds of information in order to function,
+31:26
+and likewise, the application won't assume the server is going to present this information to it.
+31:31
+So, for example, if you're visualising the graphical user interface,
+31:36
+the response of the server don't spawn the visual the graphical user interface until you have the response from the server.
+31:39
+Otherwise, you have assumed that the information will come through okay.
+31:44
+Now, statelessness applies to many different things as well.
+31:51
+So we could have things like get. This is an infamous example where statelessness is defeated by web services.
+31:55
+And this is to say that the methods themselves have a purpose.
+32:02
+If you say, I want to get a resource, it doesn't matter if you get it once or if you get it 3 million times,
+32:07
+you should still always get the same information back.
+32:11
+The requests are handled, disconnected, and there is no information carrying from one of your previous requests on to your next one.
+32:14
+So with a Get request, the client should be able to get in the previous example.
+32:20
+All books from the server. Here is an example of that request.
+32:26
+And if you issue it again, you should get the same response and again and again and again.
+32:29
+And usually the case where that goes wrong in modern web services is when someone does change server state on get.
+32:33
+You might have seen some abominations in the past where to delete an account. They have a Get request being made to a delete endpoint.
+32:41
+Can anyone think of a problem with that? You don't get anything back.
+32:48
+In their minds, you're getting information about the deletion of of the account.
+32:57
+So you don't get anything the first time you do, you send the get.
+33:08
+It acts on the deletion and sends you back the information that you had about this record before you deleted it.
+33:12
+So in their minds, they have fulfilled the contract of Get. But in practice, based on what we said, this is not a stateful, implemented,
+33:17
+stateless implementation because if I should get again, what am I going to get that time?
+33:24
+The record doesn't exist, right? So the order in which I perform,
+33:29
+or the amount of times I perform that request dictates what information I'm going to get back from it, which is not good.
+33:32
+And also do not ever delete stuff. Do not modify state with get browses prefetch information they call.
+33:38
+This gets all the time. Uh, if you put it as a um what is called you can bookmark these requests.
+33:44
+Do not do that. Okay. Now the resource itself on the server side also has a state.
+33:51
+There is some representation for it. And then there should be consistency among the responses the server issues to the different clients.
+33:59
+So if my client gets all the books and if someone else's client gets all the books,
+34:06
+we should all get the same information, regardless of the order in which we perform this request or the amount of times.
+34:10
+Again, statelessness. Of course, this cannot apply to everything.
+34:16
+Like if you make a post, naturally you're going to be modifying the server information.
+34:20
+So if I make a git after that it's going to come back different. But this is not captured by statelessness.
+34:25
+And here's an example of post. When you post stuff then you are modifying the information on the server.
+34:32
+And then you change in individual resource state. What you're not changing is the state of the web app.
+34:40
+The fact you created or you modify the resource does not bar you from modifying another resource.
+34:46
+The server shouldn't be looking at you as a client and keeping information about your interactions with it,
+34:52
+so you can still modify the information that the server holds. That's part of Rest.
+34:57
+That's normal, but the server should not change how it responds to you based on whether or not you've done something.
+35:01
+That's where the state lies, relatively happy.
+35:06
+It's going to make more sense later. Yeah, yeah. So like you're posting that new to me.
+35:10
+So yeah, you can see that you've got the URL right. Yeah. Well, if you just want to change one of those values within the book.
+35:19
+Yeah. I told you, white lie. Normally you use both for that, which is to update.
+35:27
+Um, but in practice, pretty much everything, as we'll see later, is using post for that.
+35:32
+And you send the whole record with the modification applied to it.
+35:36
+Right. So like we saw last week, if you remember how we created the imaginary phone, the you know,
+35:41
+that API we were testing with postman last week with the phones when we wanted to change the name of the phone,
+35:46
+we essentially resend the request and said, recreate this record, which already has an ID so we identified it and then we changed one field in it,
+35:51
+and the server will replace it, state with that, and then just remove the part that URI will just say update.
+35:58
+But instead of duh, we're going to come back to that.
+36:03
+We won't say update because we do not put words in the resources.
+36:06
+This identifies something which is a resource static thing. This is what tells it what data remove, get, delete, and so on.
+36:10
+Okay. Now another principle. Possibility. Has anyone heard of cash ability?
+36:20
+Sort of. Yeah. Okay. Now, cash to cash information is to remember some information that has appeared in a transaction or over time.
+36:27
+This again, very broad concept in software engineering. But in the context of web services we have a client and we have a server.
+36:35
+The client knows some information that it's open back from the server in the past.
+36:44
+The server may know information that the client has sent in the past. We're not talking about maintaining state.
+36:47
+We're talking about maintaining some basic information that has travelled before.
+36:52
+So we don't need to resend it. So the idea here is we're trying to cut down on communications.
+36:56
+An example of this would be if you have a server that is giving information about a list of movies,
+37:02
+and the client is fetching all the information about these movies.
+37:08
+The client doesn't need to fetch every single thumbnail of the movie every single time.
+37:12
+The client can choose to fetch them once and keep them locally, and instead of asking the server to provide the thumbnails,
+37:16
+once again ask the server has anything changed with the thumbnails I have?
+37:22
+If nothing has changed, why would you fetch them again? But in that sense, the cache is on the client side.
+37:27
+The client has already held a copy of the previous response from the server, which it continues to use thereafter.
+37:32
+So that's the idea of cache ability.
+37:39
+And we should be designing our Rest APIs in such a way that the information they provide is able to be cached within reason.
+37:40
+Obviously, the cache ability cannot apply to everything. If you're providing very momentary information, information that changes every moment.
+37:48
+There won't be an opportunity for cache ability, but it's not that in principle that couldn't be cached because of the nature of the data.
+37:56
+Now, cache ability itself does not apply everywhere.
+38:03
+If you're providing massive resources like a video, you don't want the client cache every video in case the user wants to watch one of them.
+38:06
+If YouTube apps were doing that, your phone would be completely full in minutes.
+38:13
+Um, but the idea is you're trying to improve the performance. Every client request to the server takes time from the server.
+38:17
+If you make your application cache, you reduce the request. Then you make your server able to speak to more clients than before.
+38:25
+Happy. So you're adding memory to your server by proxy?
+38:32
+By having it. Yeah. So you can tell each of your clients remember this information.
+38:36
+It might come handy down the line. And you're going to save me having to provide it to you again.
+38:40
+You're saving on your memory on the server, but also on your bandwidth because that is a valuable resource as well.
+38:43
+Is that cookie? Yeah, yeah. Cookies are typically to maintain state, which is a bit of a grey line here.
+38:49
+Um, but the idea is that you can put temporary storage in the form of cookies or in the same place as cookies.
+38:56
+Um, for the client to store stuff. So, yeah, if you open your browser on canvas, you'll see how much information gets cached on your browser.
+39:03
+I'll show you that in a second. Okay.
+39:10
+Now, another principle is the fact we have a client and a server.
+39:14
+Not much new here, but there's some founding, some principles that govern what the client and server responsibilities are.
+39:18
+The client doesn't care about how data is stored, in what format, or what way, in what place.
+39:25
+This is the responsibility of the server. It is not responsible for other things than the user's experience.
+39:30
+So the client is shown to the user and that is what it should care about.
+39:35
+And the client code is generally more portable because you can have a client running on different devices across different platforms and so on.
+39:40
+That still speaks to the same server. Now the server does not care about the user interfaces.
+39:47
+In fact, the server of a good web server shouldn't care how this data gets shown to a user.
+39:52
+The server has no connection to the user.
+39:57
+It is responsible for managing the resources that it knows about and cares about, and it is responsible for managing those well.
+40:00
+So the server should be capable of dealing with all sorts of requests on the resources that it is concerned with,
+40:06
+and generally the server can be more? Simply implemented with scalability in mind, you generally implement a server in one language,
+40:14
+and your your kind of overall goal is to make the server capable of dealing with enough requests with room to expand.
+40:22
+Should your applications grow and need more server capacity.
+40:29
+One of the last principle is the layered system. Now in the world of rest.
+40:35
+You as a client shouldn't necessarily be worried about which endpoint you're hitting,
+40:41
+so you shouldn't care if the server that you're talking to is in Swansea University or if it is in Aberystwyth University.
+40:46
+All you know is that they have a common contract,
+40:52
+and they're able to service you with the same information that you would get from an API that meets a specification.
+40:55
+Another element of this is that you can have different servers that mutually form the web service.
+41:02
+So if you're doing some sort of authentication as part of your web service, then you can have a server responsible solely for user management.
+41:08
+Another server responsible solely for the data. Behind that, a user can access another server responsible solely for storing and retrieving data.
+41:15
+All of these can collaboratively produce a web service, and then the client will not know about that.
+41:23
+And it doesn't need to know about that.
+41:29
+If you're doing any any interaction between different services behind the scenes, it is on you to make it kind of transparent to the user.
+41:31
+Invisible. The idea here is that with a layered approach, you can also take out the responsibility from just one server doing everything.
+41:38
+So if you have one server that is your web service and it does data storage management and it does authentication,
+41:47
+now you have a tightly coupled system that is harder to scale,
+41:53
+whereas if you split it among different subsystems and you have a server responsible for the user authentication being contacted by your web service,
+41:57
+that's much easier to scale because you just add resources or you scale this across multiple machines.
+42:06
+It's an easier component to scale. So this is what a layered approach offers to you.
+42:12
+Again, not something we're going to massively look at. We're going to see scalability in different ways.
+42:19
+But good to know. The final part is one that I've told you is a bit of a sin.
+42:23
+Well, it turns out this part of the rest specification. Oh, so a part of this protocol is code on demand.
+42:30
+A lot of protocol architecture is code on demand, where you're essentially able to serve code for a client to use.
+42:39
+This is something I told you is generally not permitted through JSON.
+42:47
+JSON is not designed to provide code, but in some narrow cases you're able from the server to send the client some code to execute.
+42:50
+There are some risks associated with it, but the idea is if you have a procedurally generated piece of content,
+42:58
+it is very hard and costly to create that content on the server and then serve the whole thing back to the client.
+43:04
+It is much more resource efficient and also easier on the server to send the client the code that produces the same thing on their side.
+43:10
+So this is something to use. It's not required in order to have a RESTful application.
+43:18
+A bit dubious on that, but it's doable. And the rest?
+43:23
+Is this why people complain on how viruses are made and run?
+43:27
+Potentially it depends on what the server is making your computer do, but it is supported by the Rest protocol.
+43:32
+That's all we need to know. I don't think this makes perfect, but I think this side is a little weird.
+43:38
+Okay, I'll have to update them. It is not hidden, so I don't know how is this slide there?
+43:47
+That is. Yes. Yes. It's just weird. I'll have I'll re-export it just in case.
+43:55
+But yeah, the one way to get more bullet points, I see.
+44:00
+Oh, yeah. I don't know what happened with that. I'm pretty sure I've freshly explored these, but I might be reusing last year's version.
+44:06
+There's been some changes. Okay, I'll update those. Sorry about that. Okay.
+44:14
+Right. So following all of these principles, we sold those six things.
+44:18
+You end up with something that we call a RESTful web service.
+44:23
+You don't have to follow everything, but if you don't follow everything, then it's not a restful service you don't use nowadays.
+44:26
+You're going to find a lot of these, which we call RESTful, but in practice they don't follow absolutely everything.
+44:33
+Like one of the endpoints we interacted with last week did not follow hiatus, which we're going to see down the line.
+44:38
+In principle, you could say it is not rescue, but in practice we all agreed it is okay.
+44:43
+Now we're coming to another word which I hate. Does anyone know what the potency means?
+44:50
+Anyone know how to pronounce it? Thank you.
+45:00
+That. So we use this to describe certain kinds of methods in HTTP.
+45:06
+The methods which are. No matter how many times you run them, things will not change as a result.
+45:12
+So can anyone think without looking at your printouts of a method, a HTTP method that you can call several times without any change to its outcomes?
+45:18
+Yeah. Yet? Yeah. No matter how many times you get the same results, you're going to get the same resource.
+45:29
+And you mentioned this before along with head with put and so on.
+45:35
+Now believe it or not, put in delete are included in this. And the idea is that yes, you can call delete on a resource which does delete the resource.
+45:39
+But if you call delete again you're not re modifying the state.
+45:47
+The state has already changed. There's no actual transition happening behind the scenes.
+45:51
+Call it three times. You're not revisiting the same resource. So the resource is gone.
+45:55
+So we still classify delete as idempotent. And the same goes for put.
+45:59
+If you update the resource once or if you update the same reason 60 times, you still end up with the same final product.
+46:05
+Okay. Post is not an example. That is important because you can call post twice and in general this would create the record twice.
+46:12
+Call it three times. You've now created three records.
+46:21
+So every time you call the post request, the state transitioned to a different one for the resource that you're posting to.
+46:24
+So everything except post from what we've seen is impotent.
+46:32
+But okay. And we're also going to talk briefly about side effects just so we can cut how much theory we'll talk about in the next lecture.
+46:37
+Anyone know about what side effects mean from the context of code?
+46:48
+Do you remember saying this method has side effects? No.
+46:53
+Okay, so a side effect is when a method.
+47:02
+Let's talk about code for a second. We're going to leave those here. Well, let's talk about code.
+47:06
+When you have a method in Java which modifies a variable which is global to the program.
+47:10
+This method has side effects because calling that method has just altered the global program state.
+47:15
+If the method only modified stuff which was local to it, this method doesn't have side effects because if you call it 60 times,
+47:21
+it only modifies its own stuff, but doesn't modify anything external to it.
+47:27
+So this would be basically the same idea here.
+47:31
+You can have methods that have side effects and methods that don't have side effects yet,
+47:36
+and can only give you information about the resource without doing anything to the resource.
+47:40
+So those are safe to the contrary.
+47:45
+Both updates a resource. It modifies. It has it has some side effect.
+47:49
+Delete has a side effect of removing host, has a side effect of creating or updating as we'll see.
+47:53
+So we just classify these as safe and unsafe. And generally you do not want anyone to be able to perform unsafe methods,
+48:00
+unsafe methods on a resource without some sort of checking of what they're doing, like validation with get.
+48:08
+You don't particularly care. There's no real validation happening there.
+48:14
+And then in terms of representation, we have briefly talked about the various ways of representing things,
+48:20
+which I previously told you what JSON is, in fact, in this lecture. In general, Jason is very favoured in the design of RESTful applications.
+48:26
+In fact, it's become kind of the unofficial standard that Rest API is talk in JSON.
+48:34
+Obviously we've seen a brief introduction to HD, sorry, XML, which probably gave you an idea of why we don't prefer it,
+48:40
+but there's nothing saying that you have to use JSON for making a rest API.
+48:46
+You could talk in HTML, XML, you could talk in token YAML.
+48:50
+You could also talk in Tommo. If anyone has heard of this. Good.
+48:54
+Keep it this way. There's all different formats. You could also talk in plain text.
+48:58
+Um, but the basic, the basic thing here is that we have the ability to make Rest APIs that respond in XML.
+49:02
+Everyone kind of sticks to JSON because it's much simpler. XML is very verbose, very complicated, and unnecessarily so.
+49:11
+So we avoid it. Okay, let's stop here before I tie you too much.
+49:17
+We're surprisingly on time. Um, so in the next lecture, we're going to continue with a little bit of theory, a few slides,
+49:23
+and then we're going to see we're going to actually make a RESTful application together. And I'll update your slides now.
+49:28
+Good. Any questions. Do you want to show us in the browser.
+49:34
+Oh yes. If you want to see it you can stay. You do not have to stay for this, so please have a break.
+49:41
+If not. But essentially, if I go to canvas.
+49:46
+Canvas is already slow enough to load. But it would get a lot slower if it wasn't for.
+49:53
+If I go to my, uh. Where is it? No, here.
+50:00
+If it wasn't for 2.5kB of stuff that was being stored in my browser from canvas, so it doesn't have to be fixed every time canvas makes a request.
+50:05
+So at the moment there's this point, 2.5kB of stuff which I can explore somewhere.
+50:14
+Local storage. There you go.
+50:21
+You can see some information that canvas stores here, for example, that I have this course expanded as a user blah with AG, whatever that is, blah.
+50:26
+And I don't need to fetch it from the server. Every time I launch my canvas page it can look it up locally.
+50:36
+I should be careful what I show you because sometimes they store keys on here. Um, but yeah, and many other things.
+50:42
+But you can look those up locally without going to the server. So you save the server some resources in some other applications like uh,
+50:49
+I'm not going to put outlook, but if you have bigger applications word online, outlook,
+50:57
+Gmail, YouTube, all of these things, they store a lot more information on your browser,
+51:02
+how long they store cash and um, unclear, however long the application wants.
+51:08
+Oh yeah, normally two hours, right? That would be for some cookies, especially the sensitive ones.
+51:17
+They need to be renewed every so often, but doesn't apply for caching. I can store these indefinitely on your browser.
+51:23
+Oh, to the point where I think it wasn't on this computer stack edit.
+51:28
+Stack edit is a prime example of this because it stores there and I don't have it here.
+51:34
+But Stack Edit allows you to edit markdown live and it stores the state.
+51:41
+Like if this was something I wrote, I left the page and I came back a year later.
+51:48
+It would still load up exactly what I was working on last, because it had stored it on my browser.
+51:52
+Okay, so yeah, let me stop the recording. So, you know, when you were talking about.
+51:59
+
+So we are starting to get into the interesting stuff. I know I've tortured you with theory in the past few weeks.
+0:00 
+0:01 3:00 6:00 9:00 9:34 12:00 14:12 15:00 18:00 21:00 24:00 24:22 27:00 29:12 30:00 33:00 36:00 38:17 39:00 42:00 45:00 48:00 51:00

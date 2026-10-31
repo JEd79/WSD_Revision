@@ -1,0 +1,157 @@
+Good evening. I see.
+0:01
+Excellent. Yes, a good evening. So you'd be unsurprised to know that next week you have a.
+0:06
+That's wrong. You have an exam? Did you know this, guys?
+0:14
+Pardon? You're doing fine.
+0:21
+Yes. I'm trying to work out why you've got this cinched.
+0:25
+And that's supposed to be a very lengthy lecture revision.
+0:29
+That's the one. So. I have a slide deck with 157 slides.
+0:33
+Do you think we'll go through them? Why not? Do you think?
+0:41
+Yeah. No, I don't think we'll be able to go through all of these.
+0:47
+Well, the bottom line is, for your revision, I have compiled a collection of slides which contain a lot of relevant material for your revision.
+0:49
+And we're going to go through a few things to begin with, but then we're going to shift our focus to writing clients,
+0:58
+which is the new topic or sorry subtopic that we're going to see today.
+1:05
+And it's quite good to know because your labs are going to be based on that,
+1:10
+but also because writing clients is something you do a lot more frequently than writing web services.
+1:13
+So we're going to see that today. We're going to talk a little bit about how I would suggest you revise.
+1:17
+Um, and there is also this monstrous slide deck of 157 slides that is available on canvas for your revision.
+1:23
+What I want you to remember is that content up to and including week five is eligible.
+1:31
+But writing clients, which is what we're going to cover today, is not, I can tell you with confidence that's not going to be in your exam.
+1:37
+Okay. So being here is not enough to help you prepare for the lecture for the test next week.
+1:43
+The slides are here to help you, but you ultimately have to do the revision however you've done it all along.
+1:50
+Um, the information on these slides is here to guide you.
+1:58
+I've stripped away some things which are definitely not going to be on the test. For example, the contextual knowledge stuff.
+2:01
+You might notice that this is missing, but the rest of the slide deck is information we had throughout the first five weeks of content here.
+2:06
+Um, so in class demos and lab tasks that you've completed or, and,
+2:16
+or have witnessed may also introduce examiner material which may or may not be covered in as much detail on your slides.
+2:21
+Generally speaking, the slides have everything you need,
+2:27
+but it would be good to have this stuff in mind as an additional piece of information to inform your revision.
+2:29
+So when you're revising, if you find something that doesn't make sense on the slides, go to the recording and see how much time we spent on it.
+2:36
+If we just glanced over it and moved on, that's how much I expected to remember of it.
+2:42
+But if we sat on it and we did a live demo, then watch the demo and make sure it makes sense.
+2:46
+Yeah, we're going to be writing the code. Not this one.
+2:52
+Lucky you. You'll be reasoning all the code. You may be asked to suggest corrections, but you won't necessarily be given a task of the form.
+2:57
+I want a web service that does tell me the steps to write it by writing some code.
+3:05
+There might be something like why? Is there a reason you should hear that sort of thing?
+3:09
+Yeah. So you may be given pieces of code and say, there is this problem. Tell me where it comes from or there is that problem.
+3:15
+Explain how it can be fixed. Or it could be something like use a piece of code which has a problem, identify the problem, that sort of thing.
+3:20
+Okay. So in there, there is the standard sort of keywords that we use in all our tests.
+3:30
+You might be asked to identify some sort of error or some poor design choice or some good design choice.
+3:36
+You may also be asked to describe something or explain. Now remember, the explain part is where you actually have to dig in and go into detail.
+3:43
+So when I ask you to explain something to me, you have to provide a lot of detail.
+3:53
+When I'm asking you to identify something, I expect you to just name it.
+3:57
+Now you may see some cases where it says identify blah blah blah and justify your answer.
+4:01
+Justify serves the same purpose as explain. The only difference is that you now have to justify why you identified something.
+4:07
+So pay attention to these words. We build them for a reason.
+4:15
+Just to remind you of how well to guide you on how much we expect to see in each of those questions.
+4:18
+Um, but what I will definitely not ask you to do is tell me anything about definitions.
+4:24
+I will not ask you to define what rest means. I will not ask you to define what Soap means and all of that stuff.
+4:30
+So definitions I don't really want you to. I don't want this to be a memorisation game.
+4:36
+Okay. Now you will see different fonts as well.
+4:42
+If you see italics on your questions. Again, same as programming one and two.
+4:46
+Whenever you see italics, they are emphasising the subject or to the term that we're focusing on for that particular question.
+4:50
+Uh, teletype, which is the font, which is a form of space.
+4:58
+Whenever you see that this might be the name of a tool, it might be the name of a method or a piece of code that is in that font.
+5:02
+And then bold is the actions that we expect you to take. So if it says explain so and so the explained word is going to be in bold in the question.
+5:10
+Okay, we already went over these briefly, but I want you to remember that these are the ones that require a lot of focus.
+5:22
+Describe this a little lighter and then identify his own naming things.
+5:30
+Are we happy with that? Yeah.
+5:34
+Good. Okay, now for the rest of this slide deck, there is a recap of stuff that we did in each week.
+5:39
+So this is week one. And then if you compare it to the notes of what there is I am I have excluded some slides here.
+5:46
+So there is fewer slides from week one in the deck than there is in the actual week one lecture.
+5:54
+You can take this and just study from that slide deck, but it's not sufficient to just look at the slides and call it a day.
+5:59
+You need to follow on from anything that doesn't make much sense. So well, let's find an example.
+6:06
+If I've shown you some piece of code here, well, don't go back.
+6:15
+If we, for example, created something like this, which will, it will open the socket and communicate it with a server in our live demos.
+6:20
+If this diagram doesn't quite make sense, go and consult the recording of that lecture because we talked about it in code.
+6:27
+So there is a live example of how this manifests for instance.
+6:34
+So that's the way I would expect to be the most effective to revise. But of course everyone does it.
+6:38
+Different labs are also helpful. Look back at the labs you have completed.
+6:42
+If you haven't completed a particular lab, try to do it as part of your revision and then bring it to the lab so we can look at it together.
+6:46
+Um. And. Yeah. That's it. Good.
+6:54
+Do we have any questions on this? Yeah. Is this what you call.
+6:58
+This is one week to 1 to 5. 1 to 5? Yeah. Six. Which is this one is not going to be included, but.
+7:03
+Yeah. Good. How are we feeling about the test?
+7:09
+Yeah. I remind you of the coursework screen. I'll ask again.
+7:17
+How are we feeling about the test? Hey.
+7:20
+That's it. Bonus marks for coursework was an idea about, like, threading.
+7:24
+And, um, it's a very. It's a very good start. I mean, the other part may or may not be part of the test.
+7:29
+They're eligible material.
+7:35
+But if you've done the coursework and you felt okay, then chances are you've covered some of the parts which are going to appear in the test.

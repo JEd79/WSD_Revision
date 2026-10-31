@@ -1,0 +1,1087 @@
+	
+Powered by Panopto
+
+Lectures
+chevron_right
+Week 5 - Lecture 1
+volume_up
+
+Search this recording
+search
+Details
+AI Summary
+Contents
+Captions
+Discussion
+Notes
+Bookmarks
+Hide
+Auto-generated captions may contain errors.
+Took jam because she was just like, bash them.
+0:01
+Okay, right. Apologise to interrupt. It may come as no surprise to you guys.
+0:08
+We have a lot to get through today. I see.
+0:13
+Right. Okay. So we're going to move into some stuff we've already covered, and we're going to see them again because I know it's all new to you.
+0:17
+So a little bit of reputation doesn't matter. Uh, it doesn't hurt.
+0:23
+Rather. And we're going to be talking about more exciting things with Spring Boot.
+0:26
+So from this point on is where the interesting stuff happens because it's all practical, not so much theory.
+0:29
+You'd be glad to know that there's only 22 slides for the two hours, so perfect.
+0:35
+The rest of it is going to be demos. What could possibly go wrong? Okay, so this is what we're going to be covering today.
+0:40
+So we're going to talk about parameters and how we pass different parameters in the context of HTTP.
+0:46
+All of these are applicable to web services. And there's very many ways we've seen a couple already.
+0:51
+If anyone can remember the two parameter parsing methods that we've seen. Where?
+0:55
+In post. Which part do we pass the payload into the body.
+1:01
+So that's one body parameter header.
+1:07
+We haven't seen that, but it's something we will see. That's another way. Anything else?
+1:12
+How do I delete the doc in our example from last week. How do I specify which duck I want to delete.
+1:19
+You get the idea. Aha. And where do I provide this ID. In the in the.
+1:25
+Not there in the URI. Yeah. So that's another method of passing parameters.
+1:32
+I can embed a parameter within the URI. There's more than that which we're going to see.
+1:37
+In effect to achieve those implemented in our code we're going to have to learn about spring boot annotations which are different.
+1:41
+Same stuff just different application.
+1:48
+We will understand when to use what because there's now multiple ways to pass parameters, and it becomes a bit unclear which one is best used when.
+1:50
+And we're also going to see default values for those parameters in spring boot.
+1:58
+In the lab, you'll have a very adjacent lab to what we're going to do in the lecture.
+2:03
+So pay attention and you're going to be applying basically that.
+2:07
+Okay. So brief recap. We've talked about how Spring Boot works on a higher level.
+2:12
+I'm going to explore this on a higher level. We're in a spring boot application.
+2:18
+We have the application class. This is one we haven't really played with.
+2:22
+This is what starts the program. This is where the main lives.
+2:26
+So the application class is responsible for starting up the embedded server and doing all the spring boot groundskeeper.
+2:30
+And then we will play with this down the line. Then we have resource controllers.
+2:37
+Now I say resource controller here because we've only ever had one.
+2:42
+In the previous example we did last lecture, we had the duck controller, which was responsible for controlling the ducks endpoint or resource.
+2:46
+And then within those resource controllers we embedded some methods.
+2:54
+Now we call these methods HTTP mapped, because each of the methods that we put in there is responsible for handling some sort of HTTP request.
+2:58
+That would be a Get request, a Post request, a different endpoint to the others.
+3:08
+All of these methods have a purpose to handle some kind of HTTP request.
+3:12
+That's why we call them HTTP mapped, because when the request comes in, they are the ones that get called.
+3:16
+Okay. And then when these methods do get called by the string framework, then they decide what to do within them.
+3:23
+Now we embed kind of different kinds of logic within these methods. So if you remember what happens when I get the docs, the method is very simple.
+3:30
+It just returns the list of ducks which I have in the memory of the computer.
+3:38
+But if I do something a little bit more tricky, for example, create a new duck via a Post request.
+3:41
+That method has a bit more code because it needs to make the object check the object is valid and then assign it an ID.
+3:46
+So that's essentially the high level structure of a spring boot application, and that's going to follow us forever after basically.
+3:53
+Okay, so we know that a client is sending requests to a web service.
+4:03
+And sometimes and I'm going to spoil I'm going to the answer to the first question.
+4:08
+That request is going to contain some data or a body or some way of giving information to the server to act.
+4:12
+Now this data is there to fulfil the request of the client is making to the server.
+4:19
+The information within that request could be seen as static in relation to the request itself is not going to transition in the request.
+4:26
+Once you build the request and send it, that's it. But it doesn't necessarily have to be static in the context of the application.
+4:34
+The data could change as you're sending different requests. And then within that request we have some way of describing the format of data.
+4:39
+What kind of data did we send? Does anyone remember where we do this? We haven't seen it very much, but we will cover it again today.
+4:49
+Where do we specify what type of content? What type of data we're sending in the request?
+4:56
+Body headers content type. That's the one.
+5:04
+So we have a header in all our requests where we say what I've just sent you is insert type here because we could be sending the server JSON,
+5:07
+but the server doesn't know by looking at the data that is JSON. We can assume it, sure, but it doesn't necessarily have to be.
+5:17
+A RESTful API can communicate in XML, so we have to specify in every request what type of content we are sending with good.
+5:23
+So that is in the dropdown button.
+5:33
+Yes. So if you remember in postman we saw where we had to specify for the soap API, we had to change from text JSON to application JSON.
+5:36
+We're going to cover that because there's a sticky point there when we get content types.
+5:46
+But essentially that was us telling the web server that was handling the request.
+5:49
+I am sending you. JSON could have sent you XML, but I chose Jason. Your body needs to be instructed somewhat.
+5:53
+Yeah, so the body has to match what you said you sent.
+6:01
+Otherwise the server is going to get very confused and you're going to get a hopefully erroneous response.
+6:04
+Some servers get very tricked by that. And it creates vulnerabilities because they interpret the data incorrectly and they trigger parsing errors.
+6:08
+But we're not going to talk all that. Okay. So broadly speaking we have a client sending a request to the server.
+6:14
+And that request goes to a certain endpoint which is part of the request.
+6:22
+There is a method that we're using or the verb which is get post delete book and all of that.
+6:26
+There's some headers. There's always headers with a HTP request.
+6:32
+Which ones. Those are fluctuates. You can have some and not the others, but there's always going to be headers and some of them will always be there.
+6:35
+Um we specify a media type if we're sending certain contents, maybe we accept the media types as well.
+6:42
+The body, which is also called the representation. And again, that will depend on whether or not this request requires it.
+6:48
+Right. So in an HTTP request we have the components we just saw.
+6:58
+So all of these things and then each of those components gets further broken down into categories.
+7:03
+For example in an endpoint you are right.
+7:09
+We can have path parameters query parameters or matrix parameters as anyone heard of those.
+7:13
+You're not missing out. If you haven't. It's they're being phased out. They're deprecated.
+7:20
+They're old but they're still support for them. We're not going to see them in the module but they're there.
+7:23
+So path parameters. Do you remember what a path parameter is that was seen in the duck example.
+7:28
+That's it. So the path parameter in the delete method that we created is forward slash docs which is the endpoint.
+7:40
+And there's a further forward slash that specifies the parameter id that is a path parameter query parameter is.
+7:47
+Does anyone know what a query parameter is? We haven't seen them.
+7:53
+Don't panic. Hmm. One of those ones is a question mark with a question mark.
+7:57
+That's it. So it's the ones that you specify a question mark at the end of a URL.
+8:03
+Has anyone seen a question mark at the end of a URL with stuff following it?
+8:06
+Yeah. That's what we call a query parameter. We're going to see those today. Matrix parameters don't even go there.
+8:10
+It's not worth it. Then we have headers which we're briefly seen.
+8:15
+We're going to see them again today. And then down there when we're talking about body.
+8:19
+Even the body could have different formations. It could be a form parameter.
+8:23
+It could be the body parameter. Now form parameters are old again.
+8:27
+They're slowly being phased out. They're still supported. But we're going to see them very briefly just for context.
+8:31
+Okay. So the method and the media type are required.
+8:38
+Generally speaking when you're specifying a body especially you need to say what media
+8:43
+type that is and That those two will dictate whether or not you're going to have a body.
+8:46
+The parameters are being passed through the URI, or if at all, you have any parameters in your request.
+8:51
+Okay. Better see those through an example. I love this graphic.
+8:57
+It always gets me to giggle. So thinking about an example where we have mythical creatures.
+9:01
+I'm really bad with those, but I'll do my best.
+9:07
+So let's suppose that the service that we have that is letting us query mythical creatures, allow us to search.
+9:10
+They create and remove those entries similar to what we've seen for ducks.
+9:18
+Just think about it in a different context. Now these operations can be customised through parameters.
+9:21
+And we're going to see that new kinds of parameters here so that they kind of fall into context.
+9:27
+So we have the root end point for this service being our keen archive.
+9:33
+Um, I don't know if I pronounce this right. Don't tell me if I haven't.
+9:40
+And then from there we're going to see how each of the parameters were discussed in the previous one actually applied to this.
+9:44
+Okay, now of course, the way we pass parameters is in part by the methods that we have in the code.
+9:51
+So the code has to support that way of passing parameters. Otherwise giving the parameter through there is going to have no effect.
+9:57
+Or it may even trip the server and crash the well give you a erroneous response.
+10:03
+Now query parameters. That's kind of new, but you guys, some of you seem to know what that is.
+10:10
+So it's actually one of the most common ways of passing parameters to a server.
+10:15
+It's being used predominantly for filtering things, and not so much for dictating what resource you're accessing.
+10:20
+And this is what actually distinguishes it from, um, the URI parameters, path parameters.
+10:26
+So this is what a query parameter typically looks like.
+10:33
+Remember this arcane archive is our our location where issuing the request and the authority also known for that.
+10:36
+And then creatures is the endpoint or resource that we're accessing.
+10:46
+Now, if I ask you to tell you what the resource is, is in this convoluted URL, you should be looking at here,
+10:50
+because you remember the structure we started from here we look for the forward slashes.
+10:55
+And the last thing is the resource after the forward slashes.
+10:59
+Now we're introducing a question mark at the very end of the resource that is no longer a resource.
+11:02
+Once the question mark appears and then after the question mark we can specify key value pairs which are clear parameters.
+11:08
+So here there is two parameters being passed this type and this attribute.
+11:15
+Each of those can have a value associated with it.
+11:21
+So in type I can specify something like an option doesn't need the curly braces there for illustration purposes.
+11:24
+And then if I want to tag on another parameter after it,
+11:31
+I put an and or an ampersand followed by the other key, an equal sign and corresponding value.
+11:35
+There's no limit. Of course there is one, but you can think about it as there is no limit to how many or how few of these parameters you can pass.
+11:41
+You could have just a question mark with a single parameter after it and that's it.
+11:49
+Or you could have question mark one key value pair and present another key value pair and present another key value pair.
+11:54
+And again and again and again. Each of those things is an individual parameter.
+12:01
+So an example of this particular URL or URI could be in the endpoint or in the resource creatures.
+12:07
+The type should be dragon and the attribute should be colour.
+12:14
+Now what is the saying? This is saying I want to get everything that the resource creatures normally provides.
+12:19
+So if I didn't have the question mark at the end, I should get the standard response from creatures.
+12:25
+But I provide the query parameter to say that specifically from the creatures,
+12:31
+I want the dragon creature or creature records and have the attribute colour present in the response.
+12:35
+So the distinguishing factor here is that we are still getting the same response as creatures.
+12:42
+The the only difference is that we're filtering it and reducing the information that it shows to us through these parameters.
+12:48
+And that's when we use query parameters. We're getting the same results as we would otherwise.
+12:56
+We just refine it with the resource parameters. And of course another example the type could be unicorn and the attribute might be magic power.
+13:01
+Okay. Now these are often confused with path parameters which we've seen already once.
+13:12
+So in that context a path parameter may look something like this.
+13:17
+So we have our standard endpoint, our standard resource which is creatures.
+13:23
+And then we can have one or more query parameters following it.
+13:27
+For example I could have the creature's endpoint forward slash some type uniform forward slash some attribute magic power.
+13:31
+And that is going to query a specific element of a creature.
+13:39
+An example of this with a dragon would be take the creature's.
+13:45
+I'm looking for a dragon of a certain and specifically the colour of the dragon, for instance.
+13:48
+Okay, now this is dictating a resource. It's not necessarily filtering, it's just specifying a resource.
+13:55
+You could say that the colour here is also a resource,
+14:01
+but essentially a parameterisation like this is controlling to the record that we get a specific attribute and a more specific attribute thereof.
+14:04
+So it's not necessarily going to filter the results, it's going to access a specific attribute.
+14:12
+And the distinction now is I can make a Post request to this and say,
+14:17
+I want to change the colour of dragon to be green, whereas in the query parameters we shouldn't be using them.
+14:21
+If we're doing a post to dictate what this post request changes.
+14:26
+So think of query parameters as filtering and think of this as zooming into a specific resource.
+14:30
+It's hard to tell with this example, but we're going to see some more. Right.
+14:37
+Okay. And of course, the same can apply to the magic power example.
+14:44
+You can access the sub resource creature unicorn and then specifically a sub resource subclass which is the magic power.
+14:47
+Hard to distinguish these sometimes. So we'll see some more examples.
+14:56
+Another thing we haven't really talked about, although we've seen it in postman as you guys said is the headers, the HTTP headers.
+15:00
+There is some predefined headers. In fact there's quite a lot of predefined headers that travel with HTTP requests anyway.
+15:08
+In fact we can probably see one of these.
+15:15
+So if we go well that was all good. So if we go to a standard web page and we open our developer tools,
+15:20
+look in the network tab and I'm going to refresh the page, grab any of those requests and go to the headers tab.
+15:29
+We should be able to see what headers we send with the request that we initially sent.
+15:37
+So my browser, when sending the request to say get me the web page, has sent all of these headers along with it.
+15:42
+Most of these are standard, for example, except we've already seen that it just says what language is in quotation marks.
+15:49
+My browser is going to be able to speak, so if the server wants, it can respond in HTML,
+15:56
+in whatever that is, in XML, in any images, in web images, in AP and images and so on and so forth.
+16:01
+So my browser accepts all of these things. It also accepts different encodings of the data.
+16:09
+Maybe the data arrives zipped which is deflate the algorithm. Maybe it is gzip to be compressed.
+16:15
+It will accept those as well. Accept language cache control. We'll talk about this in future weeks.
+16:21
+Cookies and so on and so forth.
+16:26
+Each of those key value pairs, as in the key being accept and the value being that long thing in the end is what we call a header.
+16:28
+So every request has headers. Some of these are standard. Some others we don't see very often the and do not track.
+16:37
+We don't specifically have this. We have haven't really seen that.
+16:43
+But you can specify ones which are non-standard as well.
+16:47
+So what this means for us is that this is another way of passing parameters.
+16:51
+Because if I can specify custom headers, I can configure my server to be looking for those custom headers in the requests.
+16:56
+And I can tell anyone who is using my API, if you want to communicate with this endpoint,
+17:02
+you have to provide this header with this kind of information. Okay.
+17:07
+Now what format can the headers take? The answer is anything.
+17:12
+Typically speaking, the value of the header has some predefined structure.
+17:17
+If it is a standardised header.
+17:21
+For example, if you're sending the content type that the response you put well, the value you put here has to be a standardised mine type.
+17:23
+If you're going to talk about in a second, but you can't deviate from this structure.
+17:32
+If you're defining your own custom header, you can provide any kind of structure that you want.
+17:37
+It is not the same as using body parameters. You don't want to be transferring a lot of data through headers.
+17:42
+Headers should be information to the server that will help it process your request.
+17:48
+It shouldn't be necessarily application specific information that will dictate what the outcome of a request is.
+17:52
+So we'll see an example of this with authentication down the line.
+17:59
+But of course the headers can be used in conjunction with other things.
+18:04
+For example this request that you see here has some header specified custom header being one of them.
+18:08
+That is for us and some standardised headers. Otherwise it is being sent to the creature's endpoint as a Get somehow and it has a body.
+18:14
+It doesn't make sense for a GIF request to have a body. Why not Did you get something?
+18:23
+Not getting anything. That's it. So you can. Nothing stops you from issuing a request like this.
+18:36
+But you shouldn't expect the server to react to it. We react to the body you include on it.
+18:41
+Because although you can issue the request, that makes no sense to the server, now you're going to get different treatment of servers.
+18:47
+Some servers will ignore the body and carry on with the rest of your request like Springville does.
+18:53
+Other servers are going to look at the body and tell you you send the malformed request and cancel out a cancel out error on your own response.
+18:57
+Okay, now the last thing which I only mentioned for information is, um, form parameters.
+19:06
+I mentioned these are being phased out, but they're still being used by some HTML pages.
+19:12
+Um, form parameters is basically the same as having a parameter with a body.
+19:17
+And the difference is that the body takes a specific format.
+19:22
+So the body is URL encoded. It looks like the basically the the query we saw earlier, it is not going in the URI like what we saw.
+19:26
+It goes in the body. That's the only difference now that changes the content type that we're sending,
+19:36
+because it has to tell the server what type of body is coming with this request.
+19:41
+And the request type in this case is going to be application slash x w WW form URI encoded complete mess.
+19:45
+We're not really using this anymore. So we're not going to be seeing it live.
+19:54
+But just be aware that you might encounter it if you're inspecting stuff.
+19:57
+That's legacy. Pretty much yeah. It's still being used. It's not deprecated or anything.
+20:03
+It's just we're being phased out because everything now kind of leans towards rest.
+20:08
+And of course, in ten years time this would probably have changed. So don't take it as the rule, just keep seeing how that field evolves basically.
+20:12
+And by the way, there's no necessarily standard standard for any of these that are defined in standards.
+20:20
+But what the world is using dictates what the current state of the art is.
+20:25
+So if you go back 15 years. So it was the way.
+20:29
+There was no rest. No one really cared about this.
+20:34
+If you look at now, all the Soap APIs are now considered obsolete among people, even though they're well specified.
+20:36
+And we're switching to rest. In ten years time, we'll be switching to something else.
+20:41
+It's just the way that this technology evolves. Ah, good.
+20:45
+And this brings us on to the demo for today. We have a lot of these.
+20:51
+Most of the lectures today are demo based. So we're going to be going back to our dock service that we've seen.
+20:55
+And we're going to see some cool things now. Refresher. Can everyone see this.
+21:03
+Ish. Better. Yeah okay cool.
+21:12
+So we're going to be seeing this service again. Let's quickly recap what we did last week.
+21:17
+We made a few endpoints here. We have a get that gets you all the ducks.
+21:23
+Um the list of ducks that we have in memory. This is something we'll revisit.
+21:28
+We have a gate that gives you the amount of data that is in memory.
+21:32
+We have a create duck, which I misspelled to create and Ever Changed, which accepts a post request that carries a body.
+21:36
+And in the body there is a duck object that we take and put into our list of data.
+21:44
+We have a delete mapping which says given some ducks id as a path parameter,
+21:50
+I'm going to look for the duck that has this id and delete it from my list.
+21:58
+Can someone do this curtain on the back of their thank you, because that funky thing called sun is making its appearance again.
+22:02
+Thank you. Right. So this is what we had in terms of our controller.
+22:10
+Now there was a caveat, which was that our list of ducks was starting empty.
+22:14
+There's no way to populate, at least from what we've learned. There was no way to repopulate this by pre-existing data.
+22:19
+And this is one of the things we will revisit today. Now, databases is not something we're going to cover in this module.
+22:26
+You're going to cover this as a bespoke module down the line. So what we're going to do instead is going to have a little bit of a microservice
+22:32
+responsible for reading data from the disk and putting it into our list of ducks.
+22:39
+This is going to happen once the application is running, so that we can have some data to play with.
+22:46
+If you're doing something for your work base portfolio, or if you're doing something for the labs today,
+22:51
+like loading a data set or for coursework one when you're considering the design, this is a valid way of going about it.
+22:55
+You have in-memory stores for the data, and you have a way of loading the data set into the memory once the application has started.
+23:01
+So that's going to be the first thing we're going to see. Now if we go to services I've created a new package called services.
+23:10
+And this is where I'm going to be putting the microservice responsible for reading data from file and putting it into the memory.
+23:19
+So the application has something to transact with. Let's now see what file I have.
+23:25
+I've already created a file with resources here, and I've put it into the resources folder.
+23:31
+I created a data folder and within that I have the dux dot JSON file.
+23:38
+Now ducks JSON is essentially a collection and list of JSON objects, which conveniently match up the representation of a data that I have.
+23:43
+I've added a few fields since last week to make it exciting, so the fields that we see here like name,
+23:56
+age can fly, colour and so on have a representation within the ducks dot JSON file.
+24:01
+And you can see, for example, I have a duck here that has a name of say quacks a lot.
+24:08
+Don't comment. Age of five can fly true calories. White quack volume is nine and the character is spicy.
+24:14
+Each of those is going to be translated into an object. Now something to clarify here.
+24:22
+The way you represent this data that you're loading into memory doesn't have to be in JSON.
+24:27
+I chose JSON because it's easy to play with. As we'll see in a second.
+24:31
+But this is going to be a CSV as it's commonly the case with the data, um, that the data sets that you find online.
+24:35
+So we're going to see this because it's quick. But you can have this in any representation.
+24:42
+Okay. So now what we want to do is make a microservice here.
+24:47
+And by microservice I literally mean a class that is going to be responsible for reading the file and putting it in memory.
+24:50
+I'm going to call this the duck loader service.
+24:58
+Very good. Now we're going to come back to microservices in a future week.
+25:08
+So for now we're just going to be loosely covering them. But essentially what I want is to have is a method, a public static method,
+25:13
+which is going to be returning a list of duck and is going to be called load ducks from resources.
+25:21
+Like that. Brief tangent. Why did they put the ducks file in the resources folder?
+25:32
+What is the resources for the full? Resources?
+25:38
+Aha! Very good. It is for resources. But what is specific?
+25:43
+What is special? I could have put it in my download folder. Is there anything special about the resources folder?
+25:47
+They are only meant to take any resource from that specific folder.
+25:55
+That's it. So when you're developing your application,
+25:59
+resources has a special meaning to it in that whatever you put in here can be linked to your application without the need for an absolute path.
+26:01
+An absolute path is where you say you're going to find the the file in this very specific location on my disk.
+26:10
+You don't want to be doing that when you develop an application, because once you're done developing,
+26:16
+you package it up into some an executable and you send it to your friend.
+26:19
+Suddenly, all of the parts where the files used to be. Don't exist on your friend's computer, so the application doesn't run.
+26:23
+Resources is designed to be a known location where the Java program can go into and load the file from, and if you bundle it into an executable,
+26:29
+Java is going to be responsible for making sure that these files are available to it within the executable.
+26:37
+So resources in this case is going to be my project's resources.
+26:43
+And I've created data within it that contains the file that I want to be part of this application.
+26:47
+Okay. So what this means for here is that I have to read this file somehow.
+26:52
+And the temptation might be to do what we've done in year one, which is copy the path of the file and just load it like normal.
+26:57
+We're not going to do that. We're going to do something slightly different. First of all, we know this is a JSON object or it contains a JSON array.
+27:03
+And in Spring Boot we have the so-called object mapper,
+27:12
+which is the responsible for taking a string of JSON and turning it into an object structure automatically.
+27:17
+So I'm going to make a mapper like that standard object creation.
+27:23
+And then I'm going to tell it to go and read from this file.
+27:29
+So to do that I'm going to say I want you to read a duck array oop a duck array, which I know is what is stored in this file.
+27:34
+I'm going to call this a ducks. And the way to go about this is to ask the mapper to read a value.
+27:44
+And this is a very heavily overloaded method. Well that's not going to work now.
+27:53
+I'll tell you. Ah thank you.
+28:01
+Um, so this is a very heavily overloaded method that can take different.
+28:05
+You can give it a file, you can give it a path, whatever that is, you can give it a reader to read from and so on and so forth.
+28:09
+We're going to be choosing choosing to give it one of these things.
+28:16
+So we're going to call read value. And then what I specify here is a way to locate this file.
+28:20
+Now because this is a special file we have to locate it in relation to the class loader.
+28:26
+Don't ask what the class loader is. That's a year three thing. But take my word.
+28:31
+The way to do this is by taking the name of the class we're currently in, that loader service,
+28:35
+putting a dot class at the end and then asking this to get us the class loader that loaded it, and from there, getting the resource as a stream.
+28:41
+Okay, now the resource that we're getting as a stream has to have a path and get
+28:54
+resource as stream is a fancy way of saying go and get me a specific resource,
+29:00
+which is always going to be in the resources folder by a specific name. Given a path.
+29:04
+And the path here is going to be the data ducks JSON Like that and that aspect is telling.
+29:09
+Java. There is a file called box in data, which is a resource in the project.
+29:23
+Go and read that. Okay. So that's the first parameter to this read value call.
+29:28
+The second parameter is what type of thing it is reading. It is reading a duck array.
+29:34
+And we have to put dot class at the end of that to tell it that it actually reading the type duck array.
+29:39
+So duck array dot class means you're reading something that is a duck array type okay.
+29:46
+So read value is going to go open this file, read its contents,
+29:52
+interpret them as a duck array and return back to us a duck array which is going to go in the variable ducks.
+29:57
+Now I made this method return a list. So now what I need to do I'm going to return a new array list which is constructed by taking the ducks array.
+30:05
+So that's going to be does not work? I don't remember.
+30:16
+We're gonna find out. No. There's an extra step we need to have, which is to convert this into.
+30:20
+A list and then feed it into an array list. Convoluted syntax.
+30:28
+But there's three steps happening here. Take this, which is an array.
+30:33
+Make it a list. Now, by doing that, you're making an unmodified list.
+30:37
+We don't want that. So take that list and feed it into an array list.
+30:41
+So what you end up with is an array list of DAC objects. Did that make sense?
+30:45
+I'd be surprised if it did. For now, you're going to have to take my word for this until we get to gear three.
+30:50
+This is one way to read. Now, this code could have done anything. Could have read a CSV file the standard way with code.
+30:55
+For your labs, you're going to encounter a different flavour of this,
+31:01
+which reads it as a CSV file the standard way, just so you have both ways in your hands.
+31:05
+Okay, but for now,
+31:11
+that's all I need in this duck reader and what I need to do next is go to my controller and somehow get the reader to put the ducks here.
+31:13
+There's something special about Spring boot. Spring boot is very, very, very configurable.
+31:24
+And as such it also has what we call what we call being event driven.
+31:29
+So Spring boot comes with a set of predefined events. Have you guys heard about events in programming before?
+31:35
+A mix of yes and no.
+31:43
+You might have seen them if you've done some JavaScript, but essentially an event driven application like this has certain triggers that say,
+31:44
+an event takes place once an action is taken by the application.
+31:52
+And you can subscribe to listen to when that thing happens to take an action yourself.
+31:55
+So in my case,
+32:00
+what I would like to do is know when the Spring boot application has launched so that I can read the file and put it in the ducks object.
+32:01
+I could do it anytime a Get request comes in, but that would be very,
+32:09
+very slow because imagine now that everyone makes a request and I'm just thrashing the hard drive by reading requests for the file.
+32:14
+So what we do is we're going to have something new, which is an event listener.
+32:21
+In Spring Boot, everything is kind of a method and this is no different.
+32:26
+We're going to have a method which is going to be called initialise.
+32:30
+And we want this method to get called when spring boot launches up.
+32:37
+The way to do that is by registering it as an event listener and telling it that we're listening specifically for the application.
+32:41
+Know the application ready event.
+32:50
+So what's going to happen here is when the application that is the whole spring boot thing has loaded up and is ready to go.
+32:54
+This method is going to run. And the code we put in here is going to execute at that point.
+33:02
+So what I want this code to do is go to the docs and make it come from the microservice I created.
+33:07
+Duck loader. Load ducks from resources.
+33:17
+So whenever the application starts and initialises, I'm going to update the list of ducks that I hold up here to come from the resources.
+33:21
+So I preload the data set. Does that make sense? Yeah.
+33:29
+Good. Perfect. Now there is something here that I've omitted, which is that in the data set there is no Ides.
+33:36
+Ides do not come with the data sets. Typically, Ides are a construction that we have for our own sake in my application.
+33:44
+So the data that we have in here doesn't quite line up with what a duck has.
+33:50
+Namely, a duck object in my case has an ID and the data doesn't.
+33:56
+So when I load the data, I should probably go and assign them an ID, right?
+34:00
+We've done that before when we created the why is it when we created a duck.
+34:07
+We had to increment our counter. Added to the list and make sure that we set the ID for it.
+34:13
+It's the same principle down here and we're going to do it manually.
+34:18
+Namely, we're going to have a for loop that goes over every duck in the set in the list of ducks,
+34:22
+and it calculates the duck ID to be, uh, duck ID counter plus plus.
+34:29
+I'll do it in one step because why not. And then we're going to go to the set the ID to duck ID.
+34:38
+So now after I've loaded all the ducks, I'm going to go through each one of them and assign it a unique ID for my own API purposes.
+34:48
+Okay, happy with that. Perfect.
+34:56
+I think we should see if that works. So let's give it a run and hope for the best.
+35:01
+It started. That's a good sign. Let's open postman. Oh come on postman.
+35:08
+Great. Please hold.
+35:20
+Technical difficulties. Aha. Aha!
+35:24
+Right. So if you remember what we had a get request to slash the docs should return all the docs that we have in our service.
+35:31
+So fire that through and. Oh dear. That's a lot of ducks.
+35:39
+But there we are. That seems to have worked. So our application now will persist this data.
+35:44
+If I stop it and run it again, it should automatically load the same duck objects so that when I query them again, I get all of that list once again.
+35:50
+Cool. So that's a way to persist data in memory, which is one of the things we want to see.
+36:00
+Right. So we've done that. Let's now go back to parameters.
+36:06
+So you remember let's recap what we saw. We talked about the various kinds of parameters that we have today.
+36:11
+And two of these we've already seen before. So let's look at them in a bit more detail.
+36:16
+So request body is one way of passing a parameter to a request.
+36:22
+Post requests typically carry a body because when you're sending a post you're asking for a record to be created.
+36:28
+So you need to tell the server what record to create. Or in many cases, you're asking for a record to be updated.
+36:34
+I know that's what boot is for, but we kind of break that rule.
+36:40
+And in those cases you have to specify what information you want updated.
+36:44
+In both cases, you need to send quite a bit of data. You wouldn't normally encode this data in any other place other than the body.
+36:49
+It's important to remember here that the body of the request can be pretty, pretty big.
+36:56
+You can send an entire, I don't know, movie file as part of the body of an HTTP request.
+37:01
+It can be as big as other things carry size limitations.
+37:06
+So a URI has a fixed size limit. So that restricts how many queries parameters you can provide.
+37:11
+It also restricts the number of path parameters you can provide. Now that limit is usually very big but it's nonetheless a limit.
+37:17
+You wouldn't pass arbitrary data through it.
+37:24
+So the only reasonable choice for passing a lot of data, which you do when you're doing creation of records and so on, is using the request body.
+37:26
+So let's now see what this code means, because I'm pretty sure most of you would have forgotten, right?
+37:35
+Everyone remembers. Interesting. Okay, I'm still going to go over it again because I promised myself I would.
+37:44
+All right. So we have a post mapping here. What endpoint is this post mapping mapped onto.
+37:50
+So what resource is this post mapping for. You are the standard URI.
+37:56
+Where would I find. Oh what was that? Duck?
+38:05
+And how do I know that? What can I check in this file? To tell me this. Is at the top.
+38:09
+Request to find out that. Whereabouts?
+38:17
+Aha. So this is a controller for the resource slash ducks.
+38:24
+Therefore, if I have a post mapping, it should go to slash ducks.
+38:29
+Anyone who makes a Post request to slash ducks is going to get routed.
+38:33
+Why is it into this HTTP mapped method? Okay, so that was my first question.
+38:38
+The second question is how do I end up with a duck object here?
+38:44
+If all I say is that this is found in the request body, how does this end up being a duck object in my hands?
+38:51
+I have a class of backgrounds, right? So this is what defines what the duck object looks like.
+38:59
+But how does this appear as a duck? Because if I go back to a Post request that I make here, I can specify something in the body.
+39:04
+How does this get end up in my hands as a duck object?
+39:15
+What information is it in my request that renders it possible to turn it into a duck object?
+39:18
+So a response entity is a special object?
+39:24
+It is. But you load a stack, clothes, messages and stuff as well as the duck object.
+39:29
+Close. But I don't have a response entity here. So what was it in my request that makes this a duck object?
+39:38
+What was that? Right.
+39:51
+And what is the format I'm using? Again this is not aha.
+39:54
+So this is a JSON object. So there is a pre-agreed structure to the data in my request in the body of the request right here, which is JSON.
+39:58
+That is exactly why. This can be translated into an object directly.
+40:07
+Remember what JSON is? JSON is the JavaScript object notation.
+40:12
+We ignore the JavaScript part because this is Java, but it's still an object notation.
+40:16
+It can represent an object 1 to 1, and that's why it is possible to translate this into a Dax object automagically,
+40:20
+which is what Spring Boot does for me conveniently. So this is another way of saying this method is going to get called when a Post request comes in,
+40:27
+and that Post request is going to have a body which contains a duck object.
+40:37
+That's how I want you to read this. And then we take appropriate steps with that.
+40:42
+Now what should happen if I send this request?
+40:46
+It is a Post request to the ducks endpoint. So that should end up in that method.
+40:53
+But it has no problem. We have a whole lot pattern a whole lot?
+40:57
+So I get a response with all the ducks. So you're giving nothing?
+41:03
+Um. I'm expecting to get an error. An error? In what form?
+41:09
+And what is that number? Oh £3 404.
+41:16
+So what? What are all these numbers? Uh, they have a name.
+41:20
+Errors. They represent errors. But what do we call the numbers?
+41:26
+Codes? Codes. Very close. Stat codes.
+41:31
+Error codes. Status codes or error codes, depending on the thing.
+41:36
+But you can have a positive code. You can have 200, which is a success code. So we call these the status codes.
+41:40
+And every HTTP request comes back with a code. Let's give this a run.
+41:44
+111 right. So we've got a 400 by request.
+41:52
+400 is the number for bad request. And this is translating it into text for us.
+41:56
+And then it comes up with some stuff that Intel is not intelligent. Spring boot put there for us.
+42:01
+There is a whole host of these codes. And if you ever curious.
+42:07
+They're very neatly documented here. This page documents all the HTTP standard response codes.
+42:12
+That's not to say there can't be others, but these are the ones we have for standard.
+42:19
+So if I look down the 400 list and I go to 400 bad request, it tells me what this is meant to be used for.
+42:23
+Okay. But nevertheless, the request body is now exclusively handled by Spring Boot for us.
+42:31
+And the same applies to other kind of parameters, for example path variables.
+42:37
+We remember that a path variable is specified in the URI, and it takes a format of some kind of variable.
+42:43
+For example, here I say there's going to be a delete mapping associated with slash dots, which is my resource.
+42:50
+But that belief mapping requires you to provide the path variable ID and the path
+42:56
+variable ID is going to magically appear right here when the request comes in.
+43:02
+So when someone issues a delete issue, when someone issues a delete, do I have a delete um delete doc?
+43:07
+Then they have to specify a forward slash after the ducks resource and specify the ID of the duck to be deleted.
+43:18
+Let's send that. And it worked. Okay.
+43:26
+Now let's talk about a different kind of parameter. So we've seen the path variables.
+43:30
+We've seen request body. Let's now introduce another type of parameter the query parameter.
+43:35
+So I'm going to be looking at the get here this for some duck because this is usually the easiest place to introduce this.
+43:42
+Now this is not to say that you can't have them anywhere else, but it is a good place to start.
+43:48
+Okay. So go here. We have a get mapping.
+43:54
+And now I want to have a parameter to this get which is going to come from the request.
+43:59
+So I'm going to put a at request. Parameter.
+44:06
+And I'm going to say that there's going to be a variable here called um what should I filter on.
+44:13
+What do ducks have feathers. Feathers.
+44:18
+I could do that actually. But I haven't encoded the number of feathers of the amount of feathers here.
+44:23
+I could filter on character. So in the get, I can specify that someone can request all the ducks that have a certain character.
+44:27
+To do this, I'm going to have a request for Ram, which is going to be a string, and it's going to be called character.
+44:38
+Now stop doing this. IntelliJ.
+44:47
+I should somehow, for the moment, I'm gonna make sure this works, and I'm going to print what came from the request just so we see it.
+44:49
+But then I'm going to have to find a way to filter things by the values of character.
+44:57
+So let's start this. Oh.
+45:02
+Oh. Not disappeared. Let's see.
+45:12
+Okay. We're up. Let's go to my Get request for ducks and specify a query parameter for a certain character.
+45:18
+How do I specify a query parameter here for the character to be spicy?
+45:25
+What was that? Key pair.
+45:31
+Okay. I do want the key pairs. So what is my key gonna be here? All right.
+45:36
+Character. So I need to somehow incorporate the value, the character.
+45:42
+And then what do I put after character to assign it a value?
+45:47
+After character, I put question mark. Equals.
+45:54
+And let's say that I want this to be spicy. And now how do I incorporate this into my request with a question mark.
+45:58
+So after the endpoint I put a question mark.
+46:08
+And you'll see that postman has recognised this is a query parameter and has nicely put it down in the table.
+46:11
+I don't necessarily need to be editing the URL when I want to add this query parameters.
+46:17
+I could be editing the nice visualisation of them that postman produces for me, but let's send this through.
+46:21
+We got a 200. Obviously the list is not filtered, so I have things which are non spicy stubborn,
+46:28
+but if we go back to Spring Boot we should see that the parameter variable has come here and it has been printed.
+46:34
+So that worked. Let's now take this out and actually filter the results that we're sending back.
+46:41
+So I'm going to make a new list of duck which is going to be the result.
+46:47
+And it's going to be a completely new and empty array list. Now they've told me what character they want,
+46:54
+so what I'm going to do is I'm going to loop over every duck in the ducks off, which is my global list of all the ducks.
+47:01
+And if the ducks character is equal, ignore case, the character that they've given me in the request.
+47:09
+I'm going to add it to the result. Like this.
+47:20
+And now, instead of returning the ducks, which is the whole list, I'm going to return the specific results that I calculated.
+47:27
+Are we happy with this? Yeah. Perfect. Rerun that.
+47:34
+Seems to be working. Go back to postman. Issue the same request. We get an empty set.
+47:42
+Have I misspelled spicy by any chance? Interesting.
+47:48
+So if I take the lead this pack, a lot was wasted.
+47:54
+But that's restarted, so it should be there. Well character equals signal case.
+48:00
+Character should. That should work. Okay, let's try another one.
+48:06
+Stubborn. How do I spell stubborn? This could be an expense.
+48:11
+That could well be. Let's see. I didn't even notice that.
+48:16
+Yes, you're right. It was the extra space, so apparently that shouldn't be the case.
+48:20
+But having a space here throws it. That shouldn't be bleeding in, but.
+48:25
+Oh, well. Right. So that worked. And indeed we got a reduced subset of ducks which meet this parameter.
+48:29
+Now, what would happen if I didn't have this there. And I wanted a full list. Hmm.
+48:36
+It's going to come back to the full list. One question what happens if I have just a question mark.
+48:45
+What do you think is going to happen? One.
+48:52
+One. One. Can I put a wild card?
+48:57
+I could but remember. Where is the value of character equals?
+49:02
+Anything going? Who is responsible for dealing with this query?
+49:10
+Parameters. The Java program. Whose Java program?
+49:15
+Spring boots are mine. Aha.
+49:19
+Right. So if I go back to my duck controller, what do I do if this is not provided?
+49:24
+Right. So at the moment I have no provision for someone not giving me.
+49:31
+Character is a character comes in and blank. Let's say for the sake of argument, no character, no ducks character is going to be equal.
+49:35
+If not, is blank. So maybe, just maybe, I want to.
+49:41
+Maybe. Just maybe, I want to have a default value for this.
+49:49
+And luckily, I am allowed to say that the default value of this parameter is going to be, let's say blank.
+49:54
+Now I'm going to have to make my code such that if this value is blank, even because it was specified as blank,
+50:04
+or because the default buying came in because no one specified it, then this check is void as it is not applicable.
+50:11
+So what I'm going to do is I'm going to say if either the character is empty or the character equals signal case that,
+50:19
+then we're going to add it to the list. So either it matches the character or the character is empty, which is the default value.
+50:30
+Let's restart that. Go back to our trusty friend.
+50:36
+So let's try spicy again. Make sure that it still works. No spaces.
+50:43
+This time it works. Take this out. It still works.
+50:47
+But now notice we're getting all sorts of characters coming back.
+50:51
+Let's remove the parameter altogether and it still works.
+50:56
+I'm happy with this. Jason, where is it?
+51:03
+That's it. Ah. So if I put just the question mark, what do we think is going to happen?
+51:07
+Good point. Bad request.
+51:15
+Bad request. Y bad request.
+51:22
+Question mark. Remember, is a delimiter that says. After this point comes the key value pairs.
+51:27
+How many key value pairs are the specified zero. That's fine.
+51:31
+There's no key value pairs following it, so that's fine.
+51:35
+It's often confused because some early web servers in the early days of the web, if you put a question mark there,
+51:39
+they expected at least one key value pair which is non-standard, so they would crash as soon as you put just a blank question mark.
+51:44
+But nowadays we've kind of understood that the standard doesn't contain that, so we've built around it.
+51:50
+Okay. So believe it or not, this kind of wraps up this lecture and we are surprisingly only three minutes over time.
+51:57
+This is impressive for this module. Um. Do we. Are we kind of happy with requests for rounds, the body for rounds, and the path rounds?
+52:04
+So if you were to filter on more than just the character, would you add it to the end as a string?
+52:13
+Character string? Yep. That's it. You would do this with different variables.
+52:19
+Let's do an example of this in the next lecture. I'm not going to eat into Jack's Jack's Randall's lecture too much, but let's do it.
+52:24
+In the next one we'll do a multi uh request parameter expression.
+52:31
+Cool. Okay. With that I'm going to leave. You take a break and we'll see you guys in ten minutes.
+52:37
+Cheers.
+52:43
+
+Right. Okay. So we're going to move into some stuff we've already covered, and we're going to see them again because I know it's all new to you.
+0:01 
+0:01 3:00 6:00 9:00 11:15 12:00 15:00 17:07 18:00 21:00 22:51 24:00 27:00 29:04 30:00 33:00 35:08 36:00 39:00 41:20 42:00 45:00 47:34 48:00 51:00

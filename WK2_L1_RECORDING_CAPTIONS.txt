@@ -1,0 +1,1055 @@
+	
+Powered by Panopto
+
+Lectures
+chevron_right
+Week 2 - Lecture 1
+volume_up
+
+Search this recording
+search
+Details
+AI Summary
+Contents
+Captions
+Discussion
+Notes
+Bookmarks
+Hide
+Auto-generated captions may contain errors.
+Yeah, but more importantly, when I was walking around the campus, I saw the original countdown clock.
+0:00
+And yes, I took a selfie next year. Um, but, yeah, looking forward to it.
+0:08
+Yeah. Cool. Thank you very much. Okay.
+0:13
+Greetings, everyone. Now, quick announcement at the beginning.
+0:21
+There is. It's that time of year where we realise you completed completely filled the notebooks we gave you last year.
+0:24
+So if you'd like more notebooks, there's one for each in that bag.
+0:30
+Or maybe more. So grab yourself one top up if you can.
+0:34
+There is one. There should be pencils, not pens, pencils.
+0:38
+Quite, quite dense pencils. Okay.
+0:42
+No, with a with a knife. Okay.
+0:48
+So grab yourselves notebooks. Um, I'm not gonna top up.
+0:53
+I'm not gonna offer top ups for ducks because your duck should still be alive and going.
+0:57
+I heard some horror stories from ducks before we started, so I'm gonna leave those behind me, okay?
+1:02
+And totally ignore the fact that there's ducks with drilled holes on their heads to make this wonderful piece of jewellery.
+1:08
+Okay, so we're going to talk about a different topic today.
+1:15
+And when I say different it's it's going to feel like this. Nothing to do with web apps.
+1:20
+But trust me, it's everything to do with web apps, not web apps, web services and web apps actually.
+1:24
+So today we're going to be talking about a topic that's very dear to my heart.
+1:30
+Concurrency and multithreading. Yay! Excellent.
+1:33
+I'll do my best to keep it within four hours. Okay. Sorry, Brandel. Um, so brief note I love this sort of stuff.
+1:39
+Threads excite me for whatever reason. We all have our weird quirks.
+1:46
+Um, and my PhD was largely on parallelism, which is a topic of concurrency.
+1:50
+Now, a lot of the slides are going to be marked with this lovely note today, which means they're not examined.
+1:56
+They're here for context, but everything that isn't is potentially examined.
+2:00
+Now, of course, during this lecture we're going to look at a lot of black magic. And I will also be lying to you in some occasions.
+2:05
+But predominantly it's going to be black magic. If if things you see here seem a bit confusing or complicated, that's because they are.
+2:11
+Concurrency is not an easy topic, and normally courses devote an entire module on it, or in some occasions three modules across the three years.
+2:18
+But we're going to devote one lecture to it. And we've been doing this systematically here and there.
+2:27
+We've been injecting things about concurrency when you least expect it.
+2:31
+So you're going to see somewhere in year three and so on. Okay.
+2:35
+So why are we going to be talking about this? Well, we're going to be talking about web services for the rest of this module.
+2:40
+And a core part of web services is being able to deal with multiple things happening at once,
+2:46
+and making good use of the available resources that we have on a machine.
+2:50
+Essentially, handling multiple clients takes a lot of computation and that computation needs to be managed efficiently.
+2:54
+Modern computers have a CPU, typically one, which in turn is it's made up of multiple cores.
+3:02
+Oftentimes we call the cores CPUs themselves. Now that means that there could be multiple tasks executing at the same time in that one processor.
+3:08
+In the old days, we used to have processes that were capable of doing one and exactly one thing at a time.
+3:18
+But nowadays we could be looking at 16 things happening at exactly the same moment in time or mode.
+3:23
+Now, this whole thing of doing multiple things at once is called concurrency.
+3:30
+And it's not to be confused with parallelism. We're going to distinguish what these are later.
+3:35
+As I said, much to my dismay, we don't have a dedicated module to this topic,
+3:40
+so we're going to try to introduce it as much as we can into these modules, including 3707, which you're going to see next year.
+3:44
+Advanced all with me at the end of your third year. Second term.
+3:52
+It's changing. Okay, so since we're talking about client server interactions, it makes sense for us to know some topics of concurrency.
+3:56
+But we're going to talk about today to apply them in that context, especially on the server side.
+4:05
+And of course, concurrency is such a broad subject that all there's so many different problems that could be addressed with concurrency,
+4:10
+and they're addressed in so many different ways. We're not going to see everything. Okay.
+4:17
+So in this lecture we're going to talk about CPUs processes and threads.
+4:22
+We're going to identify what each of these things are. CPUs we kind of already talked about.
+4:26
+We're going to see some pitfalls of concurrency and parallelism. And then we're going to learn about how we do this sort of stuff in Java,
+4:31
+namely how to do concurrency properly, which entails synchronisation, logging and other resource sharing.
+4:38
+In the labs, you're going to have to write your own threaded program in Java. So you are going to be doing some threads.
+4:45
+You're going to understand how to synchronise stuff and also design a server application capable of handling handling multiple clients,
+4:50
+which is where concurrency comes in to web services. Okay, so as we already mentioned, a CPU is a primary component of the computer.
+4:58
+A computer without a CPU is nothing. It's just a brick.
+5:07
+Um, in terms of the availability of, well, the usefulness of computers, of computer components.
+5:10
+CPUs and Ram are the two most basic things that you interact with as a programmer.
+5:17
+Everything else is there to support these two in their functioning.
+5:20
+Okay, so CPUs are responsible for handling the programs that are executing on a computer.
+5:25
+They do the memory management. Any requests your program makes to do things with the memory right to the memory have to go through the CPU.
+5:30
+It does all the IO operations. Anytime you want to read something from a disk, write to the disk.
+5:37
+Read something from the network card. All of these things go first through the CPU, and it does other things like arithmetic task sequencing,
+5:42
+which we're going to see in a moment, and many, many more.
+5:49
+One thing to remember is that computers break down the things that we ask them to do into instructions.
+5:54
+Typically these are assembly instructions. So I say assembly.
+5:59
+It's a representation of the machine instructions. So when we say in an instruction that could literally be the instruction to add to numbers,
+6:03
+or it could be part of an instruction like the first step of 500.
+6:11
+To perform a division between floating point numbers. All of these things count as instructions,
+6:16
+and CPUs nowadays are capable of executing typically billions of these instructions at one time in one second.
+6:20
+When you hear things like this is a 1.6GHz processor, it means it's taking over 1.6 billion times a second.
+6:28
+And then in that 1.6 billion times a second, every tick usually means one instruction being executed.
+6:36
+So you can very, very roughly infer that this is 1.6 billion instructions a second times the number of cores that are in this processor.
+6:43
+So times eight times 16 and so on. Yeah. So is this what a smartphone chip is this one.
+6:51
+Yeah. So commonly you hear that the smartphone chips are lower clock frequencies.
+6:56
+So 1.61GHz even less than that.
+7:02
+And typically people see that smaller number compared to a CPU in a computer which is like three, four, five gigahertz.
+7:05
+And they go it must be slower. No, it's to do with what instructions it supports.
+7:11
+If you have a processor that only supports addition and subtraction, you can do everything, but you're going to need much,
+7:16
+much more instructions to do division than using a processor that runs on a lower clock speed, but supports division as an instruction on its own.
+7:22
+So this is it's getting very difficult to compare hardware.
+7:30
+And this is where you love. You would love to argue with anyone trying to sell your computer who says this has 1.2GHz more on the processor.
+7:34
+It doesn't make any difference whatsoever. Okay, anyway, I digress.
+7:42
+Okay, so in the CPU we have cores, and each core of the CPU is able to execute its own tasks.
+7:48
+Now, the reason why CPUs have cores is because they're able to do multiple things at once,
+7:56
+but because these cores can also be sharing resources within the CPU,
+8:00
+not every core is capable of running exactly the same instruction at exactly the same time,
+8:04
+because they're relying in hardware that is only available in smaller numbers, so they are still sharing between them.
+8:08
+We're not going to be programming anywhere near that level, so we don't need to worry about that.
+8:15
+In the past, CPUs used to consist of exactly one core, which meant that they were only able to do one task at one given time.
+8:19
+And that was great for programmers because you didn't have to worry about concurrency whatsoever.
+8:26
+But nowadays, because CPUs have expanded horizontally to have more cores, as a programmer,
+8:30
+you want to make use of this available processing power to make the tasks happen faster.
+8:36
+Okay, now, in the CPU, cores are typically designed to work independently.
+8:42
+Any resource sharing they do is happening within them, so we don't see any of that.
+8:47
+However, the way we give them things to do is by creating what we call threads.
+8:52
+A thread is just a work unit, a unit of execution that contains instructions that need to be run in the CPU as a block of work.
+8:57
+Internally, things like the cache. Anyone familiar with cash cash cache, memory.
+9:09
+So inside the CPU chips I said that the cores themselves are capable of running independently,
+9:16
+but they still have some things that they share within them between them.
+9:22
+Things like cache is one example of that.
+9:26
+Cache is kind of like a very small Ram that is inside of the CPU itself, and anytime the CPU has to go to the Ram of the computer to reach something,
+9:29
+it first checks its local memory to see if it has previously read that thing so it doesn't have to go all the way to Ram read it and bring it back.
+9:39
+It just to speed things up. Yeah. Finishing the task. Was it clear the cash?
+9:46
+Or does it? No. So the clearing of cash is happening automatically.
+9:50
+The cash is constantly being overwritten by new information. And there is some things to be said about cash coherence and so on.
+9:54
+But we're not going to go into that.
+10:00
+I'd be very glad to talk about it, though, because it was part of the reason why my code wasn't working in my PhD.
+10:02
+So yeah, it has bit me in the back before. Okay.
+10:06
+You're going to hear things like simultaneous multithreading, logical.
+10:11
+Cause there's a lot of terminology to go with this logical cause.
+10:15
+And all of that is just a lot of extra stuff.
+10:18
+We're not going to be talking about this too much, but I do suggest you read on to these things, especially logical calls,
+10:22
+because they're a very nice marketing technique to get you to buy something that truly isn't
+10:28
+any more powerful than the other cheaper thing that you're going to buy in the first place.
+10:33
+But essentially, what we are saying here is that you could have a processor that has,
+10:36
+let's say, eight cores, but is capable of running 16 things simultaneously. So two things Beckel.
+10:41
+How does that work? We'll see that in a second on a high level. Okay.
+10:47
+So workers, when we want when we have a CPU call, we have to give it something to do.
+10:52
+And what we give it to do is typically called work.
+10:58
+The CPU calls themselves have the capacity to choose how they execute the work that they've been allocated.
+11:02
+And us, as programmers, are only responsible for defining what that work is going to be.
+11:08
+Now, the work typically takes the form of instructions that I mentioned machine instructions, but we are not going to be programming at that level.
+11:14
+We can and we if you really want to, we can in the third year because you can write directly your machine instructions in your code.
+11:21
+However, as programmers, we're giving it in the form of Java code, and that somehow trickles down to machine instructions.
+11:27
+Now the CPU has a work queue. There is a queue of things that need to be done,
+11:35
+and that queue is being managed by a CPU because it's not just your application that's running on a computer.
+11:41
+So if you give it 16 bits of work and there is eight cores, you can't just take over the whole computer and leave no other program execute.
+11:46
+In the meantime, you have to enter the queue for your program.
+11:55
+Now different workers are pulling stuff from the queue, and then this work is distributed into the course.
+11:59
+So there could be some attention given to your code. Then your code stops executing.
+12:05
+Someone else's code gets into the CPU and starts executing for a bit. Then that code gets thrown out.
+12:09
+Some other code gets executed. In other words, there's work scheduling happening in the CPU, which is done automatically.
+12:13
+Okay, we've been through that. Um, yeah. So operating systems, the technical definition of a worker does change a lot.
+12:21
+What does it mean? Operating systems have their own interests that a different kind of work is that they use programming languages have threads,
+12:28
+which we're going to call workers later on, and so on and so forth. Now, I mentioned the magical word thread quite early on, and I said it again.
+12:34
+So as far as we are concerned, as programmers and as far as the operating system is concerned,
+12:43
+any work that we any workers we want to have running in as part of our application are going to be threads.
+12:48
+So that goes that term again in our eyes.
+12:55
+A thread is the smallest unit of execution.
+12:59
+That means that it's a block of things that need to be done and coded with as little information as needs to be there.
+13:02
+A thread cannot be. It's not as bloated as what we call a process.
+13:10
+Do you guys remember what the process is from year one? Then Jack, talk about processes by any chance the confusion in your faces suggests he didn't.
+13:14
+He didn't.
+13:27
+Okay, so as this slight distinction to be had between a thread and a process in computers, in software in general, when you're running a program,
+13:27
+what you're actually doing is you're telling the operating system, take this piece of code that Philippos has written and executed into a process.
+13:37
+A process has its own allocated memory space. It has its own priorities, it has its own thread to begin with, and so on.
+13:45
+Now the process is heavy. It takes time to start up a process. It takes resources to start up a process.
+13:53
+So that's why we reserve them for when we're doing things infrequently, like starting up a program.
+13:59
+You don't start and stop, start and stop a program 1000 10,000 times a second.
+14:03
+Now, a process which has been given all of the resources by the operating system can then say, I don't want to run things in one thread.
+14:10
+I want to run them in multiple threads,
+14:16
+distribute the work into the CPU so that I can make better use of it so that one process can create multiple threads and say,
+14:18
+this thread is going to do that thing, that thread is going to do another thing, and so on.
+14:26
+So the process itself can tell the CPU go and run this many threads doing different things on my behalf.
+14:31
+Yeah. So opening up word would be a process.
+14:37
+Yep. And then me starting to work. X might be a thread that is begins to conceive in some kind of.
+14:41
+Yeah. So as an example, using words,
+14:47
+you're able to download a new language back into word at the same time as using the spell checker and making a correction on the document.
+14:50
+This is one process, the word process,
+14:58
+but it potentially has multiple threads running because one of them is busy downloading stuff from the internet.
+15:00
+So that's hogged up downloading things.
+15:05
+Then the other one is responsible for managing what you do every time you press the keyboard and showing it to the screen.
+15:07
+And then there is a third thread that you're running there, which is doing the spell checking as you're going through the document.
+15:12
+So even then the process of word has started three threads or more.
+15:17
+So this is an example of how processes and threads interact. So far you've only written single threaded programs, except when we did GUIs.
+15:22
+I think we did an example of threading at the end, but that was optional. Um, and this is not bad.
+15:32
+It's just that we're making very little use of available resources. And also it means that we have.
+15:38
+Which is good and bad. Being able to rely on thread blocking.
+15:44
+So you remember, for instance, that we have some methods that just stop the code execution at that line until the information arrives to them,
+15:47
+and then they continue afterwards. Can anyone name such a method?
+15:54
+Any method that you call which potentially returns some stuff to you, but has to wait for that stuff to arrive first from somewhere?
+16:01
+Yeah, you could have the read buffer next line from the buffer reader.
+16:11
+Any others? The scanner. Which particular methods are you thinking of?
+16:15
+Yeah. So when you're reading from the keyboard with the scanner, you have to wait for the user to type something.
+16:22
+And at that point your code is blocked waiting for the information to arrive.
+16:26
+Now that means I'll spoil the fun. That means that we have been unable to move on to multiple requests at one, because these processes,
+16:30
+these lines that we're executing, force our code to stop at that point before it moves on to anything else.
+16:41
+So if we're stuck waiting for information from the user, our entire application is busy waiting.
+16:46
+It can't be executing any other code in parallel if we're using a single thread.
+16:52
+So to put it in the context of web services, if this was a server and we were waiting to read information from one client in a single threaded server,
+16:56
+that server is now completely occupied with waiting for the client to send information,
+17:04
+so it won't be able to accept another client that connects to it.
+17:09
+It can only deal with one thing at a time. Not great. So let's visualise this example a little bit.
+17:12
+So let's suppose that we have our server here, which is now waiting for some client to connect to it.
+17:19
+And client A comes along which tries to establish a connection with the server.
+17:25
+Now the server has been so far inactive.
+17:32
+It's been waiting client a request, a connection, and there is no reason why that client cannot make the connection.
+17:34
+Now, let's say that client A uses that connection to send a request to the server,
+17:41
+request being some sort of message to get the server to do something. The server is now dealing with that request.
+17:46
+Maybe that request was to fetch a large piece of data.
+17:53
+So it's taking the server a lot of time to deal with that.
+17:56
+Now client B, which has been sitting on the side comes along and requests the connection as well.
+17:59
+Imagine imagine now that this is single threaded land. That server is running on a single thread.
+18:05
+What do we think is going to happen? The disconnects pattern have to wait until client A disconnects.
+18:10
+Yep. So client B, as it stands, will not get anywhere.
+18:17
+There won't be an opportunity for client B to connect because that server is completely preoccupied with client A,
+18:21
+so that connection is going to drop. And client B is going to have to wait until client A stops dealing with the server.
+18:27
+The server becomes available. Then you can connect. Now hands up if you've dealt with a system like this before.
+18:34
+Anyone in the university would have to deal with one of these systems.
+18:43
+It's like early internet where you were attached to this, and this would be the call on the same phone line.
+18:46
+Yep. You wouldn't be able to attach more than one people on the same line. An example of that.
+18:51
+So this is what the problem we're going to be addressing today is all about.
+18:56
+Now a better implementation of this would be where that server is capable of spawning threads.
+19:01
+Now remember what we said a thread is a thread is a unit of work, something that needs to be done.
+19:09
+So in this context and generally in the context of client server interactions, we typically say that a piece of work is dealing with a client.
+19:13
+That's what we define as a unit of work. So at the moment we have a thread which is waiting for a connection.
+19:21
+The server has started a thread that is here to handle a client request is waiting.
+19:30
+Now client A comes along and starts a connection to the server.
+19:36
+It establishes the connection and the server quite cleverly spawns the thread to speak to client A.
+19:41
+So now the request that the client has sent to the server is being handled in the server by one of the threads.
+19:49
+Now, what this means is that the other thread that we had is still capable of waiting for a connection.
+19:56
+So now when client B comes along and wants to connect,
+20:01
+client B is also able to create the connection because the thread that is
+20:05
+responsible for creating the connections and dealing with that aspect is freed.
+20:10
+The server is busy dealing with client any in one thread, but has another thread waiting for connections.
+20:15
+And once the connection is established and client B sends its request to the server,
+20:20
+the server can spawn a thread that deals with client B and the thread and thread, and the server is now waiting for a third client.
+20:25
+A fourth client. The fifth client. Sky is the limit, or the amount of processing power available in the server is now the limit.
+20:32
+So that's what we're going to be talking about. But we're doing it.
+20:40
+Oh no. At the moment we don't need a thread D.
+20:46
+However, if we had another client connect to the server, then that would go to this thread and say, I've accepted a connection from the third client.
+20:48
+And to deal with the third client, I'm going to spawn a thread D to talk to it.
+20:56
+So it's almost as if I have an army of people in a helpdesk.
+21:01
+That would be the ideal helpdesk. I'm just stood in front of the helpdesk and behind me is an army of people of other staff.
+21:05
+Student comes to me to ask a question. I delegate that to one of the staff members.
+21:11
+Another student comes to me. I delegated to another staff member. A third student comes in.
+21:15
+I delegate them to another staff member. So all of these students are being seen simultaneously by someone who is offering help.
+21:20
+That would be an example of this. The example of the single threaded model that we saw before would be behind the help desk.
+21:26
+I am the only one. So anytime a student comes and asks a question, I have to deal with a question.
+21:32
+I can't be dealing with any other student at the same time. So this is where this pays off.
+21:37
+Okay, so let's now distinguish what it means to be concurrent and what it means to be parallel to very,
+21:44
+very, very frequently confused terms and things that you see floated about very readily.
+21:50
+Okay. So imagine that we have task one and task two denoted by red and blue lights in a parallel environment.
+21:56
+No, that's not a parallel environment. That shouldn't be that what we're seeing here I'll expand it fully is a concurrent environment.
+22:05
+So in a concurrent environment it could be the case that task one and task two are being interleaved between them.
+22:14
+Now notice we only have one processor dealing with two tasks concurrently.
+22:21
+The tasks are not running at the same time as one another.
+22:26
+What is What's happening is that task one gets a little bit of attention, plus two gets a bit of attention.
+22:30
+Then it stops dealing with task two. It moves on to dealing with task one, then it stops dealing with task one.
+22:34
+It goes back to two. So the processor is splitting its attention between the two tasks.
+22:39
+Can't do them at the same time, but is interleaving them in and out.
+22:45
+We say that these two tasks are happening concurrently because at any given moment, one task is executing, but at the end,
+22:49
+you're probably going to arrive to the results of both tasks at near enough at the same time, if they're of the same magnitude.
+22:56
+So this is an example of a concurrent computation. Concurrency is a superset.
+23:02
+And within that set we have parallel tasks. This is an example of two tasks running in parallel.
+23:08
+In the parallel world, you have one processor dealing with task two and another processor dealing with task one at exactly the same moment in time.
+23:16
+So the instructions of task two and task one are being executed in these blocks simultaneously,
+23:24
+meaning that at any given moment you look down this in the timeline and you see that both of these tasks are running at the same place.
+23:30
+If you drew that same line somewhere in the concurrency timeline, you would only find one of the two executing at any given moment.
+23:38
+And that's the main distinction in the world of parallel. Things are happening at the same time in the world of concurrent.
+23:46
+They're being interleaved. And there's two things going on at once doing complete tasks.
+23:52
+But we don't have anything running at the same time.
+23:57
+Yeah. When we say processor, is that correct or it's a kind of abstraction.
+24:01
+Yeah. So a processor in this case could be a thread. It could be a core in the CPU.
+24:08
+It could be any interpretation of it.
+24:13
+Now when I say when you say threads, we say the threads run concurrently because we cannot explicitly say they run in parallel.
+24:15
+It's not in my hands to say two threads run at exactly the same moment in time.
+24:23
+That's down to the the CPU of the computer to decide. But what I know is that these things are designed to run concurrently.
+24:27
+I can take the first task, which is running a thread one, and execute a portion of it,
+24:34
+and independently I can start working on task two because these are two separate tasks.
+24:38
+Yeah. So then if we use the the server itself or task three from last week,
+24:42
+if I sent a request or get request a second with a pull, it would send me the first task to fill out that question.
+24:48
+Then it would maybe deal with the pause for this question, and then it would come back to my second question.
+24:59
+Perfectly okay, but it depends.
+25:04
+Okay, so in the world of because this is all implemented with high level construct threads, I don't know how the processor is going to deal with them.
+25:06
+It could be that the processor runs your thread before pulse. It could be that it runs them at exactly the same moment in time.
+25:13
+It could be that your thread, for whatever reason, is being delayed and false, starts first, surely.
+25:19
+Okay, so there are other factors. There's many other factors. If our requests arrived at exactly at the same time, they would run in parallel.
+25:25
+No. Not necessarily. It depends on how the CPU on that system is doing.
+25:32
+If it's too busy. It may start your task before polls, or it may start them both at the same time.
+25:36
+It's unknown. As programmers, we are designing, hoping for parallelism.
+25:43
+We design things to be able to run in parallel, but we know that they may run concurrently and not in parallel.
+25:47
+So you'd have to speak to the electrical engineer or. Ah, yes, or you need to write your own machine code.
+25:54
+If you have full access of the course, you can do whatever you want, right? Wait until you have 12,500 cores and you have to manage the work they do.
+26:00
+Anyway, just back to concurrent.
+26:11
+Yeah. The blue, the blue, the the blue line and the red line.
+26:15
+Are they the same thread on different times of the processor or different.
+26:19
+I would say these are two different threads. So I have two threads encoding two tasks.
+26:23
+Let's say that these two tasks are calculating the digits of pi, both of them.
+26:27
+The red one starts and calculates some digits. And then it's not fair to carry on with that and ignore thread two.
+26:32
+So what we do is we stop thread one there. We say you're going to continue the minute we give some time to thread two.
+26:39
+Then we go back to one, back to two and so on and so forth. So that there on the slot is that is the same task.
+26:45
+You've got those like time slices that it's in the processor.
+26:50
+Yep. That's it. So it doesn't get it doesn't hold the processor and take all the time for itself.
+26:55
+It gets interleaved with other things. So everyone shares the attention of the processor.
+27:00
+So just got confused all what are we saying to loop.
+27:04
+Oh yeah. So in concurrent it can potentially do both at the same time.
+27:08
+But he might not be doing both at the same time. And that's why we've got quite a cool component.
+27:14
+But with parallel it's doing both things at the same time.
+27:19
+You might have some power now within the concurrent benefits of the movement, which will seem this.
+27:22
+Yeah. So this is an example of concurrent parallel.
+27:28
+So in this example you have let's say one processor dealing with two tasks at the same time that another processor is also dealing with two tasks.
+27:31
+So these are the four tasks that you see here are running parallel to one another
+27:40
+but also concurrent to one another because these two are not being run in parallel.
+27:45
+These are run concurrently. These two are also being run concurrently, but not in parallel, but between the green and the red.
+27:50
+These are being run in parallel. The purple, the red and the blue are also running parallel.
+27:58
+So you can see where the confusion starts with parallel and concurrent. Right? Yeah.
+28:03
+I'm still a bit confused. Let me if I, if this was red.
+28:07
+Yeah, right. Is it possible not concurrent for this part here to also be red or would that be concurrent.
+28:11
+Concurrent means you are one person. Yeah. Oh.
+28:17
+In the example of the help desk, I am one person behind the help desk, but I have two students in front of me.
+28:20
+So I tell student that you fill that form and I turn to the other student and I ask, what is your question?
+28:25
+And then I stop that student. I go back to this, hey, did you fill the form?
+28:29
+So my attention is split between two people confused and then back to where I started here.
+28:32
+So I'm good. There we are.
+28:37
+Okay, so in the example of the two of the help desk, this would be an example where two independent people are stood behind the help desk.
+28:38
+And these people are dealing with two independent student requests at the same time as one another.
+28:45
+And the concurrent parallel world is when there is two people behind the help desk and there's four students.
+28:49
+Person one speaks to two students and splits their attention between the two.
+28:56
+Person two speaks to another two students and splits their attention between the two.
+29:00
+Does that make sense? Cool.
+29:05
+Okay, now we're going to leave this theory behind, and we're going to start talking about actual concurrency or parallelism and concurrency.
+29:08
+So as far as we are concerned, we are creating threads and we will be creating many of those.
+29:16
+So a thread can exist in several states. I do want you to remember them briefly, but I'm not going to ask you to list them out ever.
+29:21
+So a thread starts its life when it is new. That is, someone has created the thread and told it.
+29:29
+This is the work you're going to have to carry out. Now once a thread is ready to perform its action, then we call it runnable.
+29:35
+That thread can run. There is a distinction here.
+29:44
+In this step, typically we separate states are runnable and running.
+29:49
+They're not the same thing. The fact that the thread is ready to run does not mean the processor is actually executing the code in the thread.
+29:54
+The fact it's ready means it's sitting in the queue waiting for the processor to look at it and say, what do you want?
+30:01
+So a thread is runnable when we want it to do stuff, but it's not necessarily doing anything at the moment.
+30:07
+The processor eventually looks at the thread and goes, okay, you have ten milliseconds to deal with your task.
+30:14
+Start working on it. And this is where the thread goes into running. It is actually executing code.
+30:21
+Now at some point the thread is going to become blocked and a thread becomes blocked.
+30:28
+When it is waiting for something to become available, some resource that could be.
+30:32
+For instance, the thread is waiting for the user to type something in,
+30:36
+or it is waiting for the user to send something over the network, or it is waiting to read something from the disk.
+30:40
+In the old days, it's waiting for the disk to stick to the right place. All of these situations would block the thread.
+30:46
+The thread is unable to carry out any more work. A thread could also be waiting.
+30:52
+This is when threads are typically asked to go into waiting state.
+30:58
+You put the thread into waiting until some condition becomes true. We'll see that in a second.
+31:02
+You could also have a thread which is timed waiting. It's waiting for a fixed amount of time or for an event to happen.
+31:06
+And finally, and this is not my terminology, this is Java's. A thread could be dead.
+31:13
+This is when the thread has completed its work and has now died.
+31:18
+You're not going to be able to run this thread ever again. Okay.
+31:21
+And now we're going to start entering the world of some theoretical problems, which we're going to see in action in the next lecture.
+31:26
+Let's now start thinking about threads and how they're dealing with data.
+31:33
+Let's suppose that we have something which I think is very representative of the modern state of banking, a distributed banking app.
+31:38
+So a distributed banking app is going to have a bank server that is capable of speaking into multiple different clients that connect to it.
+31:44
+The bank server is going to have some sort of database where all the account information installed, including balances and so on.
+31:55
+And now in our scenario,
+32:01
+we're going to say that we have two people from different devices interacting with this bank server to withdraw money from an account.
+32:02
+These two people are withdrawing from the same account. Very important to remember.
+32:12
+Okay, So this is client A trying to connect to the bank server.
+32:16
+And this is client B which is also doing that. Imagine that the bank server is itself programmed well.
+32:20
+So it's capable of running multiple things at once.
+32:26
+So client A goes to the bank server and asks to see the account balance for their account, which is shared between A and B.
+32:30
+What the bank server has to do now is it's going to look into the account database and read the balance for a at the same time that it's doing it.
+32:38
+Client B comes along and wants to see the account balance as well.
+32:47
+That is no problem. The bank server is now able to respond to client A because it read the balance and it responds to the account contains £100.
+32:51
+Now the bank server is dealing with client B's request which was to read the balance as well.
+33:00
+It reads the account database for B, and of course it responds with the same thing.
+33:05
+The balance in the account for both clients is 100. It's the same account.
+33:10
+Now let's see what happens when client A wants to withdraw the £100 that are in this account.
+33:16
+And by sheer coincidence, client B also wants to withdraw the £100 that is in this account.
+33:22
+What the bank server has to do is, first of all, read the database again to make sure there is £100 to withdraw on the request of a.
+33:28
+And of course, since client B made the same request, it also has to read it again for client B,
+33:36
+okay, these reads tell the bank server there is £100 in the date in the account for A,
+33:42
+and there is £100 in the account for B, so the bank server goes on and debits or charges the account and removes £100, which it sends back to a.
+33:48
+At the same time though, because the requests were happening at exactly the same point in time,
+34:03
+it read the account database and subtracted another £100 on behalf of B.
+34:06
+So now that account that had originally £100, has been debited twice in client A and client B have both been given £100.
+34:12
+In other words, they've doubled the amount of money that was in that account. Ah, that's a slight issue.
+34:21
+Can you think why this might have happened in the world of threading?
+34:27
+So if you imagine that there was one thread dealing with client A and another thread dealing with client B,
+34:31
+why would we end up in a position with the £100 of the account were withdrawn by two different individuals,
+34:37
+and now these two different individuals have a total of £200 between them as separate threads that have no knowledge of the other threads.
+34:42
+That's it.
+34:49
+So remember what we said a thread is it's a unit of work, and the unit of work doesn't necessarily have to be constrained by other such units of work.
+34:50
+There's no order in which the threads are going to run. Maybe that happens before the advert, maybe they're interleaved.
+34:59
+So the problem here stemmed from this stat wait, no, that not that Step, this step.
+35:05
+So in this step, the account, the thread that was handling client A was in the process of removing money from the
+35:14
+account at the same time as the thread for B was reading the balance in the account,
+35:22
+because these things were happening at the same time. There was a race. That event the read happened just before the debit happened.
+35:27
+Had they happened in different ways then maybe client we would have been told there is no money left,
+35:36
+but because they happen in that sequence then fine B was told you have £100 you can take and that's why the account ended up being charged twice.
+35:41
+So this is the readers and writers problem in concurrency. And it's very, very common.
+35:51
+You'd be surprised how common this is.
+35:55
+So what we kind of need to take away from this is that there is some operations that we need to pay extra attention to,
+35:58
+namely when we read data and when we write data. These are two things we're going to have to do to data that need to be handled differently.
+36:04
+So in the world of concurrency, we cannot allow concurrent rights.
+36:12
+No two people should be able to modify the data at any given point in time.
+36:16
+We only allow one person to be modifying the data at one go, and nobody else is allowed to look at the data while it's being modified.
+36:21
+At the same time, we can have concurrent reads.
+36:31
+In other words, ten people ten threads could be reading the same piece of data as long as no one is writing to it.
+36:33
+So you might have heard of it as right is exclusive,
+36:39
+meaning that only one thing can be writing at once and no one could be looking while it's doing it.
+36:42
+While reading is not exclusive, you can have multiple people reading the data at the same time, so long that no one is writing to it.
+36:47
+These are sort of critical operations, and they're becoming part of the critical section of the thread,
+36:54
+as we call it, and we should be using some sort of atomicity.
+36:58
+What we're doing. This atomicity means that there is certain certain sets of operations that
+37:02
+need to happen all at once without anyone else interrupting them in between.
+37:09
+An atomic operation is an operation that either happens or it doesn't happen, but no one can get in at the same time as this operation happening.
+37:13
+So that's a mistake, I should say. Wait. Yeah.
+37:22
+So in the example that we saw before, if the checking of the balance, the withdrawal and the writing of the final balance was done atomically,
+37:25
+then no one would be able to look at the account while this was happening, and you wouldn't have had this issue at all.
+37:32
+This is where atomicity becomes important. So let's consider a piece of Java code to bring atomicity into context.
+37:39
+Looking at these three lines of code, and specifically this one, how many operations do you see happening on here?
+37:48
+Think of operations. What we said is an operation on the CPU, an instruction, things like add, subtract, multiply, read memory write memory.
+37:58
+Well Okay. Think specifically of that statement. 23112344.
+38:08
+I think we've settled for either 1 or 2 or 3 or 4. Five could also be five.
+38:22
+Right. So can you start shouting out operations for me? Equals get it.
+38:29
+So equals what is what operation. Oh well you're assigning the integer right.
+38:34
+Something to memory. So that that we do have to write something to memory.
+38:41
+One operation. Yeah. What was that get.
+38:45
+What are we getting? Get a get b.
+38:48
+So that's two additional operations. Get they get B.
+38:52
+What else can't get. It's x. So add two x right to x.
+38:56
+This is third operation. What else is the actual additional addition.
+39:00
+So for this statement to execute, the code has to read the value of a first.
+39:07
+That's one operation. Read the value of B. Next. Second operation.
+39:12
+Add them together. Third operation. Write the result into X.
+39:17
+Fourth operation. So there's four steps that are happening here.
+39:21
+And we sometimes simplify away the fourth. But it doesn't matter. We're going to say it here.
+39:24
+So does the declaration of the type. Not not matter because it's.
+39:28
+Yeah. So that is purely the compiler will get rid of the type E because this is only a memory location that needs to be modified.
+39:32
+So these are the four operations.
+39:39
+So if a thread is executing this code, imagine what happens if midway through these four operations another thread comes in chaos.
+39:42
+Because imagine that my thread is reading a. It then goes to read B to get the result, but the thread goes and changes A and B at the same time.
+39:51
+So I read the old value of a and the new value of b, so my addition is now all over the place.
+40:00
+So that's where the problem of reading and writing happens. Broadly speaking.
+40:05
+Those other areas, we could have the so-called application errors in the world of threading.
+40:10
+I'm going to briefly mention them. There's no point going into detail on those. You could have software not doing what you wanted to.
+40:16
+The most common application error this can happen in threading. Like everything um, programs are executing in an unexpected matter.
+40:21
+This is something that is relevant to threading, especially when threads can happen in any order or interleave between them.
+40:29
+We need to remember that any units that we execute as threads do not have to have any order between them.
+40:35
+They may execute one after the other at the same as the time as one another, or interleaved with one another.
+40:41
+We don't know that. And then ultimately any application error that you get is going to lead you to the wrong solution.
+40:46
+But in the world of threading, that gets very, very difficult to debug.
+40:52
+You might have heard that the so-called race conditions in the world of threading typically get branded as features,
+40:55
+because no one really knows why they're happening, and they're happening at the very unpredictable things.
+41:02
+There's no way you're going to run the program, and you're going to be able to replicate a race condition,
+41:08
+because what determines whether or not it happens is how busy the processor is,
+41:12
+how many other threads are happening, and I don't know the time of day.
+41:15
+Okay. Now, specifically in the world of threading, we run the risk of having a deadlock.
+41:20
+Anyone heard of a deadlock? And while it remains in the application and they need to wait for the other to get it.
+41:25
+Yeah. So a deadlock is when you have, let's say, two threads, workers waiting upon one another.
+41:33
+Let's say that I have to I don't know, I have to grab the duck and the flask to get out of the room, but someone is holding the duck.
+41:40
+That person also wants to get the flask. I'm holding the flask, so I'm waiting for someone to get to let go of the duck so I can pick it up,
+41:48
+but they're waiting for me to let go of the flask so they can pick it up.
+41:55
+We're mutually waiting for each other, and we're in that state waiting for one another indefinitely.
+41:58
+that is a deadlock. Very difficult to troubleshoot in the world of threading because it's not guaranteed that will happen.
+42:04
+Okay. And then we also have lockout. And lockout is also sometimes referred to as resource starvation,
+42:10
+which is when a thread is holding resources and forbids another thread from accessing those resources to make progress.
+42:16
+So lockouts are situations where a thread is just greedy, grabs everything,
+42:23
+and then another thread is waiting and waiting and waiting for things to have to become available so it can use them.
+42:28
+So resource sharing between threads is a big problem that can lead into all of these lovely situations.
+42:33
+So as I said these could be horrific errors when they go wrong.
+42:41
+Um, and as I also said, it's very difficult to debug this to the point where Chrome and other big applications brand
+42:47
+them as occasional features where the guidance in the documentation says if this happens,
+42:53
+just restart it. It's bound to fix the problem. If you clear the memory contents and not I'll stop all the threads that are running.
+42:57
+It's bound to fix the deadlock, but it doesn't answer the question why was there a deadlock?
+43:03
+And because we can't predict when threads will finish, we cannot know the order at which operations will happen to then be able to foresee a deadlock.
+43:09
+So that's kind of what makes it very difficult. Of course, this isn't a new problem.
+43:17
+And as such we have ways of controlling threads which languages are given to us.
+43:22
+Namely we're going to be looking at atomic operations and locking.
+43:28
+The bottom line is, in order for us to avoid ending up in a deadlock situation, ending up in resource starvation,
+43:32
+or ending up in a race like we saw before, we are the ones who are responsible for managing it.
+43:38
+So as advanced as programming languages have become, unless you're looking at some very niche languages,
+43:43
+none of them are going to be able to prevent you from ending up in a deadlock or prevent you from ending up in a race condition.
+43:48
+It's onto us to foresee these problems when writing parallel code.
+43:55
+Yeah, so, you know, quantum computing. Is that something that kind of overrides that problem or.
+43:58
+I wouldn't know to tell you, actually.
+44:05
+Well, I think the model there for programming is different because by definition, you think that everything is happening at once.
+44:06
+So in ways, yes, I would imagine, but I've not looked into quantum computing.
+44:12
+It's way beyond my mind capacity. I can't I honestly can't understand that stuff.
+44:17
+It's too mathematical for me anyway. So another example of this that I can throw in is when programming graphics cards.
+44:22
+Graphics cards do not. Well, you shouldn't have to share resources between threads,
+44:30
+which becomes infinitely more fun because the moment you have to share something between threads,
+44:36
+you may have 12,000 threads, all waiting for one thread to do something. It becomes completely unmanageable.
+44:40
+You stop 12,000 threads waiting on one. Not going to happen.
+44:46
+So controlling threads is something you do mainly on the CPU. In other sort of hardware you may not be able to do that.
+44:51
+Okay. So very briefly we're going to introduce the different classes that we have in Java to help us make threads.
+44:59
+And then in the next lecture we're going to actually make the threads.
+45:05
+So anyone heard of the thread class or anyone remember me using it last year.
+45:10
+Of course you all do. Right. Yes, that's the answer.
+45:15
+Okay. So the thread class is a thread.
+45:19
+And this is where we encode anything that needs to be done.
+45:24
+Now what gets confusing sometimes is that the thread itself the thread class is implementing runnable.
+45:27
+Do you remember runnable? Yeah. It's an interface that says this thing can be run.
+45:32
+So a thread by definition implements runnable, which means that the thread contains a method inside it,
+45:38
+which is called the run which it inherits from runnable.
+45:44
+So the run method in runnable gets executed by the thread once that thread runs in the processor.
+45:48
+We'll see all of that in an example. I think that's going to clear it up.
+45:54
+So we have two ways of creating threads in Java. That's what I'm trying to get to.
+45:59
+We can either make a class our own class and extend the thread class,
+46:04
+which means that by by that we can have the run method in our own class and tell it what code to run.
+46:09
+Or we can create our own class and implement a runnable, which means that our class is still going to have run.
+46:15
+And then when we want to make it a thread, we create a thread object and we hand it the runnable that we created.
+46:21
+Both of these methods of creating a thread have their benefits and drawbacks, mainly to do with code quality.
+46:29
+Now either way you do it, you're still going to end up with a thread which is going to run the same between the two.
+46:35
+What it impacts is the quality of the code you write, and the decision on which one you use depends on how you have structured your code,
+46:42
+which is what Randall has been teaching you or will be teaching you. So we're going to stop here and we're going to jump into the code.
+46:49
+The code. Sneak peek in the next lecture.
+46:58
+Now, before I let you go, the final thing I wanted to say is that there is a wealth of nice resources available.
+47:01
+Not this one where you can learn more about threads, but some of them are particularly bad.
+47:06
+So this is a fairly new book. This is Modern Concurrency in Java, which is an O'Reilly publishing.
+47:12
+It's written by AI and it's full of lies. Okay, maybe it's an exaggeration.
+47:18
+It is not written by AI. I don't know if it is, but there's very many signs of AI writing and white lies in here.
+47:24
+It spends about a page explaining a division, and then it gets into the more advanced topics,
+47:30
+like folk join pools and spends about two paragraphs mentioning what a folk join pool is, and then just completely jumps over it.
+47:35
+So I would not recommend you get this book.
+47:42
+But if you do find another book which is good about threading in Java and this is something you're interested in, let me know.
+47:45
+I'd be love. I'd love to read it. Good. You're welcome to have a peek of this if you want.
+47:50
+and the code which has prompts in it. But until then, I'm going to leave you be.
+47:55
+Um, there was something else I wanted to say, which was to do with the little bag.
+48:01
+What did I do with the little bag? Um, yes.
+48:05
+Oh, no, I didn't. Right.
+48:11
+So the last thing I was going to say is that I said at the beginning, I'm not going to give you any new ducks this year, but there is little duck.
+48:12
+Um, what are they called? Keychains. That's the one that I've made, which I've made for every student in the bar.
+48:22
+You're welcome to have one. You can pick the one you like. This is a Velcro strip.
+48:28
+Just open the Velcro and then close it back up so the ducks don't escape.
+48:32
+So I'm going to put it somewhere there with all the notebooks, so feel free to grab a notebook if you haven't had one.
+48:36
+Also, you can use your favourite portable debugger. Good.
+48:42
+I'll see you guys in an hour. Uh.
+48:47
+Please hold.
+48:53
+
+Greetings, everyone. Now, quick announcement at the beginning.
+0:00 
+0:01 3:00 6:00 8:52 9:00 12:00 13:14 15:00 18:00 21:00 22:21 24:00 27:00 30:00 30:58 33:00 36:00 39:00 40:21 42:00 44:46 45:00 48:00

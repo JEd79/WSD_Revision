@@ -1,0 +1,1041 @@
+	
+Powered by Panopto
+
+Lectures
+chevron_right
+Week 3 - Lecture 1
+volume_up
+
+Search this recording
+search
+Details
+AI Summary
+Contents
+Captions
+Discussion
+Notes
+Bookmarks
+Hide
+Auto-generated captions may contain errors.
+From now. Everything you say can be used against me. Okay, so we continue with a new theme.
+0:01
+What did we do last week? Threads. Threads. And we had a great time.
+0:07
+Loads of fun. That's it. Perfect. Ten brownie points for anyone who's had fun.
+0:14
+Multiple times of fun. Excellent. Extra brownie points.
+0:20
+So yes, we spent a lot of time on threading. In fact, the whole well, two lectures.
+0:24
+We're not going to continue that, but it's important stuff. So if you have questions on it I would love to hear them.
+0:30
+This is not very happy. Interesting okay. So we're going to continue with something different.
+0:36
+Today's title for the lecture is Web Services, which coincidentally happens to be the title of the entire module.
+0:42
+We're not going to be talking about the entire module in one lecture. We have a lot to cover okay.
+0:49
+So we're going to talk about object oriented distributed programming. We're going to touch on objects again.
+0:54
+Yay The web technologies that we're going to be piggybacking off for the rest of the module, web services and how they work on a general level,
+0:59
+because before we start designing our own and approaches to building web services, namely Rest and Soap, which are two of many.
+1:07
+So in the labs you're going to write your first HTTP server. Lucky you guys in Java.
+1:14
+Um, you can understand how the internet is works with deployed services.
+1:20
+You're going to test some. You're going to see differences between web service designs firsthand using postman.
+1:23
+But we'll get to that later. Okay. So we know object orientation.
+1:29
+And we like object orientation when we're programming.
+1:35
+So once upon a time when object orientation gained traction, the question became how can we use object orientation to do more things?
+1:38
+And distributed programming also was becoming quite desirable.
+1:47
+Distributed programming being used in programs which are not in the same physical machine location position and are somehow interlinked together.
+1:51
+So the desire then became that developers wanted to exchange objects through their object
+2:01
+oriented languages over some sort of network between the distributed software they were writing.
+2:06
+Ideally, the shape that was desirable at the time was to be able to call methods from one machine into another.
+2:12
+So you would have two applications in two separate devices to set separate machines, and one would ask the other to execute some code on its behalf.
+2:19
+Now this would normally take place via some sort of connection that was there between these machines, namely some sort of network.
+2:27
+Okay, now with object orientation, object orientation, as we've seen together, there's a fantastic job at hiding away details.
+2:35
+So a lot of detail would be abstracted here.
+2:44
+And when you say I'm calling a method on another machine, you wouldn't necessarily have to go out of your way to do it.
+2:46
+It would be kind of feel, well, it would kind of feel as if it was part of the language, like was intentionally built.
+2:51
+Okay. Now, of course, this started to bring the principles of interoperability, which I'm going to butcher a lot today.
+2:58
+Um, but you needed to have objects that were created in one language, let's say Java,
+3:05
+be understood by other languages, because it so happens that object orientation is not exclusively owned by Java.
+3:10
+It was at the time in the 80s, namely it was predominantly C++ and a few other now debunked languages.
+3:16
+Um, but Java is a new example,
+3:26
+so you wouldn't want to design this sort of principle of exchange of objects and calling methods remotely for one language and one language only.
+3:29
+Okay. Now, a couple of weeks ago, we talked about sockets and the natural stepping stone for implementing something
+3:37
+like this would be to use a socket to establish the connection between the machines.
+3:44
+But what you remember from sockets and doing them in the labs is that they are very, very verbose.
+3:48
+You can't do things as quickly or anywhere near as abstract as what this was.
+3:54
+This is where things like Java RMI came up.
+4:00
+Do you remember talking about Java RMI on the first lecture?
+4:04
+Question mark. I remember a little talent, I remember.
+4:08
+Yes, I used RMI on it. I think it was RMI.
+4:11
+Yes. Remote method invocation. So there we are.
+4:17
+It was a challenge tasking your first week labs mainly to scare you, which I hope it succeeded in.
+4:20
+How many did the challenge? Task two. Oh, good.
+4:25
+It didn't succeed. I will have to revisit my scare tactics.
+4:29
+Okay, so Java RMI is Java's version of allowing its own programs to perform exactly this.
+4:33
+The object orientation version of calling things remotely from one system to another via some sort of network.
+4:40
+Now, this system, which we will see in a moment, uses a client side stub.
+4:48
+And this means that you have a server and a client like the server client applications we've seen.
+4:53
+The server is running some sort of code and hosts it and has it as part of its application.
+4:58
+And then the client, which doesn't have that code in it, can send via RMI a request to the server to execute part of that code.
+5:03
+Now all of this stuff is happening from a star.
+5:13
+So as far as the client is concerned, it has something that looks like the version of the code the server has,
+5:16
+except that code does not actually live in the client. The.
+5:22
+Hence why we call it the stub. The server also has a stub, which is there to maintain the connections that are coming from the clients,
+5:25
+and then sort out the marshalling and marshalling of data. Do you remember marshalling it and marshalling from week one?
+5:34
+Sort of. Does the word serialisation and serialisation mean anything?
+5:42
+It's basically the same principle.
+5:47
+Marshalling is the conversion, and marshalling is the description of the way we turn data from one format to another,
+5:49
+so it can be communicated via some medium, which may or may not be the same format as what we have in the memory of the computer.
+5:54
+We will see that in a moment. Okay.
+6:01
+As part of that, there is what we call an RMI registry, which holds associate's names to the sort of code that the server is supplying to the world.
+6:05
+So the registry knows what services the server can provide, and the client can query those services and find out what the service can do through RMI.
+6:14
+And then it can request from the registry to connect it with the service that the server is providing.
+6:24
+Okay. So in the server we have a stub. And we also have an implementation.
+6:31
+And the implementation is what actually executes the code. We will see an example shortly.
+6:36
+Now in the registry we put a stub and then we associate it with some sort of name.
+6:41
+Now the client also knows what contract is being met by the server.
+6:48
+So the client does not have the implementation, the implementation or the bulk of the code lives on the server.
+6:53
+The client knows of the contract that that implementation needs, so it knows what it can do on it.
+6:59
+If you remember what we said about interfaces and interface tells us what we can do, but not how.
+7:05
+And this is the idea here. We have an interface on the client which tells us you can call these methods.
+7:10
+However, it doesn't say what this method will actually do because what these methods will actually do is going to happen here.
+7:15
+So RMI allows you to bridge no, go back these two by letting the client request via a common name, the implementation to be linked to it in the face.
+7:22
+As soon as that happens, the client can call methods which trigger a network request to go to the server to actually execute the code,
+7:35
+and then that network request sends back the response from the server to the client as if the method just returned locally.
+7:43
+And I forgot to say that I communicate via the stub. Okay, all of that is lovely in theory, but it's probably easier to see as a demo.
+7:53
+So for this part, you're going to see me coding on my at an angle again.
+8:02
+We're going to revisit the example of the calculator. Yeah I mean again remote method invocation.
+8:06
+So invocation in Java means to call something. So when you say I call a method, it's like saying I invoke a method.
+8:12
+That's the term Java uses.
+8:19
+And remote method invocation is the ability to call a method over the network as opposed to within the memory of the computer,
+8:20
+hence why we call it that. So when we say now,
+8:27
+normally you have the server being a different machine and the client be in a different machine and some sort of network connection between the two.
+8:32
+But for the purposes of our design here, we're going to put both in the same place because it's just easier.
+8:38
+And if you remember from week one, we're very, very briefly looked at the version of a calculator that was written in RMI.
+8:43
+Do you remember that? We skipped a lot of detail there, so it's about time that we put this detail back in and we reimplement the calculator together,
+8:51
+and maybe we can make it do some extra stuff.
+8:58
+Now I'm going to use the principle of the calculator because it's usually a good example that is simplistic in nature.
+9:01
+But we can make it do wicked things. Okay. So as always we're going to need to have some sort of server for RMI.
+9:07
+I'm really bad with variable with method names. Can you guys read that.
+9:17
+Okay. And we're also going to need a client.
+9:21
+Now I should probably partition those into different packages so that it's the separation will be clearer.
+9:26
+Uh, server stuff. My package names are horrible. It's just for the purposes of demonstration.
+9:32
+I'm going to put that in the server stuff. Oh, no, that was bad. And I'm going to put this in client stuff.
+9:39
+Okay, so in the service stuff, I'm going to have the server stuff and in the client stuff I'm going to have the client.
+9:50
+So this is going to be called client for RMI. And these we have to think of as two separate programs.
+9:57
+This is going to be what the client would run, which could be somewhere else in the world.
+10:05
+And this is where the service the server would run, which could be somewhere else in the world as well.
+10:09
+The client is going to interface um, is what uses the methods to find.
+10:13
+Yes. So the client is the user in this regard. Think of client. Could be many things.
+10:19
+Could be a phone. It could be a computer. It could be anything. So the client is and we have a server which can accept multiple clients.
+10:23
+So you have the server running and serving things to the world.
+10:31
+And then you could have potentially several clients connect to that server to make it do something.
+10:34
+Now other than the server and client stuff. There's also going to be some common things which are going to put together in the common stuff package.
+10:41
+Okay, so in the common stuff, we typically have things like the interface.
+10:51
+And remember now an interface can have a broad meaning. But in Java there is such thing as an interface which is a special class so to speak.
+10:56
+So we're going to make an interface here, which we're going to call it a calculator which I spell promptly calculator.
+11:05
+Did I spell that right. Impressive. Okay.
+11:13
+So so far we're not doing anything over networks. We haven't touched networks.
+11:17
+And this is the same principle here. We're designing a calculator. What sort of operations do we want any calculator to be capable of doing?
+11:21
+Please think simple addition. So how would I describe a calculator that can do addition as an interface.
+11:28
+And what would that method be? Okay.
+11:38
+Just give me the full signature of the method. Public.
+11:42
+You want to return something. So int alt close enough.
+11:50
+Then edition. And then once open bracket in and then two two variables for things like that.
+11:56
+Yeah. Okay. Do I want to provide an implementation for this. Why not.
+12:08
+This is not very good. So we have a contract with defining a contract.
+12:14
+The contract doesn't say how you're going to do it. It says what you can do. Let's fill the picture a bit more.
+12:19
+What other operations do we want our calculator to do. Right.
+12:23
+Okay. So same idea here for int subtraction I may have misspelled that int a int be anything else.
+12:28
+Multiplication. Let's do multiplication as well. Public. What am I returning for?
+12:41
+Multiplication. Let's spice it up. Think of a different type.
+12:46
+We've been using int too much. Yeah. Double multiply multiplication.
+12:50
+Nope, that's not right. How do you spell multiplication? Iron.
+13:01
+Okay, I should have chosen the smaller versions. And then since we're doing double returns, we might as well do double.
+13:06
+Double uh, parameter. A double parameter.
+13:12
+B should have chosen something simpler. Okay, so let's stop here.
+13:16
+We can revisit this later. We're now telling the both parties, the client and the server, that there is such a thing as a calculator.
+13:22
+Okay, now both of them know of the contract of the calculator, but as you guys said, it's not the client that implements it.
+13:30
+It's the server. So the server needs to hold an implementation for the calculator.
+13:36
+Now you can call this whatever because essentially what we're going to do now
+13:42
+is we're going to make a class that implements the contract call calculator.
+13:45
+What do we call the class implements captive.
+13:50
+What was that implements. Yeah.
+13:54
+So as you say, usually the naming convention for these is the name of the interface that space world, not space followed by example or implementation.
+13:57
+So that would be calculator example because why not.
+14:07
+Okay. So now let's implement let's use it as a crash course for interfaces.
+14:13
+How do I make this an implementation of the calculator contract implements.
+14:18
+Very good. So implements. Why not extends. Our.
+14:23
+Inheritance. Very good. It's for inheritance. We're not able to inherit anything from a contract.
+14:32
+Doesn't have variables. Doesn't have state. Okay.
+14:37
+So now in here Java is complaining you're not meeting the contract, although you say you are.
+14:41
+So for me to meet the contract, I have to provide implementations for each of those three methods.
+14:46
+Shu. Let's do that. So nothing out of the ordinary.
+14:51
+We just implement the methods as usual. So to add two numbers, I just returned a plus b.
+14:55
+How complex. Then to subtract I say that and then in a video recorded for concurrency last week,
+15:01
+I completely got the math wrong a minus b and then multiplication is going to be excellent.
+15:07
+You're still in year two. You haven't moved to year one, I promise. I just can't shake off programming one okay.
+15:18
+And this is our implementation done. Now the question becomes do I need to have variables.
+15:24
+Do I need to have a constructor in this particular example? Not really.
+15:29
+Although nothing stops you from doing that okay. So this is the implementation done.
+15:33
+And believe it or not most of the code is now done.
+15:40
+In order for us to establish the RMI things though, we need to make the server a program and that program needs to do something good.
+15:43
+So let's make this a program by adding a main.
+15:51
+Oh, I despise the syntax the Java is introducing.
+15:55
+Unnecessarily so it doesn't offer any benefit to omit these details.
+16:04
+Okay, so now we are on the server.
+16:09
+And if you remember what we said when we're talking about RMI, we have a few components that are server that serves objects via RMI has.
+16:11
+Namely it needs to have some form of registry. Now the registry is where the server tells the mechanism that RMI uses what it can provide.
+16:20
+So let's make a registry which you make by initially initialising a registry object.
+16:30
+The registry. I realised I have a mini screen here.
+16:36
+Okay. And then we initialise this by getting an instance from a local registry.
+16:42
+Look. No. Locate. That's it.
+16:50
+And we create the registry with some number here.
+16:54
+Now, registry is kind of like the RMI server that deals with the RMI requests.
+16:59
+So when it says you're creating a registry and expects a number, the number is the port at which we're going to run this.
+17:06
+Is there any port range that you think I should avoid when designing this?
+17:13
+0 to 1 to 0 to 1 to two four.
+17:18
+So that is because these are the sort of privileged ports that we are kind of dubious about.
+17:22
+So we're going to choose something else. 2091. I don't know what that corresponds to.
+17:27
+And of course, like everything that does network stuff, this throws a bunch of exceptions.
+17:32
+Now normally you do proper exception handling, but that would complicate our example a bit too much.
+17:36
+This throws a remote exception, whatever that is. And so what we're going to do here is we're going to ignore them.
+17:41
+I'm going to put a throws remote exception.
+17:48
+How do you guys feel about this. Throws remote exception from the main. Does that make sense to you.
+17:52
+What it does do you just ignore is bad?
+17:56
+Actually I think it's fine. Very close. Yeah. So any what we're saying here is that, like with any other method,
+18:00
+you can declare that that method will potentially cause an exception may or may not,
+18:06
+but it has a capacity of causing an exception, a checked exception.
+18:11
+So right now what we're seeing is that my main of the program has the capacity of causing a remote exception.
+18:15
+And whoever it is that calls the main method is now responsible for dealing with that situation.
+18:21
+In other words, if this line here triggers a remote exception for whatever reason, then that exception is not going to be handled by the main.
+18:27
+It's going to be propagated up to whoever calls the main, who calls the main.
+18:34
+Man. What was that? Oh.
+18:41
+Which server? Think generically. Don't think about Ahmadi.
+18:45
+Why do we always have a client in our Java applications server class?
+18:54
+But a class can't call a method. So there must be something that calls the method.
+19:00
+Like if I was doing it myself, for instance,
+19:06
+here I tell I take this class and I call a method on it so that the the code that calls the method is my main method.
+19:09
+But who calls the main? It's kind of like the chicken and egg problem.
+19:17
+You make an entry point for the programmer. Yep, yep.
+19:21
+Exactly. And who is it? Likely? Let's speculate to be calling the entry to the program.
+19:26
+Yeah. And what happens when I click run? We're gonna play the game of a hundred questions.
+19:33
+Yep. That's it. So the virtual machine. Think of how Java runs your code.
+19:40
+This gets compiled into bytecode. Bytecode doesn't do anything on its own.
+19:45
+It just sits there. So when you tell Java, run a program for me by pressing that button or by typing it into terminal,
+19:49
+you're instructing the Java virtual machine to start up, read the code the bytecode from the file, overwrite the code, and execute it.
+19:56
+And when the JVM Java virtual machine does that, it looks into the bytecode for name and calls the name.
+20:03
+So if I throw the exception from the main, it means that I've now put it in the hands of the Java virtual machine.
+20:10
+And I said you deal with it. That mechanism essentially tells the Java virtual machine and accepts what might happen.
+20:16
+For my mean, and the Java virtual machine is like, fine, I don't know what to do with it.
+20:23
+So I'm going to crash the program if it does happen. That's what propagating the exception at this point will do.
+20:27
+We're going to not worry about this for now, but I can make a separate video on that and talk about it a bit more if that would be usable.
+20:33
+Useful? Yeah. Good. Better, right.
+20:40
+Okay, so now we have made the registry. But at the moment our registry is holding nothing.
+20:48
+There is nothing in the registry that this server is providing. It runs if we run it, but it provides nothing.
+20:54
+So let's change that. I'm going to tell the registry that I'm going to provide a calculator.
+21:00
+So I'm going to make an instance of a calculator calc fine which is initialised as a new what.
+21:05
+A new calculator. What's that going to do.
+21:18
+Then why am I being asked to implement? I thought I implemented these methods somewhere.
+21:25
+Where did they implement those methods? That's it.
+21:30
+So I can't initialise a new instance of a contract, because then I have to redefine the contract all over or implementation of the contract once over.
+21:35
+So what I do is I initialise a new calculator implementation which meets the contract.
+21:42
+Now that I've done that, I go to the registry and I bind a string to my calculator like that I think.
+21:48
+Okay, so it's kind of like do you remember hash maps?
+22:00
+It's essentially a glorified hash map that says whenever someone asks you for this text, you give them the calculator.
+22:05
+So whenever someone asks the server, can you give me the calculator?
+22:12
+Then the server is going to give them this object right here.
+22:20
+Or in fact, it's not going to give them the object, it's going to give them access to the object so that they can use it remotely.
+22:24
+Does that make sense? It's similar to a half map in the way that you're saying. That's true to that calculator.
+22:30
+Exactly. It's just it's a key. It's an association so that we know how to ask for the calculator.
+22:36
+We have a way of asking for it. Okay. So you'll notice that now this is complaining about something.
+22:42
+And what it is complaining about is going back to some Java nonsense.
+22:50
+Remember that we have those funny hierarchies that allow us to group things together.
+22:56
+We can have polymorphism and so on. All of the RMI stuff is built around polymorphism.
+23:00
+So when I made my contract with the intention of using this contract on in the world of polymorphism, sorry, in the world of RMI,
+23:05
+I have to define that this interface is actually to be used as an RMI interface, and I do that by making the interface extend remote.
+23:13
+Now this doesn't do anything special. All it does is saying that this is a contract that is intended to be used as a remote object.
+23:23
+It doesn't change. What methods I implement doesn't force my implement the implementations to have anything different.
+23:31
+It just says that this is an interface called calculator designed to operate as a remote object.
+23:37
+So bond at minimum would expect a remote. Yeah, because you extend it and accept it.
+23:43
+Yeah. So theoretically by doing that notice my calculator implementation doesn't change in the slightest.
+23:49
+But if I go to my server now this should stop complaining.
+23:54
+And it throws another exception which we're going to ignore as always.
+24:00
+So now it should stop complaining because it knows that this is intended to be a remote object because we made it.
+24:04
+So now if I run this, it should just start the server and wait, is it going to do that?
+24:10
+No. Hmm. Very weird. Why did it exit?
+24:19
+I don't expect it's a rhetorical question.
+24:24
+So essentially there's more sort of admin to do around the implementation because at the moment I have, I've registered it,
+24:26
+but I haven't told RMI that this is intended to hold the server running until someone requests and uses it.
+24:33
+And to do that, we do it in a very unintuitive way,
+24:39
+which is to make the calculator implementation and any other such implementation part of what is called a unicast remote object.
+24:42
+Do not ask me what that means. I'm not going to tell you so what we do.
+24:50
+Again, take my word for it is we make this extend unicast remote object.
+24:55
+And this in turn, come on is going to force me to have a input constructor usually.
+25:02
+Is that a constructor. That should be a constructor. There we are.
+25:11
+And I'm going to just put the simplest constructor there is that does nothing.
+25:15
+So a unicast remote object just classifies this implementation as something that should hold the server running while it's being served.
+25:19
+Okay. Again, this forces me to add a construct that has absolutely nothing, but so be it in my server.
+25:28
+Now if I run it once again. Ah, now we have a different problem.
+25:35
+So you see, RMI isn't perfect. It has a lot of overheads that you as a developer have to know about.
+25:40
+So the reason why it's complaining now is because the calculator implementation is providing methods.
+25:46
+But none of these methods deal with exceptions. And we know that the code that you put in here could in principle trigger an extension.
+25:52
+So how do we deal with this when we designing web services, as we'll see shortly, we have to be doing so in a fault tolerant matter manner.
+25:59
+So what Java expects me to do once I classify something as an object served over the network is make.
+26:07
+All of these methods have a mechanism for throwing exceptions, which we do by altering our contract so that they throw a remote exception.
+26:14
+Now this says it might throw a remote exception doesn't mean it will.
+26:25
+It might. And because it's part of the contract, anyone who implements this contract has to have it in their declarations.
+26:30
+Yeah. Could you not have a try catch in that instead of doing it that way?
+26:36
+Yep. In a real world you would you would try and catch all sorts of different exceptions that could happen by this very complicated code in reality,
+26:42
+would actually be incredibly complicated. And then any exception that happens, you would normally wrap into a remote exception and throw it on.
+26:49
+Okay. Because a remote exception carrying a message that is the problem can be sent over the network to the client.
+26:57
+An arbitrary exception cannot be dealt in the same manner.
+27:05
+That's why we have all of this extra overhead,
+27:09
+because ultimately the data needs to be marshalled and put in a format that needs to be sent to the client.
+27:11
+Unmatched there, and translate it into something the client can deal with. So there is some overheads like that.
+27:16
+And now I've made it all throw remote exception. Let's give it another run.
+27:21
+Suspense is killing me. Much better. Notice in my implementation, I didn't change the signatures.
+27:26
+Am I still meeting the contract? That is something I don't expect.
+27:34
+Oh. Very good. I was going to say I don't expect you to know that. But yes, we are still meeting the contract.
+27:41
+We do exactly what we're supposed to do. The fact that we choose to say that this particular implementation of the addition method
+27:46
+doesn't actually throw exception doesn't mean we're out of contract because it is an option.
+27:52
+Maybe it does, maybe it doesn't.
+27:57
+The fact here is that the contract requires the implementations to consider whether or not they're throwing this exception may not happen.
+27:59
+So your calculator implementation would return an exception.
+28:08
+And then it occurs where you're calling the method. Family workplaces says we might be reformed an exception that satisfies the contract.
+28:12
+Exactly. Yeah. So here I explicitly know there's not going to be a remote exception that happens.
+28:21
+Hence why you didn't put in the declaration. But if I did know that it was a possibility, then I would put it in my declaration.
+28:26
+I would still meet the same contract. Okay, so now you see the application is hanging, which means that it's working.
+28:32
+Right now my server is waiting for people to connect and ask for the underscore calculator to be given its instance.
+28:41
+So let's make a client that does that. And funny enough, the client has a lot less code than what we saw.
+28:48
+Fine. Public string array args.
+28:57
+Perfect. Okay. So the client has to think of a lot of less of that.
+29:04
+The client doesn't need to have the implementation doesn't need to have all of the stuff that goes on in the implementation.
+29:08
+It just needs to know that calculator is an interface intended to be used with RMI, which it does.
+29:14
+It's a common thing. Okay. So the client also needs a registry.
+29:19
+are client rage and the way we obtain it is very similar, but with an extra parameter.
+29:25
+So look at locate registry, dot, uh get registry and then we need to tell it where the registry is held.
+29:32
+So the register here is held by the server. So I need to tell it where is the server.
+29:44
+And in a typical application this would be over the network. So you would put a hostname there and the port.
+29:49
+But in our case it is in the local machine. So the host name is uh um let's do localhost 1 to 7.01 or localhost have the same meaning.
+29:54
+And then what port did I choose? Anyone who remembers 1091.
+30:05
+That's very observant. Excellent. Okay. Now of course this rose exceptions.
+30:10
+So we're going to do the same as before. And we're going to ignore it okay.
+30:15
+So now I have connected to the server and I have access to the registry.
+30:22
+From here I can request that the registry gives me a calculator.
+30:27
+So calculator to use is obtained by calling the client registry.
+30:32
+And then resolve or lookup lookup the underscore calculator.
+30:43
+Now this lookup which throws another exception that I need to deal with.
+30:54
+Please hold this lookup which throws another exception. No it doesn't.
+30:57
+Um, it actually needs to be cast, which I forgot about.
+31:02
+Oh please hold. This lookup will go and fetch in quotation marks an object.
+31:05
+Now notice this is not going to be the object the server has coming from the network to this machine.
+31:15
+What it's going to be is a stub object which maps every method call to an internet connection call.
+31:21
+So essentially what Java does here is it creates a dummy object that implements calculator.
+31:28
+And every time you call one of the calculators methods, it just sends the request to the server to call the method on the server get the response.
+31:33
+That's essentially what it does. But as far as I'm concerned, as a Java programmer, I don't care about that.
+31:40
+I don't care how it works behind the scenes. All I care about is that I can perform hard calculations now by using the calculator and adding 10 to 5.
+31:45
+What is the result of that? Come on.
+31:58
+Well, we're about to find out if you were right. And there we are.
+32:04
+So me calling edition sends a magical network request to the server which is running somewhere else.
+32:08
+Namely, here calls the method on the server, does the calculation on the server, sends back the result and gets returned to me right here.
+32:14
+Happy with that? Only just trace through what you did was like how to use this one?
+32:23
+Yeah. So we are in the client.
+32:30
+We do not know about the implementation that the server has, but we know that there is such a thing called the calculator that makes this contract.
+32:32
+So we make a variable that is a calculator which means the contract.
+32:39
+And then we initialise it by asking the client registry to look up that name that the server also knows our name.
+32:43
+So this is associated with the calculator. Now what lookup returns is an object that meets the contract of calculator.
+32:51
+But because of how the Java type system works what this returns is object.
+32:58
+Now an object cannot be put into the variable of type calculator without us converting it into one,
+33:02
+for the same reasons that we can't assume every object has the methods of the calculator.
+33:09
+In this example, we know it does because we know that the string the calculator is associated with a calculator,
+33:13
+but had this been another object, then we wouldn't be able to claim the same.
+33:20
+So casting it is as convincing Java that yes, I know the calculator corresponds to an instance of a calculator.
+33:24
+Can you open up the server? Yep. Yeah.
+33:31
+Okay. And that's why you had to bind it. That's it. So. Had this been something else?
+33:35
+No. In fact, neither the same. How? The client asked for something else from the server that doesn't actually exist.
+33:40
+Then we would get some issues. This is because that word is not bound to anything.
+33:47
+So in the server, you've made a calculator object.
+33:53
+Then find it to that calculator string and then in your client with it.
+33:58
+Yep. You you know that. So you're creating a calculator object,
+34:03
+putting it in brackets for whatever reason and then saying like go and look up this thing finally to this string.
+34:08
+And then you'll return a calculator object that you can use condition method on Exactly.
+34:13
+Or any other methods I can call as many of the methods we implemented as I want here.
+34:18
+Yes, a subtraction.
+34:22
+It's the same as having been given an object of type calculator in the local program, and just using it the same as any other object.
+34:24
+So it's kind of what we already know. With more steps. Yeah.
+34:31
+The only new stuff is this part. And adding the exceptions and remote, which is new.
+34:35
+And it's just to tell Java I want these objects to be going over RMI.
+34:42
+They're not just your standard objects. And that's all I suppose when you start now it's quite hard to visualise when you just jump in.
+34:46
+Yeah. No it is, it's very and especially these. Don't ask me why. There is a very good reason but let's not go into that.
+34:51
+We just trust the Java wants it. Okay, good.
+34:57
+So this was Java RMI. However, Java RMI is not without its flaws, which is what we're going to talk about next.
+35:02
+So Java RMI is useful. We've been through that. We can run any code that the client run requests us to write.
+35:09
+Uh, to run the registry isn't managed by us, which is good and bad.
+35:17
+It is only Java specific, so RMI will not work if you connect it to a C++ server.
+35:22
+RMI is Java's child. Um, there is open implementations, but we don't go there and it has some other issues,
+35:27
+which is that the client and the server must be running the same Java virtual machine, because how RMI works is dependent on the virtual machine.
+35:34
+So here I'm lucky because they're on the same VM, but otherwise we may have incompatibility issues.
+35:41
+And of course Java RMI allows us to send runnable code,
+35:46
+which we're not going to talk too much about today from the from the client to the server to run it.
+35:51
+What could possibly go wrong with that? Any answers?
+35:57
+Bugs? Viruses? Viruses?
+36:04
+Yeah. So the code that I sent as a client, do we think that every client in the universe is a good client?
+36:07
+If you put the server on the internet and you just open it to the public.
+36:15
+Do you think that the public is going to all follow the intended use of that server?
+36:18
+No. So if you're if they're able to send you any code and you just blindly run that code.
+36:23
+Yeah. You can talk about the machine being taken over. One of the Penn testing students in penetration testing students last term demonstrated this.
+36:29
+Being able to send arbitrary code in Java and getting it executed on the machine and taking over the machine, opening a shell on it.
+36:38
+We'll see this in pen testing if you do it. Okay, so this is a security nightmare.
+36:46
+Um, you're executing any code you get from the internet is fantastically dangerous.
+36:52
+Think of log for J. Another example of that. And there were some security measures in place to prevent that.
+36:56
+But obviously these are getting difficult. You wouldn't care about it if you're just making something quick.
+37:04
+Um, we then had yeah, this is actually sending that right across the network jumping to where the code lives.
+37:08
+It is jumping where the code lives, and the only thing that gets transported is parameters.
+37:16
+So when you call additions, you say call the method addition. Take the parameter a to b, this number and parameter b.
+37:19
+Yeah, so there's no actual code in our example. But you could have a method that takes a parameter class or object.
+37:25
+And as soon as you do that the client is in control of what that object is.
+37:33
+So the client can send an object that when be serialised or unmastered on the server side,
+37:37
+triggers a gadget chain as it's called, which is called execution,
+37:43
+because anytime you serialise something, you get sent from the client,
+37:47
+you have to load it in memory, and the loading process is executing internal code.
+37:50
+So the attack comes in from when someone just calls a method with ordinary parameters by
+37:54
+saying call this method with these two parameters and one of the parameters is malicious,
+37:59
+so that when it gets unmeasured, it triggers an exploit.
+38:03
+We're going to talk about gadget chains in more details in pen testing. It's actually a very fun topic.
+38:09
+What would a dangerous parameter be? Would it be like a unique character that Java doesn't recognise?
+38:13
+Oh, it could be a string implementation. You can have a method that takes a string parameter.
+38:18
+And me as a client, I make a subclass.
+38:22
+You can't do this, but let's say you can a subclass of string that has malicious code in it and I send it as a parameter.
+38:24
+The server. Then DC realises that parameter which triggers code to run, and that code is malicious and that you get realisation that point conversion.
+38:31
+Yeah. So it has to travel over the network and it can't travel in the form it is in memory.
+38:41
+So it gets converted into an intermediate format and then convert it back to the memory format.
+38:45
+And the conversion back is where the exploit happens. And there's no way of knowing operators until you do the conversion.
+38:49
+Nope. There's no way to tell. Obviously, unless you examine it because you don't know what's coming in.
+38:55
+Yeah. Look into gadget chains. Very, very interesting stuff. Okay, now I remind you this full well, they knew this was a problem.
+39:00
+And what they did was to disguise themselves as legitimate network traffic because firewalls had
+39:08
+caught on to the fact that this is a massive security hole and they were blocking RMI traffic.
+39:13
+So what people did is hide RMI traffic to bypass the firewalls, not actually fix the problem, but oh well.
+39:18
+So generally RMI these days is very bad to use outside of enclosed and safe networks.
+39:25
+So nowadays this brings us to kind of like the current state of affairs.
+39:32
+We don't as such, use these object oriented distributed programming paradigms.
+39:35
+They exist but they are not used as much or at all.
+39:40
+So what we do instead is we have come up with approaches that are designed to look the same, act the same, but do not behave in the same manner.
+39:43
+You're not actually exchanging objects. So programmers need to be aware of what you see is not always what you get.
+39:53
+We'll see what this means when we talk about JSON and the serialisation of objects into a textual format.
+40:02
+Expectations clash with reality. You may expect one thing to happen, but the handling is completely different.
+40:07
+Again, we're going to see this when we talk about RESTful implementations.
+40:13
+And over the coming weeks, we're going to be getting quite familiar and intimate with sending data over the network to trigger actions on the server.
+40:17
+We're not going to be sending executable code at any point. I hope we're only going to be sending data that triggers something to happen.
+40:25
+And this is how we should make ourselves familiar with the creation of web services.
+40:32
+A web service should not, under any circumstances, accept arbitrary code to come to it to execute it.
+40:38
+Massive security hole. It should accept data that tell it what to do, but under its own rules.
+40:44
+Okay, now of course we have to get lay some groundwork.
+40:51
+Um, does anyone know the name Tim Berners-Lee? Yes, yes.
+40:56
+What did he do? Excellent. The World Wide Web at the top of Southampton.
+41:01
+I didn't want this to be so. Oh, So you learned.
+41:06
+I say you learned everything about it. Engineering. I bet he was popular.
+41:10
+Yeah. Okay. So as part of this, three technologies came to be from his work.
+41:15
+HTML. How do we feel about HTML? Do we all know roughly what the term is?
+41:22
+Yeah. Yeah. It's that code that we send from between devices on the internet to make web pages appear.
+41:27
+We're going to look into that. URLs or Uniform Resource locators or Uniform Resource Identifiers as we'll see in a second.
+41:33
+More on that in a bit. And the Hypertext Transfer Protocol HTTP and nowadays https.
+41:41
+So Mark-up languages where is the ball going. So Mark-up languages is something that we're going to briefly touch on.
+41:48
+This used to be a massive part of the module but nowadays it's not. So a Mark-up language is not a programming language.
+41:55
+It's a way of structuring information and perhaps encoding presentation even, but no actual code that runs as such.
+42:01
+These usually have tags and elements which you may have heard from HTML,
+42:09
+and the interpretation of those mark-up languages comes from the machines that implement interpret them.
+42:13
+An example of Mark-up language is HTML. Can you think of anything else?
+42:20
+XML? Jason. Yeah.
+42:26
+As in Jason. Norm. Jason. We'll cover.
+42:30
+We'll come back to Jason actually. What would like where would JavaScript fit into something?
+42:34
+It's a JavaScript is a programming language. So you can do things like logic.
+42:39
+You can't encode logic in Mark-up languages. Mark-up languages are there to say stuff exists data, and that's it.
+42:43
+Um, it ignores HTML5. That kind of starts to defeat the purpose.
+42:51
+But anyway, so the idea here is that we're going to have mark-up languages that we encode the presentation of things into,
+42:54
+and those are understood by everyone participating in an exchange.
+43:01
+So between some hosts over the network.
+43:05
+We're going to communicate something in a shared format that's understood by everyone, and we're going to interpret it from one side in the next.
+43:07
+Now the transfer happens over the primitives that we talk about. So we still have processes which in turn are running sockets to exchange the data.
+43:15
+But now we're moving away from that. We're having a greater layer of abstraction on top of this.
+43:23
+Okay. So HTML is a Mark-up language or Mark-up system that contains things like element attributes and tags,
+43:29
+which are used to represent specific kinds of content. Um, HTML tags have a semantic meaning.
+43:37
+They don't have logic other than HTML5. We don't talk about that.
+43:44
+Um, there is they define what is meant to be there and how and what the browser is meant to parse,
+43:48
+but how it is parsed and how it is presented and how it is interpreted varies by browser.
+43:54
+You see this if you open your browser and go to the same page on your phone as you do on your laptop,
+43:59
+the two browsers are going to have slightly different interpretations of the same HTML code.
+44:04
+Assuming the code doesn't change by the server. So I did the more than less than brackets where you put the tag.
+44:09
+These. Yeah. Yes. So these are HTML tags.
+44:16
+Now I don't expect you to know these. This is contextual. But if you open an HTML file you should expect to see things like that doctype at the top,
+44:20
+followed by the beginning of HTML which closes somewhere at the end.
+44:28
+Within that, you may or may not have the opening tag for head,
+44:31
+which contains metadata information and closes somewhere before the body opens, which closes somewhere as well.
+44:35
+Within the body typically is where you specify the data that needs to be presented, and you do so by using some of these tags or variations thereof.
+44:42
+Combinations. Putting it together, having them separate. Similar to how we saw with JavaFX XML.
+44:52
+If you remember, if XML encodes data in XML, fine enough,
+44:59
+which is Mark-up language By using this style, you just nest together the little building blocks.
+45:03
+You have to cause different data to be presented. So you have the body, whatever you want and body.
+45:09
+Yep. So in HTML, tags are usually matched with closing ones other than doctype.
+45:17
+So things like H1 which defines a header of level one opens like that.
+45:22
+And at the end after you've put the content that goes into the heading,
+45:27
+you put forward slash H1, which means the end of the previous H1 tag as you do in XML.
+45:30
+HTML is XML. Okay, so we can present data in some uniform way using Mark-up languages,
+45:36
+we can identify machines that transport and transfer this data between them using the TCP IP stack we have talked about.
+45:46
+In our case, we use the primitives called sockets to do this.
+45:53
+And then the question becomes what happens for things which can't easily be encoded in Mark-up languages,
+45:56
+for example images, videos and anything, including documents that we're from now on going to refer to as a resource.
+46:01
+This was something that Berners-Lee also cared about, well defined.
+46:11
+And the question was, he was answering is how do I identify information and then how do I locate this information?
+46:16
+So he defined something called the Uniform Resource Identifier URI.
+46:23
+A URI is the superset of URL which you may have heard.
+46:28
+Have we all heard about the term URL. And we all think of a URL in the top of our minds right now.
+46:33
+Yeah. Okay. So URL the locator tells you exactly where the data is.
+46:39
+The identifier identifies the data, but doesn't necessarily have to tell you where it is.
+46:45
+Slight distinction. Very hard to visualise. Okay.
+46:49
+All URLs that tell you where the data is also implicitly identify the data.
+46:54
+Therefore all URLs are URIs, but not all URIs are URLs.
+47:00
+Who is confused? I'll say that again. All URLs are you arrive, but not all your eyes are URLs.
+47:04
+And if you're not confused yet, I'm doing something wrong. Okay, so let's take a URI and look at it.
+47:12
+This is a URI, which happens to be a URL as well. It comprises of certain components.
+47:19
+This portion is where the path of the resource is.
+47:25
+It tells you where you need to go to find the resource that I'm talking about.
+47:30
+It locates the resource behind it.
+47:35
+We have the so-called authority. Or you may have commonly heard about this being referred to as a domain.
+47:38
+It's a bit of an abstraction because this is domain and the port where you need to connect to in order to find that resource,
+47:43
+to locate that resource rather. And of course, we have a scheme which defines the protocol by which you're going to communicate with
+47:50
+that authority in order to get the resource or to do something to the the resource.
+47:57
+So this is typically HTTP and Https in the web services world because the web works on HTTP and Https.
+48:01
+But it could in principle be other protocols if you're doing other things with the same resource.
+48:08
+And before we go last bit, there are some actions you can do on resources which are identified by URIs in the world of, well, in the web.
+48:13
+You may have heard those being referred to as methods or verbs, HTTP methods or HTTP verbs.
+48:26
+Anyone know what post is? Create a new object or a new item.
+48:32
+So you can use. You can tell Java or not Java, whatever language or thing you're using to issue a Post request to a server at a certain resource,
+48:40
+and that will in effect create some data on the server side, or it will request that the server does this.
+48:49
+It doesn't have to do it. This is one example of an HTTP method that we're going to be using the several more that we're going to see.
+48:55
+And this is not even all of them. There is even more, but these are the ones we're going to be looking at.
+49:02
+Post is something that creates data, but is something that updates data that already exists on the server.
+49:08
+The way to distinguish them, because this is actually a lie, we'll come back to that.
+49:14
+But the way to distinguish them is anything that has a you in it is an update.
+49:18
+Put, update, post, create and potentially update, which is a confusing date and yet is what the name suggests.
+49:21
+You get the resource. It means the resource is returned to you by the server.
+49:29
+Most of the time when you go to a web page, you're just issuing a Get request to get the web page.
+49:33
+A delete is another method that tells the server to delete a resource,
+49:38
+and then head is just getting you metadata about the resource without actually going and retrieving the resource itself.
+49:42
+All of these are fantastic in theory, but they're going to make sense when you start to use them, not on the road like that.
+49:49
+So let's call it here. And then in the next lecture we're going to continue with this.
+49:55
+and we're going to start using these to make requests to various APIs and understand all of this nonsense about locations,
+49:58
+how you issue requests, and how you retrieve and send information. That's all for now.
+50:05
+If you want to have a. Yeah, yeah. So if we were on a web browser, we right click and we said inspect.
+50:10
+You can like look at the HTML inspector. Would we be able to see like I'm assuming we could see the schema because it's HTML.
+50:20
+Would we be able to see the authority and then would be able to see the path.
+50:27
+And then you can see that structure of how the web page looks for all those bodies.
+50:31
+And yeah, all of that. So we'll see it in the next lecture. Actually we're going to issue this request.
+50:35
+And we're going to see the response directly because there's some things to be said about the headers okay.
+50:39
+Good okay. So if you want in the meantime to have a read of the shameful and the not shameful book, they're here and otherwise enjoy your break.
+50:43
+
+Multiple times of fun. Excellent. Extra brownie points.
+0:01 
+0:01 3:00 6:00 8:38 9:00 12:00 15:00 17:27 18:00 21:00 21:42 24:00 27:00 30:00 30:54 33:00 36:00 38:55 39:00 42:00 45:00 48:00

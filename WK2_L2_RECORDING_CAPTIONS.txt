@@ -1,0 +1,1047 @@
+	
+Powered by Panopto
+
+Lectures
+chevron_right
+Week 2 - Lecture 2
+volume_up
+
+Search this recording
+search
+Details
+AI Summary
+Contents
+Captions
+Discussion
+Notes
+Bookmarks
+Hide
+Auto-generated captions may contain errors.
+Would you believe it? We are back. Hi, everyone. Nice to see you all again.
+0:05
+We continue exactly where we left off. So now we're going to be going into the world of actually making threads happen.
+0:10
+Hi guys. For those of you who missed it, I took over rando. I stole his session, so we're going to do another hour of concurrency.
+0:17
+I didn't break you enough in the first hour. Okay, so I told you before that we can create threads in two ways.
+0:24
+Let's actually see those two ways. I'm going to make a class, which I'm going to call my thread and the class my thread.
+0:31
+I'm going to make extend thread. Now I can leave it at that.
+0:42
+And I have just created a class called my thread, which is a thread that does nothing because I've told it you're not doing anything.
+0:48
+So let's spice it up a bit and say that I want to make this thread.
+0:56
+Um. Should we make it? Do count up. So I'm going to make this thread have a private int.
+1:03
+Uh, count. What should we make that do? Yeah, let's make that count.
+1:11
+And then have a private int max.
+1:17
+Then we're going to need a public. My thread constructor with someone outside tells us what the max is.
+1:23
+So the limit we're going to count up to. And then we're going to say this dot max equals not new max.
+1:32
+And I don't need to initialise count. That's fine. So I've created a pretty bog standard class that has two variables,
+1:41
+one of them coming from the outside world, but it still is a thread that does nothing.
+1:47
+So to make this thread do something, I need to override the run method.
+1:52
+And the run method is shoot.
+1:58
+The run method is defined in the class thread,
+2:02
+so the thread when started is going to execute whatever code I put here from that different thread in the processor.
+2:05
+So maybe what I'm going to make it do is have a loop, not oh that worked.
+2:13
+I is less than a max or plus plus I.
+2:21
+And then what this does is I don't know count is equal to count.
+2:29
+Plus I sum up all the numbers between zero and max.
+2:35
+So whenever the thread that I've created here gets started, it's going to execute that code here.
+2:40
+And it's going to compute the result up here. So better have a method which is public int get count.
+2:47
+And it returns in the count. Okay.
+2:59
+Are we happy with this class? Can we all see the class? I'm looking at you at the back.
+3:03
+Okay, perfect. Yeah. Okay, so now here I'm going to go make my text main.
+3:09
+And in my test main I'm going to have the main. No, that's not right.
+3:21
+I don't like the new Java syntax. Whatever.
+3:26
+Okay. So in my test main I'm going to start one of these threads.
+3:31
+Now notice how I start the thread. I create thread T is a new class.
+3:37
+And I'm going to instantiate the my thread class that I made.
+3:44
+Do we remember polymorphism and why I'm able to do thread t equals new my thread?
+3:48
+No. Okay we'll go through that.
+3:54
+So let's complicate this example and say my thread t is new my thread and that my thread expects to get some sort of limit.
+3:56
+I want it to sum up all the numbers between 0 and 1000.
+4:06
+That's overly optimistic. 100. Okay, now is this.
+4:10
+So if I go here and I print out t dot get count, which would be the result.
+4:16
+What do we expect to see. Quick math. When I run this.
+4:22
+Zero. Remember it's summing up all the numbers from 0 to 100.
+4:29
+Zero plus one plus two plus three plus four. Anyone remember the answer to this?
+4:33
+-5050. Anyone? 9900.
+4:39
+Okay. Any other numbers? Quick math, quick math. It's simple.
+4:45
+Is it going to be a number greater than zero? Less than 0 or 0?
+4:52
+I agree with you. Are we all content with greater than zero?
+4:57
+Fools! So it's zero. Why is it zero?
+5:05
+You have to run. Ah! Very good. I created the thread and I didn't place it into the wait queue, so it's not.
+5:09
+I made the thread for my own use and I didn't tell the operating system. It needs to do anything.
+5:15
+So I need to run this thread. Now a very common mistake is to do t dot run are not zero, they're just t dot run.
+5:20
+Give it a go. And what do we get the correct number. Or close enough.
+5:30
+I think I'm off by one here but. Oh well. So it seems to be working right.
+5:34
+Why does it have to wait? Ah, right.
+5:42
+Well, if I run it many times, I always get the same result.
+5:48
+But is it actually running another thread? You know, I assume you have to close this right there.
+5:52
+I don't do that. The operating system decides if it's dead or not. So you created it?
+6:01
+Yeah. Because. Yeah. You're running. You're running one thread on T, and then is the system because you're using the get method.
+6:06
+Get count from T. Yeah. That's using a throw as well. No okay.
+6:14
+No. Well this is our problem. Remember what happens when Java calls a method.
+6:18
+In fact let's see it in action I'm going to debug this. So I'm executing this line I'm going to step over this line.
+6:24
+And I'm going to go into this. Now I'm going to step into this and notice what happened.
+6:31
+My code has stopped executing. And it's jumped into run to run this code itself.
+6:36
+So the thread which is running the main method, because the main method is being run by a thread,
+6:43
+has now stopped doing what it was doing, which was to execute these two lines and it is waiting for this line to stop executing.
+6:47
+That does not sound like another thread has started at all,
+6:56
+because now if you notice what the main thread is doing is the main thread that is accumulating these numbers.
+6:59
+So this is not an example of running two threads at once. This is an example of running only one.
+7:05
+So to make it actually run multiple threads, instead of calling the run method myself from the main thread, I have to ask the thread to start.
+7:10
+That is the difference. So the difference here is that calling run means I'm telling the main which is running in the main thread.
+7:21
+Go and do the work in the run method. So the main thread is doing the work by saying start.
+7:28
+I'm telling the thread. You go put yourself in the queue of other threads and wait for the processor to get to you.
+7:33
+Execute your task and then when you're done, I'm going to read the result. Happy?
+7:41
+Cool. Give it a run. Ah, bummer.
+7:46
+Anyone know why that's happening now? Okay.
+7:53
+Very good. And why am I getting zero then? That's it.
+8:02
+So I've succeeded in making a thread, putting it in the queue of other threads, and it's waiting for the process of get to it.
+8:08
+And then as soon as I put it in the queue, I immediately recover the result from it.
+8:15
+Well, it hasn't run, its waiting in the queue, so the value that it currently has for count is zero.
+8:20
+It hasn't started running yet,
+8:26
+so I can't tell my main starter thread and then immediately go and get the result from that thread because the thread may not have finished yet.
+8:29
+So if I was to actually do something meaningful here, I would tell t join, which is and I'm going to do something horrific here.
+8:37
+Please close your eyes. Good. So t join is telling the main thread now as soon as you've started that other thread,
+8:46
+you now go and wait at this particular point in the code until that thread finishes.
+8:54
+Does that make sense? I will say it again. So I've created a thread up here.
+9:00
+I put it in the thread queue, and now it's up to the process of deciding when that thread is going to run.
+9:06
+So while the process is contemplating whether or not it should run the thread, I'm going to tell the main which is running in a different thread.
+9:11
+You're going to have to join. In other words, wait for that thread to finish before you move on to that loop.
+9:19
+I've now created a dependency between the lines. And now if we run it, we should consistently get the same result,
+9:25
+because the main is not going to try to print the count before that thread has finished.
+9:32
+Through and through. Started. Finished and any state in between.
+9:39
+Happy with that? Cool. Okay, now this is only one way of making a thread, namely that of extending thread ourselves.
+9:44
+However, there is an alternative way which is to make the class implement runnable.
+9:55
+Notice that I'm now implementing runnable, which still means I have to have a run method which does stuff so very,
+10:01
+very little will change in my code if I take that approach. Namely, if I were to say I'm not extending thread.
+10:08
+Instead, I'm going to implement runnable, not out of memory exception or runnable.
+10:16
+Nothing needs to change in my code. The only thing that does need to change is this part here.
+10:24
+So now my thread is not an instance of the thread class, so it doesn't have a start method in it, and it doesn't have a join method in it.
+10:30
+So I'm going to call this to run. And the way we make this a thread now is by creating a thread object.
+10:38
+And then in the parameters giving it the runnable that we made.
+10:47
+And then that needs to be to run. Happy with that?
+10:53
+Very, very slight change in the way we instantiate. We make a runnable instance, which is the class that we made there.
+10:59
+And then we have to create a separate thread class and give it a runnable in the parameters.
+11:04
+Before we start and stop that thread. That does not work.
+11:09
+Just more work for us. It makes sense by when you're designing your application to have several runnable,
+11:14
+which could be executed as threads or could be executed as non threads, but ultimately it's a decision you make for yourself.
+11:18
+In our for our purposes you can use either or. It doesn't matter. Okay, so this is as far as initialisation goes.
+11:25
+And we're going to skip the summary because we only started it now. Okay.
+11:34
+So now we're going to get into the juicy bits which is how do we prevent the errors
+11:38
+that are shared you with in the previous lecture when we're running parallel code.
+11:43
+Right. So we're going to talk about some slightly advanced topics now.
+11:48
+So if it doesn't make sense please shout at me. Um we're going to talk about locks and monitors.
+11:52
+And these are highly theoretical. But they have very, very distinct practical applications that we're going to see.
+11:58
+So we can cause race conditions in Java.
+12:04
+In fact, I think I'm going to try to cause one.
+12:08
+Just so we have it under our belt. I'm going to very quickly program a race condition.
+12:12
+So we see what that looks like. And the way I'm going to do it is by making a counter class that has a private int count which starts from zero,
+12:16
+not nine, and then it has a public void increment method, which when called increments count.
+12:28
+It also has a public void decrement.
+12:37
+Maybe we don't need the decrement. I'm going to get a int get count which returns the count.
+12:41
+So a very, very simple object with the sole purpose of acting like a clicker.
+12:51
+Click counter. You increment increment increment and then you can read the number in the counter.
+12:57
+Happy. Okay, now let's suppose that in my main I have a counter.
+13:01
+Count is a new counter and that's ready to go.
+13:14
+And now I'm going to need to make two threads that are incrementing the counter at the same time.
+13:19
+Okay. Would you guys like to see a third way of initialising threads?
+13:26
+A more modern one? Is it examined above content?
+13:30
+No. Non examined content. Yeah, yeah.
+13:34
+Okay, so the third way of making a thread is by using lambdas, which we're going to talk about in the third year.
+13:38
+And it's this three. T I'm going to call it.
+13:44
+T1 is a new thread and instead of giving it a runnable here, I'm going to give it this.
+13:53
+And now any code I put within those curly braces is going to be what this thread does.
+14:00
+And the code I'm going to put in here is for int I equals zero.
+14:05
+While I is less than 100,000 plus plus I.
+14:12
+And then what the loop does is it takes count and increments it.
+14:16
+This is one thread right? Yes.
+14:21
+Cool. I'm going to copy it in true bad programming style.
+14:25
+Don't tell Randall and I'm going to call it T2. So now I have two instances of two threads which do exactly the same thing.
+14:29
+Okay. Down here I'm going to start T1 and I'll join.
+14:37
+And I'm also going to start T2. And I'm also going to join T1.
+14:43
+And I'm also going to join T2. Right.
+14:51
+So I have made two threads with identical code in them.
+14:55
+So there's going to be two threads in the queue that I'm waiting to execute.
+14:59
+When they execute they're going to run the same thing, namely call the increment method or count 100,000 times.
+15:02
+And I started both of them at the same time.
+15:08
+And then I wait for both of them to finish the order I do these things doesn't really matter as long as I first start and then wait.
+15:10
+Happy okay, after they finish, which I know they finish because I joined them, I'm going to print the count.
+15:16
+There's the rate we've been looking for. Okay, so what do we think this is going to print.
+15:28
+Increment just incremented by one. So it doesn't do what our previous thread did.
+15:39
+It just adds one every time we call increment. 200,000 100,205 zero.
+15:43
+Yes. Just under 200,000. I think it's less than. So two.
+15:54
+Less than maybe 200. Close to 200 to 2.
+15:58
+Less than 2000 foot. Is it going to be zero?
+16:02
+Maybe zero. Okay. One way to find out.
+16:07
+Right. You'd be surprised to know that you were all wrong. Who was expecting that number?
+16:10
+137 457. Surely that's wrong.
+16:17
+Let's give it another run. Ah, 140 (651) 411-5780.
+16:21
+It's when it hits the first join the one T one's complete and it's telling you the number how fast you got.
+16:30
+Well, I don't join T2 as well, so I'm waiting for both these threads to finish before I get the count.
+16:36
+Why on earth am I getting these numbers? Guys, I just won one T1.
+16:45
+First I isolate T2 first. So if you put t1 and t2.
+16:52
+Ah. If I do that, would I have two threads running in parallel?
+16:59
+No, I would have one thread doing the work. First I would wait for that one thread to finish and then I would start another one.
+17:04
+So I have two threads joined together.
+17:09
+I don't have them running in parallel, so I want to run the threads in parallel so they're not running in parallel.
+17:12
+They are, they are. Yeah. So at the moment I start both.
+17:19
+So both these threads go in the wait queue in the queue of threads, and the processor chooses between them and gives them attention.
+17:23
+Maybe one first, maybe the other next, maybe both at the same time. So I could have these two running at exactly the same point.
+17:29
+And this says just wait for both of them to finish.
+17:36
+It doesn't matter which way I wait for them, because ultimately it's going to wait for both threads to finish before it gets a result.
+17:38
+So it is two threads that are potentially running in parallel. But why is the result different every time?
+17:44
+From here on each other. Yep. So there's something going wrong here.
+17:52
+Let's look at our counter. Mind you, the counter is only one. Two threads are manipulating the same counter.
+17:56
+So let's imagine that thread one gets to call the increment method and sees this line.
+18:04
+How many operations is this? Okay. What is it?
+18:10
+Huh? It is actually more than one.
+18:17
+So if I was to remind you what this expands to in Java.
+18:21
+Okay, so it is three operations. Which are these three? Well, read the value of count.
+18:32
+Then add one to it, then write it back three operations okay.
+18:38
+So thread one goes to the increment method and says okay I need to execute this code.
+18:43
+I'm going to read the value of count. Let's say count is zero. So thread one has right zero.
+18:48
+Now thread two doesn't immediately do things in right back. It is taking its time.
+18:54
+Thread two comes in and executes the same code as well.
+18:59
+So now thread two also reads count. What is the value of count? Is it thread one?
+19:03
+Just read it. It hasn't done anything with it yet. It is still zero.
+19:09
+So thread one reads the value of count. It's zero. Thread two comes in reads the value of count.
+19:15
+It's also zero because they're happening in exactly the same format is going moment in time.
+19:19
+Thread one takes a zero and one to it, which adds up to one, and then writes it into count.
+19:24
+So count takes the value one. Now thread two, which has previously read the number zero, adds one to it and it gets one as well,
+19:31
+and writes the value back here as one, Overriding the previous one, so the two threads both read the same number zero.
+19:38
+Both added up to 1 to 8 one and then both route one back to the memory.
+19:48
+That's a missed update. It was supposed to be that thread.
+19:54
+One reads, modifies and writes, and then thread two comes along, reads one, modifies and writes two.
+19:57
+That's why we lost some updates.
+20:03
+And it's also the reason why we're not getting close to 200,000, because this happens a lot of times the threads coincide and read the same number.
+20:06
+Add one to it and then write it back, overriding the change of the previous thread over and over and over.
+20:14
+So this is a classic example of the reader's writer's problem that we saw before.
+20:20
+It's the same as the bank transfer, the bank transaction. And the question now becomes how do we deal with that?
+20:24
+Well, this is where this beautiful stuff called monitor locks come in to help us.
+20:31
+So the bottom line of all of this is that we need to somehow put a barrier there and says and say,
+20:37
+if another thread is running the code for increment, all other threads that want to do the same have to wait for the previous thread to finish.
+20:43
+This is what we call a lock on a resource, so we want to make sure that there is no thread calling increment at the same time as any other,
+20:52
+and we're going to do it by going here and very simply saying that the increment method is synchronised.
+21:02
+Now that keyword synchronised packs a lot of stuff. So let's take a brief detour to understand what synchronised does.
+21:10
+So every object in Java has something that is called a lock.
+21:18
+A lock in concurrency is something that is kind of like a padlock.
+21:23
+You can padlock a resource, which means you are the only one that has the key to deal with that resource, and nobody else can.
+21:27
+It's the equivalent of saying, I have a box where I need to put stuff in and take stuff out of, and I have many people who want to deal with that box.
+21:34
+So what I do is I take a look and I lock the box. Anytime I've taken something out and I'm playing with it and I unlock the box,
+21:42
+put the stuff in, and then I hand the key to someone else to play with that box.
+21:49
+So only one of the people who want to play with a box can do it at the same time as anybody else.
+21:52
+So every object has its own lock.
+21:59
+The synchronised keyword on the method in an object says, in order for you to call this method, you have to have the lock.
+22:03
+If you don't have the lock, you can't run this code. So let's first go back to our test main.
+22:11
+Give it a run and see what happens. Now 200,000. And no matter how many times I run it, I always get the correct result.
+22:19
+And all I've added was this. Now let's revisit the example we had before where increment gets called by two threads thread one and thread two.
+22:28
+In the previous example, The problem was that both threads go up and started running this code,
+22:38
+and both of them run the same instruction at the same time, which means they got the same value in their hands.
+22:42
+The synchronised keyword now means that when thread one calls increment and gets into the method to run that code,
+22:48
+thread two comes along and calls increment. But because thread one is running increment three, two is unable to obtain the lock.
+22:55
+So thread two is now put in a waiting state until thread one gives it the key and says I finish doing what I do.
+23:03
+You take on, you do the next thing.
+23:10
+So the high level rule here is that no two threads can be executing this line of code at the same time as one another.
+23:13
+Happy with that? Cool. Are they still running in parallel?
+23:21
+Right. Very good observation because at the moment this kind of defeats the purpose of threading.
+23:27
+If you think about it, you have two threads calling increment, but when this one calls increment, that one has to wait.
+23:34
+When this one calls, increment, that one has to wait. So it's not quite parallel is it.
+23:41
+They're just interleaved. But if you think about it in the broader world where that thread does increment in a million other things,
+23:45
+it will be forced to wait on increment, but it could be doing other things simultaneously as the other thread.
+23:53
+So you still get some parallelism out of it. So synchronised does not mean this kill all parallelism.
+23:58
+So that is the synchronised keyword. We're also going to talk about wait, notify and notify all which are kind of more complex concepts.
+24:05
+But we'll see those in a second.
+24:14
+So that synchronised thing that I mentioned is a keyword you can put on any method which will say that for some thread call that method,
+24:16
+it needs to obtain the lock of the object. There's only one lock in the object.
+24:26
+So if a thread is calling the ink method in this example, then it is getting into this code to execute it, but no other thread can call ink.
+24:30
+No other thread can call the deck, but can no other thread can call value.
+24:40
+All of these methods depend on having the same lock. Only one thread can obtain the lock, so no other thread can modify this.
+24:45
+Which is a good thing because if you think of a different example where a thread
+24:53
+is trying to increment and another one is trying to decrement at the same time,
+24:57
+you can end up in exactly the same situation we had before where they get interleaved messed up and they produce the wrong number.
+25:01
+But because we're enforcing a lock between them all,
+25:07
+any thread that needs to run any of these methods must go and obtain the lock before it can do it.
+25:10
+Does that make sense? Now how do we know the order of the threads?
+25:17
+Very good point. We don't. So the funny thing with threads is that we cannot predict the order.
+25:22
+And also the lock itself does not guarantee that the threads are going to be given the lock in the sequence they arrive.
+25:28
+So if you have 100 threads, called increment. There is not going to be any fairness that says this thread came here before that one.
+25:34
+So it gets the lock next. So in the world of concurrency we kind of forget about fair distribution.
+25:41
+We just leave it be. We say we don't know which thread is going to get there at what time,
+25:46
+but the way we structure our code shouldn't make a difference if they get in different in different orders.
+25:51
+Yeah. How often do we use case for it? But can you have methods that are being called that are synchronised alongside it.
+25:57
+Yes. Yeah you can. An example of that would be if you have C which is zero, and you have a string which is the name of the counter,
+26:05
+you don't want to have to wait to get the name of the counter because someone else is incrementing the counter.
+26:14
+It doesn't change it. So you're able to get the name of the counter which is not synchronised.
+26:18
+But at the same time, if you want to modify the counter or read its value, you have to wait for the previous threads to finish.
+26:22
+Cool. Okay, so this is the long and the short of Synchronised.
+26:31
+Now you might hear the term mutually exclusive or a mutex be thrown around.
+26:36
+Mutually exclusive means that two things are happening independent of one another, with no interference or interleaving between them.
+26:41
+Now, as you well identified, synchronise this great, because it means we can share resources effectively without causing race conditions.
+26:48
+However, this can make our code quite inefficient because the next reasonable question is why don't we
+26:56
+make everything synchronised so we don't run the risk of having threads clash with each other?
+27:02
+The problem with synchronised, as you said, is that it's there to do exactly what the name says synchronise the threads.
+27:09
+The threads will be guaranteed to not be executing that code in parallel.
+27:15
+So that's why this can lead to inefficiencies.
+27:19
+And now I want you to imagine a sort of ArrayList where you're managing the way things can be added, removed and so on.
+27:23
+In that situation, it doesn't make much sense to have one lock that modifies that locks out everyone.
+27:30
+If you want to use the array list in different threads, you probably want to have a separate lock separate to the object you're in.
+27:38
+Because if you have only one lock in your object and then you have three different resources,
+27:44
+you don't want to be pausing every thread because two threads are trying to modify two independent things.
+27:49
+They can be modifying the two independent things at the same time.
+27:55
+Java allows us some sort of more fine grained control of which locks we obtain and which locks we release.
+27:58
+And other than the synchronised keyword being used in the declaration of a method, which means to call this method,
+28:04
+you have to have the lock for this object, we can select which lock of which object we want to be obtained.
+28:11
+So if I have a shared resource with ArrayList and I want to make sure that no client,
+28:18
+not no threads are coinciding with one another when modifying the data in this array list,
+28:23
+I'm going to put a synchronised block like this into my method, and I'm going to say I want you to synchronise upon clients.
+28:28
+That means if you want to add something to the client's ArrayList, I want you to have obtained the lock that this particular object has.
+28:36
+I don't want you to obtain the global log. I want you to obtain the specific log for this resource.
+28:45
+So that means I can now log clients when I am adding something.
+28:51
+I can log clients when I'm removing something, and I can log clients when I'm printing out the clients which are connected to the application.
+28:55
+But ultimately I am using that log for that resource. If I had another ArrayList, which was something else, I wouldn't interfere with that.
+29:02
+You could be modifying both lists simultaneously because there are two different things.
+29:10
+That's why it helps to be able to select which block you're logging.
+29:14
+Does that make some sort of sense? Ish.
+29:20
+Yeah, it's going to make more sense in a minute. Okay.
+29:26
+Now another common thing you might see in Java is the creation of objects purely so they act as a lock.
+29:30
+This is a common pattern.
+29:38
+You see people make an instance of the class object, which we know is a pretty useless object to have, because do remember what the class object is.
+29:39
+It is. But what? What is special about the object class?
+29:49
+It's kind of like it's a lot, right? It's the superclass of everything.
+29:54
+So making an instance of the object class is not a particularly useful object.
+29:59
+You can't really do anything with it. So why would you do it? Well, the reason being that it has a lock in it, like every object in Java.
+30:04
+So I can make an instance of it solely so I can use it as a lock for a shared resource.
+30:14
+So I could create a lock and say to modify that resource, everyone needs to be synchronising on that lock.
+30:20
+Another good use of the lock. And this is becoming particularly useful when you have situations such as this.
+30:27
+This is a situation where we have two lists, two independent lists.
+30:34
+Now when I want to modify list one. That shouldn't be like that.
+30:39
+Okay. Yes. So what I want to modify list one I need to obtain the lock for that list.
+30:48
+And then I can do stuff to it when I want to modify list two.
+30:53
+Then I obtain the lock for list two. My intention here is to allow multiple threads to interfere with these two lists independently,
+30:57
+but no two threads are able to modify the same list at the same time. Can anyone see a problem here?
+31:04
+Specifically in the code. So point me to the line of code, which might be a bit problematic.
+31:14
+That's what threw me on that slide. When it's trying to read list two or list one.
+31:22
+If I Right. Mhm. Yep.
+31:29
+That's it. So I'm here I am saying I want to synchronise on list one.
+31:33
+So no other thread is going to be able to touch this one while I'm using it to do this code.
+31:38
+So I will be eventually adding something to this one. Does that preclude other threads from working on list two?
+31:43
+No, I haven't said anything about list two. So another thread might come here and do stuff to list two,
+31:51
+like remove something or add something which would modify the size that I'm reading in here.
+31:56
+That's a problem because although I told other threads do not touch list one, I'm working on it.
+32:02
+I haven't told anyone that I'm working on this too. So a thread can be modifying list two at the same time as me getting in size.
+32:06
+It could be there for the case that a thread is adding something, right?
+32:13
+As I'm checking the size to decide if I'm going to add something to one based or the
+32:17
+other could be removing so that size is not going to be fixed in maybe the wrong value.
+32:21
+So even with this locking mechanism, we're still able to go wrong.
+32:27
+And that's why when you're having multiple different resources being used at the same time, you need to really think about your locking mechanism.
+32:30
+You might need to lock on more than one things at the same time. Happy with that?
+32:38
+See what I mean? Concurrency can get very, very messy very, very quickly.
+32:45
+We have three lines of code, and we're still talking about multiple locks being obtained at the same time.
+32:48
+Yeah. Okay. So we can synchronise operations to prevent race conditions.
+32:54
+But we previously mentioned that okay. That's not a faultless system.
+33:00
+But we previously mentioned that there could be the case that we have multiple people reading the same resource but only one writing.
+33:05
+So from a perspective of an efficient, efficient code, we should be kind of aiming to allow multiple threads to read the same value if we can,
+33:11
+but only stop the threads from reading the value and only allow one thread to do something when that thread wants to change the value,
+33:20
+It's the same as what you see in your operating systems.
+33:28
+Funny enough, have you ever gotten tried to delete a file and you get a warning that says this file is being modified is open by another application?
+33:31
+Yeah. Okay. So that other application has what is called a write lock on that file.
+33:38
+It means that the application has pulled the operating system. I will be writing to this file.
+33:44
+So don't let any other application touch it. That's why if you try to open the same file from another program, the other program cannot open it.
+33:48
+It cannot read it because there is one application that has the only one.
+33:56
+Right. Lock to that file.
+34:00
+Now, if you think of something like Notepad or Sublime or the text editors, these typically have read logs obtained on the files.
+34:03
+So if you open a txt file you can see it in sublime.
+34:11
+But then you can still delete it. You can still open it with another application. You can still modify it.
+34:15
+This is because the Sublime and text editors obtain a read log to it,
+34:19
+and you can have multiple people reading at the same time, multiple people doing things to the file.
+34:23
+Deleting the file rather at the same time as the read logs existing.
+34:28
+Okay, so that's what we're going to be addressing next. So we could try to sync.
+34:33
+In order for us to try to implement this. We could try to do it using the constructs we've seen, namely the object logs and the synchronised block.
+34:38
+But then we end up in the problem where we can't control the type of operation that is taking place.
+34:46
+And this is where we have to improvise and we have to enter the land of semaphores.
+34:53
+We're not going to talk about semaphores, but we're going to talk about a mechanism by which we can place threads into a waiting state.
+34:57
+So let's suppose that we want multiple things to interact with the same resource.
+35:05
+When this resource is available to be read or available to be written.
+35:10
+In that case, we may start to think about putting threads into a wait state, or sometimes incorrectly called a sleep state.
+35:15
+One common example where we see this that we're going to implement, actually, is that we have cases where we have a shared box of stuff.
+35:23
+Now, anyone heard of array blocking queues in Java?
+35:34
+Or blocking queues as a general concept? No.
+35:39
+Okay. So imagine what happens when you have multiple threads waiting to be given things to do,
+35:44
+and then you need to somehow be sending things to them as they're executing.
+35:49
+One way to do that is to make a queue where you put all the work that needs to be done.
+35:54
+Maybe it's numbers that need to be added up, and then the threads know to go into that queue and take the stuff out.
+35:58
+A blocking queue is one which is designed to say if the queue has gone empty,
+36:05
+I'm going to tell the threads there's nothing for you to do, please wait.
+36:10
+And the threads are all going to go into the waiting state when someone adds something to the queue,
+36:13
+then the threads wake up, pick up that thing, process it, the queue goes empty and then they wait again.
+36:18
+That's the intention of a blocking queue.
+36:25
+It blocks the threads from taking too much out of the queue, and it also blocks the thread from adding too much into the queue.
+36:26
+So we're going to implement a similar enough data structure to that to see how the wait and notify mechanisms
+36:33
+work in Java that can later allow us to implement read allow people to read multiple things at once,
+36:39
+but only write at once. One instance. So we're going to make a class called um.
+36:44
+Data box. Let's go with that.
+36:54
+So my data box is not going to be that complex data structure.
+36:58
+What I'm going to make it is a box that can contain string message one message which is initially null.
+37:02
+Remember that null means nothing, right? Yeah. Okay.
+37:11
+So I'm going to allow people to public void put message in box.
+37:15
+Which takes the string. Message.
+37:25
+And what this will do is this dot message equals message. And I'm also going to allow people to get message uh outer box.
+37:31
+Ah. Which just returns the message to them string msg is message.
+37:45
+We're going to return MSG. And in between we're going to set message to null.
+37:55
+Because what I'm doing here is I want to return the message, but I also want to remove the message from the place that I have it here.
+38:00
+So the intention here is for that an object of data box to act as a single box that can contain one message at a time.
+38:08
+If you want to put the message in the box, I just store it into the box.
+38:17
+And if you want to get the message out of the box, I have to read the message.
+38:20
+Make that null because you've taken it out. And then return the message that I read back to you.
+38:24
+Are we happy with that? Okay. Can we foresee any problems here?
+38:30
+As a little guidance. Can multiple messages end up in the box? Yes.
+38:43
+And how is that? No.
+38:54
+Okay, so if I was to make it right, then.
+39:04
+So if I was to have two threads putting messages and taking them back out, if I'm synchronising, you want to synchronise them.
+39:08
+Right. So why would I need to synchronise them. What could go wrong if I don't synchronise them?
+39:16
+That's someone. That when I say the numbers, isn't it like the.
+39:23
+Message hit the first, hit the close. Both.
+39:35
+So at the moment I have no guard to say.
+39:39
+Don't store a message if it is already, if there is a message there.
+39:42
+So if two threads say I have a message to put in the box and they do it at the same time,
+39:46
+one will get there before the other and they're going to override one other one another. So we're going to lose a message.
+39:51
+So I need to add some sort of protection against that.
+39:55
+And likewise there's nothing to say that there is a message in the box when the thread is requesting it out of it.
+39:58
+Right. So these are two problems I need to deal with. So my intention here was to say something like if there is already a message.
+40:03
+I promise I know how to type. I don't know how to type.
+40:18
+If there already is a message in the box, I need to tell the thread to do something.
+40:25
+You cannot put another message in the box if the existing thing is not null.
+40:30
+There is something in there right now. The question is what do I tell the thread to do here?
+40:35
+In the olden days, people used to throw an exception and say the box is not empty.
+40:42
+But what that meant was that a thread had no way of checking if there is something in the box.
+40:48
+So what people had to do was write loops that repeatedly tried to put messages in the box.
+40:52
+Try again, try again, try again, catch the exception, try again, catch, etc. try again.
+40:57
+And that was fantastically wasteful for processor resources.
+41:01
+So that's why we have the weight method.
+41:06
+The weight method is a method that Java provides me.
+41:10
+I'll get to the accept in a second is a method that Java provides me that says when thread calls the put message method.
+41:15
+I'm going to check if there is a message there, and if there is an already a message in there.
+41:22
+I'm going to tell the thread to wait. Now that wait is there to say, just pause the thread until I tell you to come back.
+41:27
+In other words, I'm going to tell you when there is space in the box to wake you up and you would put something in happy, right?
+41:36
+So now whenever someone takes the message out of the box before I return them the message,
+41:45
+I need to notify anyone who is waiting that the message has been taken out of the box.
+41:51
+Right? So let's say that one thread is now waiting to get the message to put its message in the box,
+41:58
+but because there was no space, it was told neither wait on the side.
+42:07
+Another thread comes in and takes the message out of the box,
+42:10
+so I notify whoever is waiting to come back to life and to continue with the rest of the code.
+42:14
+Does that make sense? Okay, so now the same principle would have to apply backwards if someone is trying to get the message and there is no message,
+42:21
+I have to do something about it. I have to say if the message is null, then I want you to wait.
+42:30
+And whenever someone puts a message into the box, I will notify you.
+42:40
+Right. Okay, so you see what we've created here?
+42:46
+We have this wait notify mechanism thread will be asked to wait.
+42:50
+If the action we're trying to perform cannot be performed right now, and will be woken up from the wait when the action can be performed.
+42:54
+Now, this code has several issues that we need to address. First of all, my editor tells me there could be an exception here.
+43:02
+Oh no, that's not the way to handle that exception. It could be the case.
+43:10
+Now imagine that we have a thread which has been told to wait.
+43:14
+Do you remember what happens when your freight is waiting from the slide with all the different states?
+43:18
+There's not one there, right? So it stops being a runnable thread and it goes into a different state, which is called waiting.
+43:25
+So the thread has now moved into a waiting state. And this is great because we've told the processor this thread cannot do anything.
+43:32
+It's just stuck. So the processor is not going to look into this thread at all.
+43:40
+While the thread has no reason to be running. It's going to put it on the side.
+43:44
+It's going to park it away. So this means we are relieving the processor of some extra work until the resource becomes available.
+43:48
+So now that the thread is waiting, it could be the case that the thread gets interrupted.
+43:55
+We're not going to talk about much about what interruptions mean, but take my word for this.
+44:03
+We have to catch the interrupted exception and typically we do nothing with it.
+44:10
+It's one of the very, very rare cases where we are allowed to ignore an exception.
+44:14
+Not quite. Ignore it. We're going to get to that in a second.
+44:19
+But anyway, the typical handling for an interrupted exception is to say just return, do nothing.
+44:21
+We'll explain what that is later. So I'm going to apply the same thing here.
+44:30
+Oh I'm gonna try that. Try waiting.
+44:36
+If you if you get interrupted while you're waiting, then I want you to return null and be done with it.
+44:41
+Okay, so now my thread and my code is in a relatively good state.
+44:49
+It's still not perfect, but I'm gonna take my chances and I'm going to go and try it.
+44:53
+Do you guys mind if I continue using this syntax for threads? No.
+44:59
+Okay, cool. It makes life easier. So instead of my counter, I'm going to have a message box, not message digest.
+45:04
+What did I call it? Data box. Box is new box.
+45:13
+Later box. I must say, I am not a fan of this typing arrangement.
+45:20
+Okay, now I'm gonna make the red one be a supplier that puts stuff there and thread to be a consumer that takes the stuff out.
+45:25
+So thread one is going to loop forever and it's going to do box dot uh and it's going to have a counter.
+45:32
+And then what it's going to do is it's going to take box and put in the message a number.
+45:45
+Plus the count. And then it's going to increment count.
+45:54
+So that thread constantly makes new messages which is number one, number two, number three and puts them in the box.
+45:58
+Thread two is going to be the one that has an infinite loop, and it just takes the message out of the box and prints it not model like that.
+46:05
+So this thread constantly tries to take stuff out of the box.
+46:20
+What we should have guaranteed by doing this wait notify mechanism is that it is never the case that the message gets overridden,
+46:24
+because the thread that puts the messages in runs faster than the other one.
+46:31
+If the thread that puts messages in runs too fast, it's going to be told to wait until the other thread takes the stuff out.
+46:35
+So if our test main is correct, I should start my threads and then I join them.
+46:42
+I don't need to print anything at the end, give it a run and we get an exception.
+46:48
+Why did I get this exception? Ah yes.
+46:55
+When we're doing anything with wait and notify because these things need to be atomically executed, we should be doing it in a synchronised block.
+46:59
+So I should make my method here synchronised because Java forces me to.
+47:07
+If I don't, I get this beautiful exception. So both this method and that method need to be synchronised.
+47:11
+Now notice that synchronised here is not going to make the problem go away.
+47:18
+We still need the wait and notify,
+47:22
+because you can still have a synchronised method that gets called twice in succession to put two different messages when one already exists in there,
+47:24
+so the synchronised doesn't solve that issue. So in that world now, I should be able to run this and get spammed relentlessly by numbers.
+47:31
+And if I examine them closely, I'll see that we're not actually skipping numbers.
+47:42
+We may get loads of them at once, but they are going to be in succession from one another.
+47:46
+So I'm not losing messages, which is great.
+47:50
+Now, I've told you a slight white lie when I was doing this, and when I said that the notify method is adequate, here, it is not.
+47:54
+As Java has defined it. Not if I will only wake up one thread that happens to be waiting.
+48:02
+So in this example we only have two threads. One put stuff, the other one takes it.
+48:09
+It's never going to be the case that the thread that puts stuff is going to be waiting at the same time as the thread that takes stuff.
+48:13
+So notify is okay, but not if I can cause a world of problems in Java.
+48:19
+So what we do instead is we have notify all, which is slightly less efficient, but we're always going to be using notify all.
+48:24
+I suggest you always use Notify All unless you know very well that what threads are waiting and for what reason, which is very rarely the case.
+48:33
+So whenever you notify notify everyone wake up all the threads which are waiting across
+48:42
+the across this object and then leave those threads work out if they need to wait again.
+48:47
+This brings us to another question. What happens if the thread that was waiting for a message to come in gets erroneously notified?
+48:55
+Which is another thing you get in concurrency, because although you don't wake the thread up, sometimes they wake up by themselves.
+49:03
+Don't ask me why this is up to the operating system to decide. So.
+49:10
+The code I have written here, which has an if statement, is not good enough.
+49:15
+What I need to do is turn this into a while. So while the message is null, I want you to wait.
+49:20
+And if you wake up and the message is still null, I want you to wait again, as opposed to check if the message is null.
+49:27
+And then when you wake up, assume it's not null anymore. And this would now make our code a thread safe,
+49:34
+and be capable of sharing resources between hundreds of threads without ever losing one update in the messages.
+49:41
+So let's give this a run now. Make sure it still runs very important when you're writing threaded code, it still seems to be working fine.
+49:51
+What we've done here means that we can have one thread, produce messages and put them in the box,
+49:59
+and then 100 threads consume those messages between them to process them to do something with them.
+50:04
+And funny enough, this is what happens when you have a web server.
+50:10
+When you have a web server, you have pre created threads. You don't create them as and when a client comes in.
+50:15
+You have pre created many of them. And you have a system like this where the threads get told when a new connection comes in.
+50:20
+And one of those threads goes and nabs the connection to deal with it. Does that make sense?
+50:26
+Yeah, yeah. Okay, so this is the wait notify mechanism, right.
+50:32
+What I want you to look at if you have some spare time this is not examined is the higher level construct for logs.
+50:41
+What we've seen is the so-called intrinsic locks, the locks which every object has.
+50:49
+And we have also implemented our own version of a lock or exchange system using the wait notify mechanism.
+50:53
+But that is too impractical to do at scale when you're doing large concurrent applications.
+51:00
+So Java has created some instances of logs for us, namely the read write log and the re-entrant log,
+51:05
+which you're able to use without the thinking about the weight modify mechanism.
+51:11
+So what I suggest you do is you go and have a look at the re-entrant log or the re-entrant read write
+51:17
+log and see if you can integrate it into your code in a situation similar to what we had here.
+51:23
+In other words, perhaps take the box object that we created in this lecture and make it work using the re-entrant log instead.
+51:28
+Now, believe it or not, this is all I had for you.
+51:37
+And if your heads are not spinning yet, I've done something wrong. How many of you like concurrency?
+51:41
+I like the idea of it. What's wrong? What idea?
+51:49
+Okay, so you maybe now get an appreciation as to why concurrency is that fantastically difficult thing that we still need to learn how to do properly.
+51:54
+But it's not going to happen in one lecture.
+52:03
+When I was a student, we had a module on this and we would get taught locks in a different lecture to intrinsic locks,
+52:05
+to a different lecturer, to high level locks, to weight systems and all of that. So if you're interested in this, do spend the time on it.
+52:12
+But for our purposes, we're going to have a lab on it.
+52:18
+And then the rest of our interactions with it are going to be largely theoretical or sharing very,
+52:20
+very different pieces of data which don't have much coinciding.
+52:25
+So for our purposes, knowing synchronised is good enough and maybe knowing what wait and notified does, but not necessarily how to implement it.
+52:31
+But in terms of your future programming careers and stuff, it is really worth knowing this stuff.
+52:39
+It sets you apart. If you can do a concurrent application quick. Good.
+52:46
+Okay, so in the labs, today is your first and probably last opportunity to write some concurrent code.
+52:51
+So I'll leave you with that. And I will also leave some printouts for you to distribute Randall, if you don't mind.
+52:58
+Good. Any quick questions? No.
+53:04
+Okay. So.
+53:09
+
+0:01 0:05 3:00 6:00 9:00 10:16 12:00 15:00 18:00 19:38 21:00 24:00 27:00 29:26 30:00 33:00 36:00 39:00 39:04 42:00 45:00 48:00 51:00
